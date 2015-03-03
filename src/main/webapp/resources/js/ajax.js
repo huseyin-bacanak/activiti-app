@@ -7,7 +7,7 @@ $(document).ready(function() {
 
 function loadContent() {
     $.ajax({
-       url: "http://localhost:8080/web/ajax/item",
+       url: "http://localhost:8080/activiti-app/ajax/item",
        cache: false,
        beforeSend: function () {
            $('#image').show();
