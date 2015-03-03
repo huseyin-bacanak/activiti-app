@@ -1,0 +1,10 @@
+#content  {
+    width: 200px;
+    height: 200px;
+    background-color: darkcyan;
+}
+
+.loader {
+    margin-left: 40%;
+    margin-top: 40%;
+}
