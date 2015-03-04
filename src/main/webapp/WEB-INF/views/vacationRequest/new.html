@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head data-th-replace="fragment/common :: head">
+    <title>Title</title>
+</head>
+<body>
+<form action="#" data-th-action="@{/vacationRequest}" data-th-object="${vacationRequestDetails}" method="post">
+    <div class="control-group" data-th-classappend="${#fields.hasErrors('numberOfDays')} ? 'error'">
+        <label class="control-label">Number Of Days</label>
+
+        <div class="controls">
+            <input data-th-field="*{numberOfDays}" type="text" id="numberOfDays"/>
+            <span class="help-inline" data-th-errors="*{numberOfDays}">[error]</span>
+        </div>
+    </div>
+    <div class="form-actions">
+        <button  type="submit">Request Vacation</button>
+    </div>
+</form>
+<script data-th-src="@{resources/js/vacationRequestNew.js}"></script>
+</body>
+</html>

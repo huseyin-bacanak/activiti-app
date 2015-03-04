@@ -27,4 +27,9 @@ public class DemoController {
   public String websocket() {
     return "demo/websocket";
   }
+  @RequestMapping("/contextJs")
+
+  public String contextJs() {
+    return "demo/contextJs";
+  }
 }

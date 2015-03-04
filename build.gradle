@@ -39,7 +39,7 @@ repositories {
 }
 
 
-compileJava.dependsOn += 'clean'
+//compileJava.dependsOn += 'clean'
 
 [ compileJava, compileTestJava ]*.options*.encoding = 'UTF-8'
 
@@ -47,4 +47,4 @@ compileJava.dependsOn += 'clean'
 [tomcatRun, tomcatRunWar, tomcatStop]*.stopKey = 'stfu'
 tomcatRunWar.contextPath = "${project.name}"
 tomcatRunWar.ajpPort = 8000
-tomcatRunWar { dependsOn += ['check'] }
+//tomcatRunWar { dependsOn += ['check'] }
