@@ -1,13 +1,9 @@
 package demo.dto;
 
-import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 
 import java.util.Date;
 
-/**
- * Created by huseyin.bacanak on 04.03.2015.
- */
 public class VacationRequestDetailsValidator {
 
   public void validate(VacationRequestDetails vacationRequestDetails, Errors errors) {

@@ -1,19 +1,11 @@
 package demo.dto;
 
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
-
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-/**
- * Created by huseyin.bacanak on 06.03.2015.
- */
 public class BPMPost {
   private String processDefinitionKey;
-  List<Entry> variables = new ArrayList<>();
+  private List<Entry> variables = new ArrayList<>();
 
   public String getProcessDefinitionKey() {
     return processDefinitionKey;
