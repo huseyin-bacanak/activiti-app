@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head data-th-replace="fragment/common :: head">
+    <title>Title</title>
+</head>
+<body>
+<div data-th-replace="fragment/common :: topMenu">></div>
+<table>
+    <tr>
+        <th>Id</th>
+        <th>Url</th>
+        <th>Business Key</th>
+    </tr>
+    <tr data-th-each="pi : ${runningProcesses.data}">
+        <td data-th-text="${pi.id}">Onions</td>
+        <td data-th-text="${pi.url}">2.41</td>
+        <td data-th-text="${pi.businessKey}">2.41</td>
+    </tr>
+</table>
+<!--<script data-th-src="@{resources/js/vacationRequestNew.js}"></script>-->
+</body>
+</html>

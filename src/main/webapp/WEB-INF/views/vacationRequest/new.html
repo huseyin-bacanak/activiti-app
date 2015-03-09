@@ -4,9 +4,10 @@
     <title>Title</title>
 </head>
 <body>
+<div data-th-replace="fragment/common :: topMenu">></div>
 <p data-th-if="${successMessage}" data-th-text="${successMessage}"></p>
 
-<form action="#" data-th-action="@{/vacationRequest}" data-th-object="${vacationRequestDetails}" method="post">
+<form action="#" data-th-action="@{/vacationRequest/new}" data-th-object="${vacationRequestDetails}" method="post">
     <div class="control-group" data-th-classappend="${#fields.hasErrors('numberOfDays')} ? 'error'">
         <label class="control-label">Number Of Days</label>
 

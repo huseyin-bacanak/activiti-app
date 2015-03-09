@@ -2,9 +2,6 @@ package demo.rest;
 
 import java.util.List;
 
-/**
- * Created by huseyin.bacanak on 09.03.2015.
- */
 public class ProcessList {
   private List<VacationProcessInstance> data;
   private int total;
@@ -59,5 +56,17 @@ public class ProcessList {
 
   public void setSize(int size) {
     this.size = size;
+  }
+
+  @Override
+  public String toString() {
+    return "ProcessList{" +
+        "data=" + data +
+        ", total=" + total +
+        ", start=" + start +
+        ", sort='" + sort + '\'' +
+        ", order='" + order + '\'' +
+        ", size=" + size +
+        '}';
   }
 }

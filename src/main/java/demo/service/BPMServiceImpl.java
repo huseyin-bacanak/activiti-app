@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import demo.dto.BPMPost;
 import demo.rest.AuthHttpComponentsClientHttpRequestFactory;
+import demo.rest.ProcessList;
 import demo.rest.VacationProcessInstance;
 import org.apache.http.HttpHost;
 import org.slf4j.Logger;
@@ -30,28 +31,14 @@ public class BPMServiceImpl implements BPMService {
 
   @Override
   public VacationProcessInstance initiateVacationRequestProcess(BPMPost post) {
-//    try {
-//      ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
-//      String json = ow.writeValueAsString(post);
-//      System.out.println(json);
-//    } catch (Exception e) {
-//      e.printStackTrace();
-//    }
-//
-//    MultiValueMap<String, String> headers = new LinkedMultiValueMap<String, String>();
-//    String base64Creds = "a2VybWl0Omtlcm1pdA==";
-//    headers.add("Authorization", "Basic " + base64Creds);
-//    headers.add("Content-Type", "application/json");
-//
-//    RestTemplate restTemplate = new RestTemplate();
-//    restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
-//
-//    HttpEntity<BPMPost> request = new HttpEntity<BPMPost>(post, headers);
-//
-//    String result = restTemplate.postForObject(URL, request, String.class);
-//    System.out.println(result);
-
     VacationProcessInstance result = restTemplate.postForObject(URL, post, VacationProcessInstance.class);
+    logger.info(result.toString());
+    return result;
+  }
+
+  @Override
+  public ProcessList getRunningProcessInstances() {
+    ProcessList result = restTemplate.getForObject(URL, ProcessList.class);
     logger.info(result.toString());
     return result;
   }

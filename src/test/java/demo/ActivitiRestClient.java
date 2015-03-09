@@ -51,7 +51,7 @@ public class ActivitiRestClient {
 
   @Test
   public void getAllProcessInstances(){
-    ProcessList result = restTemplate.getForObject(URL, ProcessList.class);
+    ProcessList result = bpmService.getRunningProcessInstances();
     assertNotNull(result);
     logger.info(result.toString());
   }

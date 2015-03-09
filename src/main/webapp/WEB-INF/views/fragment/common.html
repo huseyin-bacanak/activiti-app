@@ -9,7 +9,13 @@
     <link rel="stylesheet" data-th-href="@{resources/css/ajax.css}" />
 </head>
 <body>
-
+<div id="menu" data-th-fragment="topMenu">
+    <ul>
+        <li><a data-th-href="@{/vacationRequest/new}">New</a></li>
+        <li><a data-th-href="@{/vacationRequest/list}">List</a></li>
+        <li><a data-th-href="@{/vacationRequest/confirm}">Confirm</a></li>
+    </ul>
+</div>
 
 </body>
 </html>

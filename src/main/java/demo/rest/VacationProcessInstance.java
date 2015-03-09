@@ -89,4 +89,19 @@ public class VacationProcessInstance {
   public void setVariables(List<Entry> variables) {
     this.variables = variables;
   }
+
+  @Override
+  public String toString() {
+    return "VacationProcessInstance{" +
+        "id='" + id + '\'' +
+        ", url='" + url + '\'' +
+        ", businessKey='" + businessKey + '\'' +
+        ", suspended='" + suspended + '\'' +
+        ", ended='" + ended + '\'' +
+        ", processDefinitionId='" + processDefinitionId + '\'' +
+        ", processDefinitionUrl='" + processDefinitionUrl + '\'' +
+        ", activityId='" + activityId + '\'' +
+        ", variables=" + variables +
+        '}';
+  }
 }
