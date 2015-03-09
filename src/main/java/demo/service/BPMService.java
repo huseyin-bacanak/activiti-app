@@ -2,7 +2,8 @@ package demo.service;
 
 import demo.dto.BPMPost;
 import demo.dto.VacationRequestDetails;
+import demo.rest.VacationProcessInstance;
 
 public interface BPMService {
-  void initiateVacationRequestProcess(BPMPost post);
+  VacationProcessInstance initiateVacationRequestProcess(BPMPost post);
 }
