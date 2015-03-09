@@ -1,9 +1,13 @@
 package demo.dto;
 
+import java.util.Date;
+
 public class VacationRequestDetails {
   private String employeeName;
   private int numberOfDays;
   private String vacationMotivation;
+  private Date startDate;
+
 
   public String getEmployeeName() {
     return employeeName;
@@ -27,6 +31,14 @@ public class VacationRequestDetails {
 
   public void setVacationMotivation(String vacationMotivation) {
     this.vacationMotivation = vacationMotivation;
+  }
+
+  public Date getStartDate() {
+    return startDate;
+  }
+
+  public void setStartDate(Date startDate) {
+    this.startDate = startDate;
   }
 
   @Override

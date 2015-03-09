@@ -4,6 +4,8 @@
     <title>Title</title>
 </head>
 <body>
+<p data-th-if="${successMessage}" data-th-text="${successMessage}"></p>
+
 <form action="#" data-th-action="@{/vacationRequest}" data-th-object="${vacationRequestDetails}" method="post">
     <div class="control-group" data-th-classappend="${#fields.hasErrors('numberOfDays')} ? 'error'">
         <label class="control-label">Number Of Days</label>
@@ -11,6 +13,22 @@
         <div class="controls">
             <input data-th-field="*{numberOfDays}" type="text" id="numberOfDays"/>
             <span class="help-inline" data-th-errors="*{numberOfDays}">[error]</span>
+        </div>
+    </div>
+    <div class="control-group" data-th-classappend="${#fields.hasErrors('startDate')} ? 'error'">
+        <label class="control-label">Start Date</label>
+
+        <div class="controls">
+            <input data-th-field="*{startDate}" type="text" id="startDate"/>
+            <span class="help-inline" data-th-errors="*{startDate}">[error]</span>
+        </div>
+    </div>
+    <div class="control-group" data-th-classappend="${#fields.hasErrors('vacationMotivation')} ? 'error'">
+        <label class="control-label">Motivation</label>
+
+        <div class="controls">
+            <input data-th-field="*{vacationMotivation}" type="text" id="vacationMotivation"/>
+            <span class="help-inline" data-th-errors="*{vacationMotivation}">[error]</span>
         </div>
     </div>
     <div class="form-actions">
