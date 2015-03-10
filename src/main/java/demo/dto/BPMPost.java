@@ -5,7 +5,7 @@ import java.util.List;
 
 public class BPMPost {
   private String processDefinitionKey;
-  private List<Entry> variables = new ArrayList<>();
+  private List<Variable> variables = new ArrayList<>();
 
   public String getProcessDefinitionKey() {
     return processDefinitionKey;
@@ -15,11 +15,11 @@ public class BPMPost {
     this.processDefinitionKey = processDefinitionKey;
   }
 
-  public List<Entry> getVariables() {
+  public List<Variable> getVariables() {
     return variables;
   }
 
-  public void setVariables(List<Entry> variables) {
+  public void setVariables(List<Variable> variables) {
     this.variables = variables;
   }
 }

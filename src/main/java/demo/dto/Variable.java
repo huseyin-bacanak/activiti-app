@@ -3,14 +3,16 @@ package demo.dto;
 /**
  * Created by huseyin.bacanak on 09.03.2015.
  */
-public class Entry {
+public class Variable {
   private String name;
   private Object value;
+  private String type;
+  private String scope;
 
-  public Entry() {
+  public Variable() {
 
   }
-  public Entry(String name, Object value) {
+  public Variable(String name, Object value) {
     this.name=name;
     this.value=value;
   }
@@ -28,6 +30,22 @@ public class Entry {
 
   public void setValue(Object value) {
     this.value = value;
+  }
+
+  public String getType() {
+    return type;
+  }
+
+  public void setType(String type) {
+    this.type = type;
+  }
+
+  public String getScope() {
+    return scope;
+  }
+
+  public void setScope(String scope) {
+    this.scope = scope;
   }
 
   @Override

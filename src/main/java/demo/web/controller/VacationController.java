@@ -1,7 +1,7 @@
 package demo.web.controller;
 
 import demo.dto.BPMPost;
-import demo.dto.Entry;
+import demo.dto.Variable;
 import demo.dto.VacationRequestDetails;
 import demo.dto.VacationRequestDetailsValidator;
 import demo.service.BPMService;
@@ -61,10 +61,10 @@ public class VacationController {
 
       BPMPost post = new BPMPost();
       post.setProcessDefinitionKey("vacationRequest");
-      List<Entry> variables=  new ArrayList<>();
-      variables.add(new Entry("numberOfDays", vacationRequestDetails.getNumberOfDays()+""));
-      variables.add(new Entry("employeeName",vacationRequestDetails.getEmployeeName()));
-      variables.add(new Entry("vacationMotivation",vacationRequestDetails.getVacationMotivation()));
+      List<Variable> variables=  new ArrayList<>();
+      variables.add(new Variable("numberOfDays", vacationRequestDetails.getNumberOfDays()+""));
+      variables.add(new Variable("employeeName",vacationRequestDetails.getEmployeeName()));
+      variables.add(new Variable("vacationMotivation",vacationRequestDetails.getVacationMotivation()));
       post.setVariables(variables);
 
       bpmService.initiateVacationRequestProcess(post);

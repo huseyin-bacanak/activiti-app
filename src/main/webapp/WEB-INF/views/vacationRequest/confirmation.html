@@ -14,10 +14,14 @@
         <th>Action</th>
     </tr>
     <tr data-th-each="pi : ${runningProcesses.data}">
-        <td data-th-text="${pi.variables}">Onions</td>
-        <td data-th-text="${pi.url}">2.41</td>
-        <td data-th-text="${pi.businessKey}">2.41</td>
-        <td data-th-text="${pi.ended}">2.41</td>
+        <td ><p  data-th-text="${pi.getVariable('employeeName').getValue()}"></p></td>
+        <td ><p  data-th-text="${pi.getVariable('startDate').getValue()}"></p></td>
+        <td ><p  data-th-text="${pi.getVariable('numberOfDays').getValue()}"></p></td>
+        <td ><p  data-th-text="${pi.getVariable('motivation').getValue()}"></p></td>
+        <td>
+            <button class="btn btn-primary" type="submit">Confirm</button>
+            <button class="btn btn-default" type="submit">Decline</button>
+        </td>
     </tr>
 </table>
 <script>

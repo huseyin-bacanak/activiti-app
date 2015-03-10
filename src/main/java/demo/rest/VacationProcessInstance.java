@@ -1,6 +1,6 @@
 package demo.rest;
 
-import demo.dto.Entry;
+import demo.dto.Variable;
 
 import java.util.List;
 
@@ -16,7 +16,7 @@ public class VacationProcessInstance {
   private String processDefinitionId;
   private String processDefinitionUrl;
   private String activityId;
-  private List<Entry> variables;
+  private List<Variable> variables;
 
   public String getId() {
     return id;
@@ -82,12 +82,30 @@ public class VacationProcessInstance {
     this.activityId = activityId;
   }
 
-  public List<Entry> getVariables() {
+  public List<Variable> getVariables() {
     return variables;
   }
 
-  public void setVariables(List<Entry> variables) {
+  public void setVariables(List<Variable> variables) {
     this.variables = variables;
+  }
+
+
+  public Variable getVariable(String variableName){
+
+    for(Variable v : variables) {
+      if(v.getName().equals(variableName)) {
+        if(v.getValue() == null || v.getValue().toString().isEmpty()){
+          v.setValue("-");
+        }
+        return v;
+      }
+    }
+
+    Variable v = new Variable();
+    v.setName(variableName);
+    v.setValue("N/A");
+    return v;
   }
 
   @Override
