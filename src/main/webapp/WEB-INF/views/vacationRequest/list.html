@@ -10,11 +10,20 @@
         <th>Id</th>
         <th>Url</th>
         <th>Business Key</th>
+        <th>Ended</th>
+        <th>PD Id</th>
+        <th>Pd Url</th>
+        <th>Activiti Id</th>
+        <th>Variables</th>
     </tr>
     <tr data-th-each="pi : ${runningProcesses.data}">
         <td data-th-text="${pi.id}">Onions</td>
         <td data-th-text="${pi.url}">2.41</td>
         <td data-th-text="${pi.businessKey}">2.41</td>
+        <td data-th-text="${pi.ended}">2.41</td>
+        <td data-th-text="${pi.processDefinitionId}">2.41</td>
+        <td data-th-text="${pi.activityId}">2.41</td>
+        <td data-th-text="${pi.variables}">2.41</td>
     </tr>
 </table>
 <script>
