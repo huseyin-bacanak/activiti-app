@@ -31,7 +31,6 @@ apply from: "conf/gradle/javadoc.gradle"
 defaultTasks 'clean', 'check', 'build', 'javaDoc'
 description = 'activiti web ui'
 sourceCompatibility = 1.8
-version = '1.0.0'
 
 repositories {
     mavenCentral()

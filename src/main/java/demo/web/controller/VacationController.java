@@ -32,6 +32,19 @@ public class VacationController {
     model.addAttribute("runningProcesses", bpmService.getRunningProcessInstances());
     return "vacationRequest/list";
   }
+  @RequestMapping(value="/confirmation", method= RequestMethod.GET)
+  public String confirmation(Model model){
+    BPMService bpmService= new BPMServiceImpl();
+    model.addAttribute("runningProcesses", bpmService.getRunningProcessInstances());
+    return "vacationRequest/confirmation";
+  }
+
+  @RequestMapping(value="/finished", method= RequestMethod.GET)
+  public String finished(Model model){
+    BPMService bpmService= new BPMServiceImpl();
+    model.addAttribute("runningProcesses", bpmService.getRunningProcessInstances());
+    return "vacationRequest/finished";
+  }
 
 
   @RequestMapping(value="/new", method= RequestMethod.POST)

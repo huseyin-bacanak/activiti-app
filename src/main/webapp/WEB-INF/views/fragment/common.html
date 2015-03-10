@@ -2,19 +2,45 @@
 <html>
 <head data-th-fragment="head">
     <title>Changed Title</title>
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-    <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/themes/smoothness/jquery-ui.css" />
-    <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/jquery-ui.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js" ></script>
+    <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/themes/smoothness/jquery-ui.css" ></link>
 
-    <link rel="stylesheet" data-th-href="@{resources/css/ajax.css}" />
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" ></link>
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css" ></link>
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js" ></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/jquery-ui.min.js" ></script>
+
 </head>
 <body>
 <div id="menu" data-th-fragment="topMenu">
-    <ul>
-        <li><a data-th-href="@{/vacationRequest/new}">New</a></li>
-        <li><a data-th-href="@{/vacationRequest/list}">List</a></li>
-        <li><a data-th-href="@{/vacationRequest/confirm}">Confirm</a></li>
-    </ul>
+    <nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#" data-th-href="@{/vacationRequest/new}">Activiti Client</a>
+        </div>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="#">Request <span class="sr-only">(current)</span></a></li>
+                <li><a href="#" data-th-href="@{/vacationRequest/list}">List</a></li>
+                <li><a href="#" data-th-href="@{/vacationRequest/confirmation}">Confirmation</a></li>
+                <li><a href="#" data-th-href="@{/vacationRequest/finished}">Finished</a></li>
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+    </nav>
 </div>
 
 </body>
