@@ -5,7 +5,7 @@
 </head>
 <body>
 <div data-th-replace="fragment/common :: topMenu">></div>
-<table>
+<table class="table table-striped">
     <tr>
         <th>Id</th>
         <th>Url</th>
@@ -22,6 +22,7 @@
         <td data-th-text="${pi.businessKey}">2.41</td>
         <td data-th-text="${pi.ended}">2.41</td>
         <td data-th-text="${pi.processDefinitionId}">2.41</td>
+        <td data-th-text="${pi.processDefinitionUrl}">2.41</td>
         <td data-th-text="${pi.activityId}">2.41</td>
         <td data-th-text="${pi.variables}">2.41</td>
     </tr>
