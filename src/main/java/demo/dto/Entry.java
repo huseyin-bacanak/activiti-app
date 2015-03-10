@@ -5,9 +5,12 @@ package demo.dto;
  */
 public class Entry {
   private String name;
-  private String value;
+  private Object value;
 
-  public Entry(String name, String value) {
+  public Entry() {
+
+  }
+  public Entry(String name, Object value) {
     this.name=name;
     this.value=value;
   }
@@ -19,11 +22,19 @@ public class Entry {
     this.name = name;
   }
 
-  public String getValue() {
+  public Object getValue() {
     return value;
   }
 
-  public void setValue(String value) {
+  public void setValue(Object value) {
     this.value = value;
+  }
+
+  @Override
+  public String toString() {
+    return "Entry{" +
+        "name='" + name + '\'' +
+        ", value=" + value +
+        '}';
   }
 }

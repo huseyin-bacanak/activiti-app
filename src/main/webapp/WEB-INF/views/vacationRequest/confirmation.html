@@ -5,16 +5,19 @@
 </head>
 <body>
 <div data-th-replace="fragment/common :: topMenu">></div>
-<table>
+<table class="table table-striped">
     <tr>
-        <th>Id</th>
-        <th>Url</th>
-        <th>Business Key</th>
+        <th>Employee Name</th>
+        <th>Start Date</th>
+        <th>Number of Days</th>
+        <th>Motivation</th>
+        <th>Action</th>
     </tr>
     <tr data-th-each="pi : ${runningProcesses.data}">
-        <td data-th-text="${pi.id}">Onions</td>
+        <td data-th-text="${pi.variables}">Onions</td>
         <td data-th-text="${pi.url}">2.41</td>
         <td data-th-text="${pi.businessKey}">2.41</td>
+        <td data-th-text="${pi.ended}">2.41</td>
     </tr>
 </table>
 <script>

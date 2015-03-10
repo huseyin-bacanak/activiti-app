@@ -15,7 +15,8 @@ public class VacationRequestDetailsValidator {
     if(startDate==null || startDate.compareTo(new Date())<0){
       errors.rejectValue("startDate", "required", "Start date should be after today");
     }
-    if(vacationRequestDetails.getVacationMotivation().isEmpty()){
+    String vacationMotivation=vacationRequestDetails.getVacationMotivation();
+    if(vacationMotivation==null || vacationMotivation.isEmpty()){
       errors.rejectValue("vacationMotivation", "required", "you should write motivation");
     }
   }

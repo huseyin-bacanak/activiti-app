@@ -22,7 +22,7 @@ import java.util.Base64;
 
 public class BPMServiceImpl implements BPMService {
   private final static Logger logger = LoggerFactory.getLogger(BPMServiceImpl.class);
-  private static final String URL = "http://localhost:9000/activiti/service/runtime/process-instances/";
+  private static final String URL = "http://localhost:9000/activiti/service/runtime/process-instances?includeProcessVariables=true";
   private final HttpHost host = new HttpHost("localhost",9000);
   private final AuthHttpComponentsClientHttpRequestFactory requestFactory =
       new AuthHttpComponentsClientHttpRequestFactory(

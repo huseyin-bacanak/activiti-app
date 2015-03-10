@@ -38,6 +38,7 @@ public class ActivitiRestClient {
     assertNotNull(result);
     logger.info(result.toString());
   }
+
   @Test( expected = HttpClientErrorException.class)
   public void unauthorizedRequest() {
 
