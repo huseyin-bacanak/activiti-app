@@ -4,9 +4,6 @@ import demo.dto.Variable;
 
 import java.util.List;
 
-/**
- * Created by huseyin.bacanak on 09.03.2015.
- */
 public class VacationProcessInstance {
   private String id;
   private String url;

@@ -1,7 +1,5 @@
 package demo.service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectWriter;
 import demo.dto.BPMPost;
 import demo.rest.AuthHttpComponentsClientHttpRequestFactory;
 import demo.rest.ProcessList;
@@ -13,16 +11,13 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Base64;
 
-public class BPMServiceImpl implements BPMService {
-  private final static Logger logger = LoggerFactory.getLogger(BPMServiceImpl.class);
-  private static final String URL = "http://localhost:9000/activiti/service/runtime/process-instances?includeProcessVariables=true&size=100";
+public class ProcessServiceHandlerImpl implements ProcessServiceHandler {
+  private final static Logger logger = LoggerFactory.getLogger(ProcessServiceHandlerImpl.class);
+  private static final String URL = "http://localhost:9000/activiti/service/runtime/process-instances?includeProcessVariables=true&size=100&processDefinitionKey=vacationRequest&includeProcessVariables=true";
   private final HttpHost host = new HttpHost("localhost",9000);
   private final AuthHttpComponentsClientHttpRequestFactory requestFactory =
       new AuthHttpComponentsClientHttpRequestFactory(

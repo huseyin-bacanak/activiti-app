@@ -4,8 +4,10 @@ import demo.dto.BPMPost;
 import demo.dto.Variable;
 import demo.dto.VacationRequestDetails;
 import demo.dto.VacationRequestDetailsValidator;
-import demo.service.BPMService;
-import demo.service.BPMServiceImpl;
+import demo.service.ProcessServiceHandler;
+import demo.service.ProcessServiceHandlerImpl;
+import demo.service.TaskServiceHandler;
+import demo.service.TaskServiceHandlerImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -20,6 +22,7 @@ import java.util.List;
 @Controller
 @RequestMapping(value="/vacationRequest")
 public class VacationController {
+
   @RequestMapping(value="/new", method= RequestMethod.GET)
   public String create(Model model){
     model.addAttribute("vacationRequestDetails", new VacationRequestDetails());
@@ -28,36 +31,32 @@ public class VacationController {
 
   @RequestMapping(value="/list", method= RequestMethod.GET)
   public String list(Model model){
-    BPMService bpmService= new BPMServiceImpl();
-    model.addAttribute("runningProcesses", bpmService.getRunningProcessInstances());
+    ProcessServiceHandler processServiceHandler = new ProcessServiceHandlerImpl();
+    model.addAttribute("runningProcesses", processServiceHandler.getRunningProcessInstances());
     return "vacationRequest/list";
   }
-  @RequestMapping(value="/confirmation", method= RequestMethod.GET)
+  @RequestMapping(value="/myJobs", method= RequestMethod.GET)
   public String confirmation(Model model){
-    BPMService bpmService= new BPMServiceImpl();
-    model.addAttribute("runningProcesses", bpmService.getRunningProcessInstances());
-    return "vacationRequest/confirmation";
+    TaskServiceHandler handler= new TaskServiceHandlerImpl();
+    model.addAttribute("myTasks", handler.getTasksFor("kermit"));
+    return "vacationRequest/myJobs";
   }
 
   @RequestMapping(value="/finished", method= RequestMethod.GET)
   public String finished(Model model){
-    BPMService bpmService= new BPMServiceImpl();
-    model.addAttribute("runningProcesses", bpmService.getRunningProcessInstances());
+    ProcessServiceHandler processServiceHandler = new ProcessServiceHandlerImpl();
+    model.addAttribute("runningProcesses", processServiceHandler.getRunningProcessInstances());
     return "vacationRequest/finished";
   }
 
-
   @RequestMapping(value="/new", method= RequestMethod.POST)
   public String vacationRequest(Model model, @ModelAttribute("vacationRequestDetails") VacationRequestDetails vacationRequestDetails, BindingResult result, SessionStatus status){
-//    System.out.println("\n\n\n"+ vacationRequestDetails+"\n\n\n");
-//    model.addAttribute("vacationRequestDetails", vacationRequestDetails);
-//    return "vacationRequest/pending";
 
     new VacationRequestDetailsValidator().validate(vacationRequestDetails, result);
     if (result.hasErrors()) {
       return "vacationRequest/new";
     } else {
-      BPMService bpmService= new BPMServiceImpl();
+      ProcessServiceHandler processServiceHandler = new ProcessServiceHandlerImpl();
 
       BPMPost post = new BPMPost();
       post.setProcessDefinitionKey("vacationRequest");
@@ -67,7 +66,7 @@ public class VacationController {
       variables.add(new Variable("vacationMotivation",vacationRequestDetails.getVacationMotivation()));
       post.setVariables(variables);
 
-      bpmService.initiateVacationRequestProcess(post);
+      processServiceHandler.initiateVacationRequestProcess(post);
       model.addAttribute("successMessage", "Operation completed successfully");
       model.addAttribute("vacationRequestDetails", new VacationRequestDetails());
       return "vacationRequest/new";

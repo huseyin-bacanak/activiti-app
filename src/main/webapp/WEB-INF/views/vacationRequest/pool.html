@@ -11,14 +11,16 @@
         <th>Start Date</th>
         <th>Number of Days</th>
         <th>Motivation</th>
-        <th>Status</th>
+        <th>Action</th>
     </tr>
     <tr data-th-each="pi : ${runningProcesses.data}">
         <td ><p  data-th-text="${pi.getVariable('employeeName').getValue()}"></p></td>
         <td ><p  data-th-text="${pi.getVariable('startDate').getValue()}"></p></td>
         <td ><p  data-th-text="${pi.getVariable('numberOfDays').getValue()}"></p></td>
         <td ><p  data-th-text="${pi.getVariable('motivation').getValue()}"></p></td>
-        <td ><p  data-th-text="${pi.getVariable('motivation').getValue()}"></p></td>
+        <td>
+            <button class="btn btn-primary" type="submit">Claim</button>
+        </td>
     </tr>
 </table>
 <script>

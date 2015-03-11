@@ -1,14 +1,12 @@
-package demo;
+package demo.demo;
 
 import static org.junit.Assert.assertNotNull;
 
-import demo.dto.BPMPost;
-import demo.dto.Variable;
 import demo.rest.AuthHttpComponentsClientHttpRequestFactory;
-import demo.rest.ProcessList;
-import demo.rest.VacationProcessInstance;
-import demo.service.BPMService;
-import demo.service.BPMServiceImpl;
+import demo.rest.Task;
+import demo.rest.TaskList;
+import demo.service.TaskServiceHandler;
+import demo.service.TaskServiceHandlerImpl;
 import org.apache.http.HttpHost;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -16,19 +14,18 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class ActivitiRestClient {
+public class TaskServiceHandlerTest {
   private static final String URL="http://localhost:9000/activiti/service/runtime/process-instances/";
-  private final static Logger logger = LoggerFactory.getLogger(ActivitiRestClient.class);
+  private final static Logger logger = LoggerFactory.getLogger(ProcessServiceHandlerTest.class);
   private final HttpHost host = new HttpHost("localhost",9000);
   private final AuthHttpComponentsClientHttpRequestFactory requestFactory =
       new AuthHttpComponentsClientHttpRequestFactory(
           host, "kermit", "kermit");
   private final RestTemplate restTemplate = new RestTemplate(requestFactory);
 
-  private BPMService bpmService=new BPMServiceImpl();
+  private TaskServiceHandler taskServiceHandler =new TaskServiceHandlerImpl();
 
 
   @Test
@@ -50,26 +47,25 @@ public class ActivitiRestClient {
   }
 
   @Test
-  public void getAllProcessInstances(){
-    ProcessList result = bpmService.getRunningProcessInstances();
+  public void getPoolTest(){
+    TaskList result = taskServiceHandler.getPool();
     assertNotNull(result);
     logger.info(result.toString());
   }
 
   @Test
-  public void createNewVacationRequest(){
-    BPMPost post = new BPMPost();
-    post.setProcessDefinitionKey("vacationRequest");
-    List<Variable> variables=  new ArrayList<>();
-    variables.add(new Variable("numberOfDays", "5"));
-    variables.add(new Variable("employeeName","kermit"));
-    variables.add(new Variable("vacationMotivation","sasaas"));
-    variables.add(new Variable("startDate","12/12/2015"));
-    variables.add(new Variable("ali","veli"));
-    post.setVariables(variables);
-
-    VacationProcessInstance pi = bpmService.initiateVacationRequestProcess(post);
-    assertNotNull(pi);
+  public void claimTaskTest(){
+    TaskList result = taskServiceHandler.getPool();
+    List<Task> tasks = result.getData();
+    Task task=tasks.get(0);
+    taskServiceHandler.claim(task, "kermit");
   }
 
+  @Test
+  public void approveVacationRequest() {
+    TaskList result = taskServiceHandler.getTasksFor("kermit");
+    List<Task> tasks = result.getData();
+    Task task=tasks.get(0);
+    taskServiceHandler.approveVacationRequest(task.getId());
+  }
 }

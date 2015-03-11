@@ -21,7 +21,7 @@
         <div class="form-group  control-group" data-th-classappend="${#fields.hasErrors('startDate')} ? 'error'">
             <label class="control-label col-sm-2" for="startDate">Start Date:</label>
             <div class="col-sm-6">
-                <input type="text" class="form-control" id="startDate" placeholder="Enter start date" data-th-field="*{startDate}"/>
+                <input type="text" class="form-control" id="startDate" placeholder="DD/MM/YYYY" data-th-field="*{startDate}"/>
             </div>
             <span class="help-inline text-danger" data-th-errors="*{startDate}">[error]</span>
         </div>
