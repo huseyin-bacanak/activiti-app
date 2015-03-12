@@ -34,6 +34,11 @@ dependencies {
 
     //activiti
     compile "org.activiti:activiti-engine:$activitiVersion"
+    compile 'org.activiti:activiti-common-rest:5.17.0'
+    compile 'org.activiti:activiti-rest:5.17.0'
+    compile 'org.activiti:activiti-diagram-rest:5.17.0'
+    compile 'org.activiti:spring-boot-starter-rest-api:5.17.0'
+
 
     compile 'org.apache.httpcomponents:httpclient:4.4'
     compile 'org.apache.httpcomponents:httpcore:4.4'

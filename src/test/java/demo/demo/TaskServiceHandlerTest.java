@@ -27,6 +27,10 @@ public class TaskServiceHandlerTest {
 
   private TaskServiceHandler taskServiceHandler =new TaskServiceHandlerImpl();
 
+  @Test
+  public void startVacationRequest(){
+
+  }
 
   @Test
   public void authorizedRequest() {

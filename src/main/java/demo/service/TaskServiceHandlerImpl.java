@@ -1,18 +1,15 @@
 package demo.service;
 
-import demo.dto.Variable;
 import demo.rest.AuthHttpComponentsClientHttpRequestFactory;
 import demo.rest.Task;
 import demo.rest.TaskList;
-import org.activiti.engine.task.DelegationState;
+import org.activiti.engine.form.TaskFormData;
 import org.apache.http.HttpHost;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public class TaskServiceHandlerImpl implements TaskServiceHandler {
 
@@ -48,17 +45,8 @@ public class TaskServiceHandlerImpl implements TaskServiceHandler {
 
   @Override
   public void approveVacationRequest(String taskId) {
-//    Task result = restTemplate.getForObject(QUERY_URL+"&id="+taskId, Task.class);
-//    result.setVariable("vacationApproved",Boolean.TRUE);
-//    result.setVariable("delegationState", DelegationState.RESOLVED);
-//    logger.info(result.toString());
-
-    HashMap<String, Object> post= new HashMap<>();
-    List<Variable> variables= new ArrayList<>();
-    variables.add(new Variable("vacationApproved", Boolean.TRUE));
-    variables.add(new Variable("delegationState", DelegationState.RESOLVED));
-    post.put("variables", variables);
-    post.put("action", "complete");
-    restTemplate.put(URL+"/"+taskId, post);
+    String url="http://localhost:9000/activiti/service/form/form-data?taskId=10025";
+    TaskFormData formData= restTemplate.getForObject(url, TaskFormData.class);
+    org.activiti.engine.task.Task task=formData.getTask();
   }
 }
