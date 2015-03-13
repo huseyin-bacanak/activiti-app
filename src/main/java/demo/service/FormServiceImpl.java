@@ -26,7 +26,6 @@ public class FormServiceImpl implements FormService{
 
   @Override
   public StartFormData getStartFormData(String processDefinitionId) {
-    restTemplate.getMessageConverters()
     return restTemplate.getForObject(URL+"?processDefinitionId="+processDefinitionId, StartFormDataImpl.class);
   }
 

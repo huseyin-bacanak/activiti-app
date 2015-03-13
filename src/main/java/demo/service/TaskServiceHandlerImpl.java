@@ -12,7 +12,6 @@ import org.springframework.web.client.RestTemplate;
 import java.util.HashMap;
 
 public class TaskServiceHandlerImpl implements TaskServiceHandler {
-
   private final static Logger logger = LoggerFactory.getLogger(ProcessServiceHandlerImpl.class);
   private static final String QUERY_URL = "http://localhost:9000/activiti/service/runtime/tasks?processDefinitionKey=vacationRequest&includeProcessVariables=true";
   private static final String URL="http://localhost:9000/activiti/service/runtime/tasks";
