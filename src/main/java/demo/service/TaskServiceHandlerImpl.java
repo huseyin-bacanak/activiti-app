@@ -1,9 +1,10 @@
 package demo.service;
 
 import demo.rest.AuthHttpComponentsClientHttpRequestFactory;
-import demo.rest.Task;
 import demo.rest.TaskList;
 import org.activiti.engine.form.TaskFormData;
+import org.activiti.rest.common.api.DataResponse;
+import org.activiti.rest.service.api.runtime.task.TaskResponse;
 import org.apache.http.HttpHost;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,14 +23,14 @@ public class TaskServiceHandlerImpl implements TaskServiceHandler {
   private final RestTemplate restTemplate = new RestTemplate(requestFactory);
 
   @Override
-  public TaskList getPool() {
-    TaskList result = restTemplate.getForObject(QUERY_URL, TaskList.class);
+  public DataResponse getPool() {
+    DataResponse result = restTemplate.getForObject(QUERY_URL, DataResponse.class);
     logger.info(result.toString());
     return result;
   }
 
   @Override
-  public void claim(Task task, String username) {
+  public void claim(TaskResponse task, String username) {
     HashMap<String, String> post= new HashMap<>();
     post.put("assignee","kermit");
     restTemplate.put(URL+"/"+task.getId(), post);

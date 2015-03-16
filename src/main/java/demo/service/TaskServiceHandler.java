@@ -1,12 +1,13 @@
 package demo.service;
 
 
-import demo.rest.Task;
 import demo.rest.TaskList;
+import org.activiti.rest.common.api.DataResponse;
+import org.activiti.rest.service.api.runtime.task.TaskResponse;
 
 public interface TaskServiceHandler {
-  TaskList getPool();
-  void claim(Task task, String username);
+  DataResponse getPool();
+  void claim(TaskResponse task, String username);
   TaskList getTasksFor(String assignee);
   void approveVacationRequest(String taskId);
 }

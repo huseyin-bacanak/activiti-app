@@ -1,22 +1,24 @@
 package demo.rest;
 
+import org.activiti.rest.service.api.runtime.task.TaskResponse;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class TaskList {
 
-  private List<Task> data = new ArrayList<Task>();
+  private List<TaskResponse> data = new ArrayList<TaskResponse>();
   private Integer total;
   private Integer start;
   private String sort;
   private String order;
   private Integer size;
 
-  public List<Task> getData() {
+  public List<TaskResponse> getData() {
     return data;
   }
 
-  public void setData(List<Task> data) {
+  public void setData(List<TaskResponse> data) {
     this.data = data;
   }
 

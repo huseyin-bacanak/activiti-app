@@ -7,6 +7,8 @@ import demo.rest.Task;
 import demo.rest.TaskList;
 import demo.service.TaskServiceHandler;
 import demo.service.TaskServiceHandlerImpl;
+import org.activiti.rest.common.api.DataResponse;
+import org.activiti.rest.service.api.runtime.task.TaskResponse;
 import org.apache.http.HttpHost;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -52,24 +54,24 @@ public class TaskServiceHandlerTest {
 
   @Test
   public void getPoolTest(){
-    TaskList result = taskServiceHandler.getPool();
+    DataResponse result = taskServiceHandler.getPool();
     assertNotNull(result);
     logger.info(result.toString());
   }
 
   @Test
   public void claimTaskTest(){
-    TaskList result = taskServiceHandler.getPool();
-    List<Task> tasks = result.getData();
-    Task task=tasks.get(0);
+    DataResponse result = taskServiceHandler.getPool();
+    List<TaskResponse> tasks = (List<TaskResponse>)result.getData();
+    TaskResponse task=tasks.get(0);
     taskServiceHandler.claim(task, "kermit");
   }
 
   @Test
   public void approveVacationRequest() {
     TaskList result = taskServiceHandler.getTasksFor("kermit");
-    List<Task> tasks = result.getData();
-    Task task=tasks.get(0);
+    List<TaskResponse> tasks = result.getData();
+    TaskResponse task=tasks.get(0);
     taskServiceHandler.approveVacationRequest(task.getId());
   }
 }

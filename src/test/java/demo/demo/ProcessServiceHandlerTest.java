@@ -2,14 +2,13 @@ package demo.demo;
 
 import static org.junit.Assert.assertNotNull;
 
-import demo.dto.BPMPost;
-import demo.dto.Variable;
 import demo.rest.AuthHttpComponentsClientHttpRequestFactory;
 import demo.rest.ProcessList;
-import demo.rest.VacationProcessInstance;
 import demo.service.ProcessServiceHandler;
 import demo.service.ProcessServiceHandlerImpl;
+import org.activiti.rest.service.api.engine.variable.RestVariable;
 import org.activiti.rest.service.api.repository.ProcessDefinitionResponse;
+import org.activiti.rest.service.api.runtime.process.ProcessInstanceCreateRequest;
 import org.apache.http.HttpHost;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -58,28 +57,45 @@ public class ProcessServiceHandlerTest {
 
   @Test
   public void createNewVacationRequest(){
-    BPMPost post = new BPMPost();
-    post.setProcessDefinitionKey("vacationRequest");
-    List<Variable> variables=  new ArrayList<>();
-    variables.add(new Variable("numberOfDays", "5"));
-    variables.add(new Variable("employeeName","kermit"));
-    variables.add(new Variable("vacationMotivation","sasaas"));
-    variables.add(new Variable("startDate","12/12/2015"));
-    post.setVariables(variables);
-
-    ProcessDefinitionResponse pi = processServiceHandler.initiateVacationRequestProcess(post);
-    assertNotNull(pi);
+//    BPMPost post = new BPMPost();
+//    post.setProcessDefinitionKey("vacationRequest");
+//    List<Variable> variables=  new ArrayList<>();
+//    variables.add(new Variable("numberOfDays", "5"));
+//    variables.add(new Variable("employeeName","kermit"));
+//    variables.add(new Variable("vacationMotivation","sasaas"));
+//    variables.add(new Variable("startDate","12/12/2015"));
+//    post.setVariables(variables);
+//
+//    ProcessDefinitionResponse pi = processServiceHandler.initiateVacationRequestProcess(post);
+//    assertNotNull(pi);
   }
 
   @Test
   public void approveVacationRequest(){
-    BPMPost post = new BPMPost();
+    ProcessInstanceCreateRequest post = new ProcessInstanceCreateRequest();
     post.setProcessDefinitionKey("vacationRequest");
-    List<Variable> variables=  new ArrayList<>();
-    variables.add(new Variable("numberOfDays", "5"));
-    variables.add(new Variable("employeeName","kermit"));
-    variables.add(new Variable("vacationMotivation","sasaas"));
-    variables.add(new Variable("startDate","12/12/2015"));
+    List<RestVariable> variables=  new ArrayList<>();
+    RestVariable var= new RestVariable();
+    var.setName("numberOfDays");
+    var.setValue("5");
+    variables.add(var);
+
+    var.setName("employeeName");
+    var.setValue("kermit");
+    variables.add(var);
+
+    var.setName("vacationMotivation");
+    var.setValue("sasaas");
+    variables.add(var);
+
+    var.setName("startDate");
+    var.setValue("12/12/2015");
+    variables.add(var);
+
+//    variables.add(new RestVariable("numberOfDays", "5"));
+//    variables.add(new RestVariable("employeeName","kermit"));
+//    variables.add(new RestVariable("vacationMotivation","sasaas"));
+//    variables.add(new RestVariable("startDate","12/12/2015"));
     post.setVariables(variables);
 
     ProcessDefinitionResponse pi = processServiceHandler.initiateVacationRequestProcess(post);

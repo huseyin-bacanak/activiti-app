@@ -4,6 +4,7 @@ import demo.dto.BPMPost;
 import demo.rest.AuthHttpComponentsClientHttpRequestFactory;
 import demo.rest.ProcessList;
 import org.activiti.rest.service.api.repository.ProcessDefinitionResponse;
+import org.activiti.rest.service.api.runtime.process.ProcessInstanceCreateRequest;
 import org.apache.http.HttpHost;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,7 +26,7 @@ public class ProcessServiceHandlerImpl implements ProcessServiceHandler {
   private final RestTemplate restTemplate = new RestTemplate(requestFactory);
 
   @Override
-  public ProcessDefinitionResponse initiateVacationRequestProcess(BPMPost post) {
+  public ProcessDefinitionResponse initiateVacationRequestProcess(ProcessInstanceCreateRequest post) {
     ProcessDefinitionResponse result = restTemplate.postForObject(URL, post, ProcessDefinitionResponse.class);
     logger.info(result.toString());
     return result;

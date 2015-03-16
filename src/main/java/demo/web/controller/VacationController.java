@@ -49,27 +49,27 @@ public class VacationController {
     return "vacationRequest/finished";
   }
 
-  @RequestMapping(value="/new", method= RequestMethod.POST)
-  public String vacationRequest(Model model, @ModelAttribute("vacationRequestDetails") VacationRequestDetails vacationRequestDetails, BindingResult result, SessionStatus status){
-
-    new VacationRequestDetailsValidator().validate(vacationRequestDetails, result);
-    if (result.hasErrors()) {
-      return "vacationRequest/new";
-    } else {
-      ProcessServiceHandler processServiceHandler = new ProcessServiceHandlerImpl();
-
-      BPMPost post = new BPMPost();
-      post.setProcessDefinitionKey("vacationRequest");
-      List<Variable> variables=  new ArrayList<>();
-      variables.add(new Variable("numberOfDays", vacationRequestDetails.getNumberOfDays()+""));
-      variables.add(new Variable("employeeName",vacationRequestDetails.getEmployeeName()));
-      variables.add(new Variable("vacationMotivation",vacationRequestDetails.getVacationMotivation()));
-      post.setVariables(variables);
-
-      processServiceHandler.initiateVacationRequestProcess(post);
-      model.addAttribute("successMessage", "Operation completed successfully");
-      model.addAttribute("vacationRequestDetails", new VacationRequestDetails());
-      return "vacationRequest/new";
-    }
-  }
+//  @RequestMapping(value="/new", method= RequestMethod.POST)
+//  public String vacationRequest(Model model, @ModelAttribute("vacationRequestDetails") VacationRequestDetails vacationRequestDetails, BindingResult result, SessionStatus status){
+//
+//    new VacationRequestDetailsValidator().validate(vacationRequestDetails, result);
+//    if (result.hasErrors()) {
+//      return "vacationRequest/new";
+//    } else {
+//      ProcessServiceHandler processServiceHandler = new ProcessServiceHandlerImpl();
+//
+//      BPMPost post = new BPMPost();
+//      post.setProcessDefinitionKey("vacationRequest");
+//      List<Variable> variables=  new ArrayList<>();
+//      variables.add(new Variable("numberOfDays", vacationRequestDetails.getNumberOfDays()+""));
+//      variables.add(new Variable("employeeName",vacationRequestDetails.getEmployeeName()));
+//      variables.add(new Variable("vacationMotivation",vacationRequestDetails.getVacationMotivation()));
+//      post.setVariables(variables);
+//
+//      processServiceHandler.initiateVacationRequestProcess(post);
+//      model.addAttribute("successMessage", "Operation completed successfully");
+//      model.addAttribute("vacationRequestDetails", new VacationRequestDetails());
+//      return "vacationRequest/new";
+//    }
+//  }
 }
