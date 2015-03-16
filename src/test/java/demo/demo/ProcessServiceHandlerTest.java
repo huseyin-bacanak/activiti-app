@@ -9,6 +9,7 @@ import demo.rest.ProcessList;
 import demo.rest.VacationProcessInstance;
 import demo.service.ProcessServiceHandler;
 import demo.service.ProcessServiceHandlerImpl;
+import org.activiti.rest.service.api.repository.ProcessDefinitionResponse;
 import org.apache.http.HttpHost;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -66,7 +67,7 @@ public class ProcessServiceHandlerTest {
     variables.add(new Variable("startDate","12/12/2015"));
     post.setVariables(variables);
 
-    VacationProcessInstance pi = processServiceHandler.initiateVacationRequestProcess(post);
+    ProcessDefinitionResponse pi = processServiceHandler.initiateVacationRequestProcess(post);
     assertNotNull(pi);
   }
 
@@ -81,7 +82,7 @@ public class ProcessServiceHandlerTest {
     variables.add(new Variable("startDate","12/12/2015"));
     post.setVariables(variables);
 
-    VacationProcessInstance pi = processServiceHandler.initiateVacationRequestProcess(post);
+    ProcessDefinitionResponse pi = processServiceHandler.initiateVacationRequestProcess(post);
     assertNotNull(pi);
   }
 

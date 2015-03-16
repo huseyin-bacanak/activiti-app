@@ -4,8 +4,9 @@ import demo.dto.BPMPost;
 import demo.dto.VacationRequestDetails;
 import demo.rest.ProcessList;
 import demo.rest.VacationProcessInstance;
+import org.activiti.rest.service.api.repository.ProcessDefinitionResponse;
 
 public interface ProcessServiceHandler {
-  VacationProcessInstance initiateVacationRequestProcess(BPMPost post);
+  ProcessDefinitionResponse initiateVacationRequestProcess(BPMPost post);
   ProcessList getRunningProcessInstances();
 }

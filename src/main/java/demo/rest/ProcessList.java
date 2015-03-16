@@ -1,20 +1,22 @@
 package demo.rest;
 
+import org.activiti.rest.service.api.repository.ProcessDefinitionResponse;
+
 import java.util.List;
 
 public class ProcessList {
-  private List<VacationProcessInstance> data;
+  private List<ProcessDefinitionResponse> data;
   private int total;
   private int start;
   private String sort;
   private String order;
   private int size;
 
-  public List<VacationProcessInstance> getData() {
+  public List<ProcessDefinitionResponse> getData() {
     return data;
   }
 
-  public void setData(List<VacationProcessInstance> data) {
+  public void setData(List<ProcessDefinitionResponse> data) {
     this.data = data;
   }
 
