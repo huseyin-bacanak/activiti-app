@@ -37,8 +37,8 @@ public class TaskServiceHandlerImpl implements TaskServiceHandler {
   }
 
   @Override
-  public TaskList getTasksFor(String assignee) {
-    TaskList result = restTemplate.getForObject(QUERY_URL+"&assignee="+assignee, TaskList.class);
+  public DataResponse getTasksFor(String assignee) {
+    DataResponse result = restTemplate.getForObject(QUERY_URL+"&assignee="+assignee, DataResponse.class);
     logger.info(result.toString());
     return result;
   }

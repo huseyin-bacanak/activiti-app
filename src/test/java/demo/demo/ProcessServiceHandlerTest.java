@@ -80,22 +80,21 @@ public class ProcessServiceHandlerTest {
     var.setValue("5");
     variables.add(var);
 
-    var.setName("employeeName");
-    var.setValue("kermit");
+    RestVariable var2= new RestVariable();
+    var2.setName("employeeName");
+    var2.setValue("kermit");
+    variables.add(var2);
+
+    RestVariable var3= new RestVariable();
+    var3.setName("vacationMotivation");
+    var3.setValue("sasaas");
+    variables.add(var3);
+
+    RestVariable var4= new RestVariable();
+    var4.setName("startDate");
+    var4.setValue("12/12/2015");
     variables.add(var);
 
-    var.setName("vacationMotivation");
-    var.setValue("sasaas");
-    variables.add(var);
-
-    var.setName("startDate");
-    var.setValue("12/12/2015");
-    variables.add(var);
-
-//    variables.add(new RestVariable("numberOfDays", "5"));
-//    variables.add(new RestVariable("employeeName","kermit"));
-//    variables.add(new RestVariable("vacationMotivation","sasaas"));
-//    variables.add(new RestVariable("startDate","12/12/2015"));
     post.setVariables(variables);
 
     ProcessDefinitionResponse pi = processServiceHandler.initiateVacationRequestProcess(post);

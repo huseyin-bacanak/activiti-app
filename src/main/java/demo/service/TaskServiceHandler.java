@@ -8,6 +8,6 @@ import org.activiti.rest.service.api.runtime.task.TaskResponse;
 public interface TaskServiceHandler {
   DataResponse getPool();
   void claim(TaskResponse task, String username);
-  TaskList getTasksFor(String assignee);
+  DataResponse getTasksFor(String assignee);
   void approveVacationRequest(String taskId);
 }

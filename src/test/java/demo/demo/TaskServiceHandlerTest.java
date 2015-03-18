@@ -69,9 +69,9 @@ public class TaskServiceHandlerTest {
 
   @Test
   public void approveVacationRequest() {
-    TaskList result = taskServiceHandler.getTasksFor("kermit");
-    List<TaskResponse> tasks = result.getData();
-    TaskResponse task=tasks.get(0);
+    DataResponse result = taskServiceHandler.getTasksFor("kermit");
+    List<Object> tasks = (List<Object>)result.getData();
+    TaskResponse task=(TaskResponse)tasks.get(0);
     taskServiceHandler.approveVacationRequest(task.getId());
   }
 }
