@@ -8,6 +8,7 @@ import demo.rest.TaskList;
 import demo.service.TaskServiceHandler;
 import demo.service.TaskServiceHandlerImpl;
 import org.activiti.rest.common.api.DataResponse;
+import org.activiti.rest.service.api.runtime.process.ProcessInstanceResponse;
 import org.activiti.rest.service.api.runtime.task.TaskResponse;
 import org.apache.http.HttpHost;
 import org.junit.Test;
@@ -16,6 +17,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.Date;
 import java.util.List;
 
 public class TaskServiceHandlerTest {
@@ -61,10 +63,10 @@ public class TaskServiceHandlerTest {
 
   @Test
   public void claimTaskTest(){
-    DataResponse result = taskServiceHandler.getPool();
-    List<TaskResponse> tasks = (List<TaskResponse>)result.getData();
-    TaskResponse task=tasks.get(0);
-    taskServiceHandler.claim(task, "kermit");
+//    DataResponse result = taskServiceHandler.getPool();
+//    List<TaskResponse> tasks = (List<TaskResponse>)result.getData();
+//    TaskResponse task=tasks.get(0);
+//    taskServiceHandler.claim(task, "kermit");
   }
 
   @Test

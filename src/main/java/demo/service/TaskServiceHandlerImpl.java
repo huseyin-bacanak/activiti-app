@@ -4,13 +4,16 @@ import demo.rest.AuthHttpComponentsClientHttpRequestFactory;
 import demo.rest.TaskList;
 import org.activiti.engine.form.TaskFormData;
 import org.activiti.rest.common.api.DataResponse;
+import org.activiti.rest.service.api.runtime.task.TaskRequest;
 import org.activiti.rest.service.api.runtime.task.TaskResponse;
 import org.apache.http.HttpHost;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
 
 public class TaskServiceHandlerImpl implements TaskServiceHandler {
   private final static Logger logger = LoggerFactory.getLogger(ProcessServiceHandlerImpl.class);
@@ -25,7 +28,6 @@ public class TaskServiceHandlerImpl implements TaskServiceHandler {
   @Override
   public DataResponse getPool() {
     DataResponse result = restTemplate.getForObject(QUERY_URL, DataResponse.class);
-    logger.info(result.toString());
     return result;
   }
 
@@ -49,4 +51,6 @@ public class TaskServiceHandlerImpl implements TaskServiceHandler {
     TaskFormData formData= restTemplate.getForObject(url, TaskFormData.class);
     org.activiti.engine.task.Task task=formData.getTask();
   }
+
+
 }

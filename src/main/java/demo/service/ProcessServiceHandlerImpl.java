@@ -3,8 +3,11 @@ package demo.service;
 import demo.dto.BPMPost;
 import demo.rest.AuthHttpComponentsClientHttpRequestFactory;
 import demo.rest.ProcessList;
+
+import org.activiti.rest.service.api.engine.variable.RestVariable;
 import org.activiti.rest.service.api.repository.ProcessDefinitionResponse;
 import org.activiti.rest.service.api.runtime.process.ProcessInstanceCreateRequest;
+import org.activiti.rest.service.api.runtime.process.ProcessInstanceResponse;
 import org.apache.http.HttpHost;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,7 +17,12 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
 import java.util.Base64;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class ProcessServiceHandlerImpl implements ProcessServiceHandler {
   private final static Logger logger = LoggerFactory.getLogger(ProcessServiceHandlerImpl.class);
@@ -51,5 +59,44 @@ public class ProcessServiceHandlerImpl implements ProcessServiceHandler {
 
     HttpEntity<String> request = new HttpEntity<String>(headers);
     ResponseEntity<String> response = restTemplate.exchange(URL, HttpMethod.GET, request, String.class);
+  }
+
+  @Override
+  public ProcessInstanceResponse initiateVacationRequest(String employeeName, Date startDate,
+                                                              int numberOfDays, String motivation) {
+    String url="http://localhost:9000/activiti/service/runtime/process-instances";
+    ProcessInstanceCreateRequest req= new ProcessInstanceCreateRequest();
+    req.setProcessDefinitionKey("vacationRequest");
+
+    List<RestVariable> variables= new ArrayList<>();
+    RestVariable var1= new RestVariable();
+    var1.setName("employeeName");
+    var1.setValue(employeeName);
+
+    RestVariable var2= new RestVariable();
+    var2.setName("startDate");
+    var2.setValue(startDate);
+
+    RestVariable var3= new RestVariable();
+    var3.setName("vacationMotivation");
+    var3.setValue(motivation);
+
+    RestVariable var4= new RestVariable();
+    var4.setName("numberOfDays");
+    var4.setValue(numberOfDays);
+
+    variables.add(var1);
+    variables.add(var2);
+    variables.add(var3);
+    variables.add(var4);
+    req.setVariables(variables);
+    ProcessInstanceResponse result = restTemplate.postForObject(url, req, ProcessInstanceResponse.class);
+    logger.info(result.toString());
+    return result;
+  }
+  @Override
+  public void deleteProcessInstance(int processInstanceId) {
+    String url="http://localhost:9000/activiti/service/runtime/process-instances/{processInstanceId}";
+    restTemplate.delete(url, processInstanceId+"");
   }
 }

@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class VacationRequestDetails {
   private String employeeName;
-  private int numberOfDays;
+  private Integer numberOfDays;
   private String vacationMotivation;
   private Date startDate;
 
@@ -17,11 +17,11 @@ public class VacationRequestDetails {
     this.employeeName = employeeName;
   }
 
-  public int getNumberOfDays() {
-    return numberOfDays;
+  public Integer getNumberOfDays() {
+    return numberOfDays==null?0:numberOfDays;
   }
 
-  public void setNumberOfDays(int numberOfDays) {
+  public void setNumberOfDays(Integer numberOfDays) {
     this.numberOfDays = numberOfDays;
   }
 

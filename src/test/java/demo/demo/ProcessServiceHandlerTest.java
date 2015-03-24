@@ -9,6 +9,7 @@ import demo.service.ProcessServiceHandlerImpl;
 import org.activiti.rest.service.api.engine.variable.RestVariable;
 import org.activiti.rest.service.api.repository.ProcessDefinitionResponse;
 import org.activiti.rest.service.api.runtime.process.ProcessInstanceCreateRequest;
+import org.activiti.rest.service.api.runtime.process.ProcessInstanceResponse;
 import org.apache.http.HttpHost;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -17,6 +18,7 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class ProcessServiceHandlerTest {
@@ -57,17 +59,16 @@ public class ProcessServiceHandlerTest {
 
   @Test
   public void createNewVacationRequest(){
-//    BPMPost post = new BPMPost();
-//    post.setProcessDefinitionKey("vacationRequest");
-//    List<Variable> variables=  new ArrayList<>();
-//    variables.add(new Variable("numberOfDays", "5"));
-//    variables.add(new Variable("employeeName","kermit"));
-//    variables.add(new Variable("vacationMotivation","sasaas"));
-//    variables.add(new Variable("startDate","12/12/2015"));
-//    post.setVariables(variables);
-//
-//    ProcessDefinitionResponse pi = processServiceHandler.initiateVacationRequestProcess(post);
-//    assertNotNull(pi);
+    String employeeName="kermit";
+    Date startDate=new Date();
+    int numberOfDays=5;
+    String motivation="motivv";
+    ProcessInstanceResponse response=  processServiceHandler.initiateVacationRequest(employeeName, startDate,
+                                                                                      numberOfDays, motivation);
+
+    List<RestVariable> variables= response.getVariables();
+    assertNotNull(response);
+
   }
 
   @Test
@@ -77,7 +78,7 @@ public class ProcessServiceHandlerTest {
     List<RestVariable> variables=  new ArrayList<>();
     RestVariable var= new RestVariable();
     var.setName("numberOfDays");
-    var.setValue("5");
+    var.setValue(5);
     variables.add(var);
 
     RestVariable var2= new RestVariable();
