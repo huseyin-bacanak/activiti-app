@@ -5,25 +5,37 @@
 </head>
 <body>
 <div data-th-replace="fragment/common :: topMenu">></div>
-<table class="table table-striped">
-    <tr>
-        <th>Employee Name</th>
-        <th>Start Date</th>
-        <th>Number of Days</th>
-        <th>Motivation</th>
-        <th>Action</th>
-    </tr>
-    <tr data-th-each="task : ${myTasks.data}">
-        <td ><p  data-th-text="${task.getVariable('employeeName').getValue()}"></p></td>
-        <td ><p  data-th-text="${task.getVariable('startDate').getValue()}"></p></td>
-        <td ><p  data-th-text="${task.getVariable('numberOfDays').getValue()}"></p></td>
-        <td ><p  data-th-text="${task.getVariable('motivation').getValue()}"></p></td>
-        <td>
-            <button class="btn btn-primary" type="submit">Confirm</button>
-            <button class="btn btn-default" type="submit">Decline</button>
-        </td>
-    </tr>
-</table>
+<div class="container">
+    <table class="table table-hover">
+        <tr>
+            <th>PID</th>
+            <th>Task Id</th>
+            <th>Employee Name</th>
+            <th>Start Date</th>
+            <th>Number of Days</th>
+            <th>Motivation</th>
+            <th>Action</th>
+        </tr>
+        <tr data-th-each="vacationRequest,iter : ${myTasks}">
+
+            <td ><p  data-th-text="${processInstances[iter.index].get('processInstanceId')}"></p></td>
+            <td ><p  data-th-text="${processInstances[iter.index].get('id')}"></p></td>
+            <td ><p  data-th-text="${vacationRequest.getEmployeeName()}"></p></td>
+            <td ><p  data-th-text="${#calendars.format(vacationRequest.getStartDate(),'dd MMMM yyyy')}"></p></td>
+            <td ><p  data-th-text="${vacationRequest.getNumberOfDays()}"></p></td>
+            <td ><p  data-th-text="${vacationRequest.getVacationMotivation()}"></p></td>
+            <!--<td ><p  data-th-text="${task.variables.get(0).getValue()}"></p></td>-->
+            <td>
+                <form class="form-horizontal" role="form" action="#" data-th-action="@{/vacationRequest/myJobsForm}" data-th-object="${index}" method="post">
+                    <input type="hidden" name="processInstanceId"  data-th-value="${processInstances[iter.index].get('processInstanceId')}"/>
+                    <input type="hidden" name="taskId"  data-th-value="${processInstances[iter.index].get('id')}"/>
+                    <button class="btn btn-primary" type="submit" name="action" value="approve">Approve</button>
+                    <button class="btn btn-default" type="submit" name="action" value="reject">Reject</button>
+                </form>
+            </td>
+        </tr>
+    </table>
+</div>
 <script>
     $( document ).ready(function() {
         $('.navbar-nav > li').removeClass('active');

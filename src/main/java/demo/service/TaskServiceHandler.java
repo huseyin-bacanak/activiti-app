@@ -9,7 +9,7 @@ import java.util.Date;
 
 public interface TaskServiceHandler {
   DataResponse getPool();
-  void claim(TaskResponse task, String username);
+  void claim(int taskId, String username);
   DataResponse getTasksFor(String assignee);
   void approveVacationRequest(String taskId);
 

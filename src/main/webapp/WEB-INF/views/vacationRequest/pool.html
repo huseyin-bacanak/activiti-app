@@ -9,6 +9,7 @@
 <table class="table table-hover">
     <tr>
         <th>PID</th>
+        <th>Task Id</th>
         <th>Employee Name</th>
         <th>Start Date</th>
         <th>Number of Days</th>
@@ -18,6 +19,7 @@
     <tr data-th-each="vacationRequest,iter : ${pool}">
 
         <td ><p  data-th-text="${processInstances[iter.index].get('processInstanceId')}"></p></td>
+        <td ><p  data-th-text="${processInstances[iter.index].get('id')}"></p></td>
         <td ><p  data-th-text="${vacationRequest.getEmployeeName()}"></p></td>
         <td ><p  data-th-text="${#calendars.format(vacationRequest.getStartDate(),'dd MMMM yyyy')}"></p></td>
         <td ><p  data-th-text="${vacationRequest.getNumberOfDays()}"></p></td>
@@ -26,6 +28,7 @@
         <td>
             <form class="form-horizontal" role="form" action="#" data-th-action="@{/vacationRequest/poolForm}" data-th-object="${index}" method="post">
                 <input type="hidden" name="processInstanceId"  data-th-value="${processInstances[iter.index].get('processInstanceId')}"/>
+                <input type="hidden" name="taskId"  data-th-value="${processInstances[iter.index].get('id')}"/>
                 <button class="btn btn-primary" type="submit" name="action" value="claim">Claim</button>
                 <button class="btn btn-default" type="submit" name="action" value="delete">Delete</button>
             </form>

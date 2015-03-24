@@ -46,14 +46,6 @@ public class VacationController {
     } else {
       ProcessServiceHandler processServiceHandler = new ProcessServiceHandlerImpl();
 
-//      BPMPost post = new BPMPost();
-//      post.setProcessDefinitionKey("vacationRequest");
-//      List<Variable> variables=  new ArrayList<>();
-//      variables.add(new Variable("numberOfDays", vacationRequestDetails.getNumberOfDays()+""));
-//      variables.add(new Variable("employeeName",vacationRequestDetails.getEmployeeName()));
-//      variables.add(new Variable("vacationMotivation",vacationRequestDetails.getVacationMotivation()));
-//      post.setVariables(variables);
-
       processServiceHandler.initiateVacationRequest("kermit",
                                                     vacationRequestDetails.getStartDate(),
                                                     vacationRequestDetails.getNumberOfDays(),
@@ -74,7 +66,24 @@ public class VacationController {
   @RequestMapping(value="/myJobs", method= RequestMethod.GET)
   public String confirmation(Model model){
     TaskServiceHandler handler= new TaskServiceHandlerImpl();
-    model.addAttribute("myTasks", handler.getTasksFor("kermit"));
+    List<VacationRequestDetails> detailsList= new ArrayList<>();
+    for(Map task: (List <Map<String,String>>)handler.getTasksFor("kermit").getData()){
+      System.out.println(task);
+      List variables= (List)task.get("variables");
+      VacationRequestDetails details = new VacationRequestDetails();
+      details.setEmployeeName((String)findValue("employeeName",variables).toString());
+      details.setNumberOfDays((Integer)findValue("numberOfDays",variables));
+      details.setVacationMotivation((String) findValue("vacationMotivation", variables));
+      details.setStartDate(new Date((Long) findValue("startDate", variables)));
+//      details.setEmployeeName("asd");
+//      details.setStartDate(new Date());
+//      details.setVacationMotivation("asd");
+//      details.setNumberOfDays(5);
+      detailsList.add(details);
+    }
+
+    model.addAttribute("myTasks", detailsList);
+    model.addAttribute("processInstances",handler.getTasksFor("kermit").getData());
     return "vacationRequest/myJobs";
   }
 
@@ -108,13 +117,14 @@ public class VacationController {
     return "vacationRequest/pool";
   }
   @RequestMapping(value="/poolForm", method=RequestMethod.POST)
-  public String poolForm(@RequestParam String action, @RequestParam int processInstanceId){
-    ProcessServiceHandler handler = new ProcessServiceHandlerImpl();
+  public String poolForm(@RequestParam String action, @RequestParam int processInstanceId, @RequestParam int taskId){
+    ProcessServiceHandler processServiceHandler = new ProcessServiceHandlerImpl();
+    TaskServiceHandler taskServiceHandler= new TaskServiceHandlerImpl();
     if( action.equals("claim") ){
-      //handle save
+      taskServiceHandler.claim(taskId, "kermit");
     }
     else if( action.equals("delete") ){
-      handler.deleteProcessInstance(processInstanceId);
+      processServiceHandler.deleteProcessInstance(processInstanceId);
     }
     return "redirect:pool";
   }

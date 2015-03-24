@@ -4,6 +4,8 @@ import demo.rest.AuthHttpComponentsClientHttpRequestFactory;
 import demo.rest.TaskList;
 import org.activiti.engine.form.TaskFormData;
 import org.activiti.rest.common.api.DataResponse;
+import org.activiti.rest.service.api.engine.variable.RestVariable;
+import org.activiti.rest.service.api.runtime.task.TaskActionRequest;
 import org.activiti.rest.service.api.runtime.task.TaskRequest;
 import org.activiti.rest.service.api.runtime.task.TaskResponse;
 import org.apache.http.HttpHost;
@@ -11,8 +13,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class TaskServiceHandlerImpl implements TaskServiceHandler {
@@ -27,15 +31,17 @@ public class TaskServiceHandlerImpl implements TaskServiceHandler {
 
   @Override
   public DataResponse getPool() {
-    DataResponse result = restTemplate.getForObject(QUERY_URL, DataResponse.class);
+    DataResponse result = restTemplate.getForObject(QUERY_URL+"&assignee=null", DataResponse.class);
     return result;
   }
 
   @Override
-  public void claim(TaskResponse task, String username) {
-    HashMap<String, String> post= new HashMap<>();
-    post.put("assignee","kermit");
-    restTemplate.put(URL+"/"+task.getId(), post);
+  public void claim(int taskId, String username) {
+    String url="http://localhost:9000/activiti/service/runtime/tasks/{taskId}";
+    TaskActionRequest tar= new TaskActionRequest();
+    tar.setAction(TaskActionRequest.ACTION_CLAIM);
+    tar.setAssignee(username);
+    restTemplate.postForObject(url, tar, String.class,taskId+"");
   }
 
   @Override
