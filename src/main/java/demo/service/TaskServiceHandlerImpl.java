@@ -31,7 +31,7 @@ public class TaskServiceHandlerImpl implements TaskServiceHandler {
 
   @Override
   public DataResponse getPool() {
-    DataResponse result = restTemplate.getForObject(QUERY_URL, DataResponse.class);
+    DataResponse result = restTemplate.getForObject(QUERY_URL+"&candidateUser=kermit", DataResponse.class);
     return result;
   }
 
