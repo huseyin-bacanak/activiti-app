@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class DemoController {
   @RequestMapping("/")
   public String home() {
-    return "demo/index";
+    return "redirect:vacationRequest/new";
   }
 
   @RequestMapping("/ajax")

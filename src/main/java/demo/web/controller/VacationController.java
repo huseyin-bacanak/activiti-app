@@ -66,22 +66,7 @@ public class VacationController {
   @RequestMapping(value="/myJobs", method= RequestMethod.GET)
   public String confirmation(Model model){
     TaskServiceHandler handler= new TaskServiceHandlerImpl();
-    List<VacationRequestDetails> detailsList= new ArrayList<>();
-    for(Map task: (List <Map<String,String>>)handler.getTasksFor("kermit").getData()){
-      System.out.println(task);
-      List variables= (List)task.get("variables");
-      VacationRequestDetails details = new VacationRequestDetails();
-      details.setEmployeeName((String)findValue("employeeName",variables).toString());
-      details.setNumberOfDays((Integer)findValue("numberOfDays",variables));
-      details.setVacationMotivation((String) findValue("vacationMotivation", variables));
-      details.setStartDate(new Date((Long) findValue("startDate", variables)));
-//      details.setEmployeeName("asd");
-//      details.setStartDate(new Date());
-//      details.setVacationMotivation("asd");
-//      details.setNumberOfDays(5);
-      detailsList.add(details);
-    }
-
+    List<VacationRequestDetails> detailsList = createVacationDetailsFromVars((List <Map<String,String>>)handler.getTasksFor("kermit").getData());
     model.addAttribute("myTasks", detailsList);
     model.addAttribute("processInstances",handler.getTasksFor("kermit").getData());
     return "vacationRequest/myJobs";
@@ -97,21 +82,7 @@ public class VacationController {
   @RequestMapping(value="/pool", method= RequestMethod.GET)
   public String pool(Model model){
     TaskServiceHandler handler= new TaskServiceHandlerImpl();
-    List<VacationRequestDetails> detailsList= new ArrayList<>();
-    for(Map task: (List <Map<String,String>>)handler.getPool().getData()){
-      System.out.println(task);
-      List variables= (List)task.get("variables");
-      VacationRequestDetails details = new VacationRequestDetails();
-      details.setEmployeeName((String)findValue("employeeName",variables).toString());
-      details.setNumberOfDays((Integer)findValue("numberOfDays",variables));
-      details.setVacationMotivation((String) findValue("vacationMotivation", variables));
-      details.setStartDate(new Date((Long) findValue("startDate", variables)));
-//      details.setEmployeeName("asd");
-//      details.setStartDate(new Date());
-//      details.setVacationMotivation("asd");
-//      details.setNumberOfDays(5);
-      detailsList.add(details);
-    }
+    List<VacationRequestDetails> detailsList = createVacationDetailsFromVars((List <Map<String,String>>)handler.getPool().getData());
     model.addAttribute("pool",detailsList);
     model.addAttribute("processInstances",handler.getPool().getData());
     return "vacationRequest/pool";
@@ -129,8 +100,6 @@ public class VacationController {
     return "redirect:pool";
   }
 
-
-
   private Object findValue(String name, List<LinkedHashMap> detailsList){
     for(Map<String,Object> map:detailsList){
       if(map.get("name").equals(name)){
@@ -138,5 +107,24 @@ public class VacationController {
       }
     }
     return "";
+  }
+
+  private List<VacationRequestDetails> createVacationDetailsFromVars(List <Map<String,String>> vars){
+    List<VacationRequestDetails> detailsList= new ArrayList<>();
+    for(Map task: vars){
+      System.out.println(task);
+      List variables= (List)task.get("variables");
+      VacationRequestDetails details = new VacationRequestDetails();
+      details.setEmployeeName(findValue("employeeName",variables).toString());
+      details.setNumberOfDays((Integer)findValue("numberOfDays",variables));
+      details.setVacationMotivation((String) findValue("vacationMotivation", variables));
+      details.setStartDate(new Date((Long) findValue("startDate", variables)));
+//      details.setEmployeeName("asd");
+//      details.setStartDate(new Date());
+//      details.setVacationMotivation("asd");
+//      details.setNumberOfDays(5);
+      detailsList.add(details);
+    }
+    return detailsList;
   }
 }

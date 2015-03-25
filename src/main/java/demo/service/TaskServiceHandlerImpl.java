@@ -31,7 +31,7 @@ public class TaskServiceHandlerImpl implements TaskServiceHandler {
 
   @Override
   public DataResponse getPool() {
-    DataResponse result = restTemplate.getForObject(QUERY_URL+"&assignee=null", DataResponse.class);
+    DataResponse result = restTemplate.getForObject(QUERY_URL, DataResponse.class);
     return result;
   }
 
@@ -57,6 +57,4 @@ public class TaskServiceHandlerImpl implements TaskServiceHandler {
     TaskFormData formData= restTemplate.getForObject(url, TaskFormData.class);
     org.activiti.engine.task.Task task=formData.getTask();
   }
-
-
 }
