@@ -63,6 +63,7 @@ public class VacationController {
     model.addAttribute("runningProcesses", processServiceHandler.getRunningProcessInstances());
     return "vacationRequest/list";
   }
+
   @RequestMapping(value="/myJobs", method= RequestMethod.GET)
   public String confirmation(Model model){
     TaskServiceHandler handler= new TaskServiceHandlerImpl();
@@ -70,6 +71,19 @@ public class VacationController {
     model.addAttribute("myTasks", detailsList);
     model.addAttribute("processInstances",handler.getTasksFor("kermit").getData());
     return "vacationRequest/myJobs";
+  }
+
+  @RequestMapping(value="/myJobsForm", method=RequestMethod.POST)
+  public String myJobsForm(@RequestParam String action, @RequestParam int processInstanceId, @RequestParam int taskId){
+    ProcessServiceHandler processServiceHandler = new ProcessServiceHandlerImpl();
+    TaskServiceHandler taskServiceHandler= new TaskServiceHandlerImpl();
+    if( action.equals("approve") ){
+      taskServiceHandler.approveVacationRequest(taskId);
+    }
+    else if( action.equals("reject") ){
+
+    }
+    return "redirect:myJobs";
   }
 
   @RequestMapping(value="/finished", method= RequestMethod.GET)

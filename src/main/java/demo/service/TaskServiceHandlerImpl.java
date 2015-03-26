@@ -52,9 +52,16 @@ public class TaskServiceHandlerImpl implements TaskServiceHandler {
   }
 
   @Override
-  public void approveVacationRequest(String taskId) {
-    String url="http://localhost:9000/activiti/service/form/form-data?taskId=10025";
-    TaskFormData formData= restTemplate.getForObject(url, TaskFormData.class);
-    org.activiti.engine.task.Task task=formData.getTask();
+  public void approveVacationRequest(int taskId) {
+    String url="http://localhost:9000/activiti/service/runtime/tasks/{taskId}";
+    RestVariable var= new RestVariable();
+    var.setName("vacationApproved");
+    var.setValue(Boolean.TRUE);
+    List<RestVariable> vars= new ArrayList<>();
+    vars.add(var);
+    TaskActionRequest tar= new TaskActionRequest();
+    tar.setAction(TaskActionRequest.ACTION_COMPLETE);
+    tar.setVariables(vars);
+    restTemplate.postForObject(url, tar, String.class,taskId+"");
   }
 }
