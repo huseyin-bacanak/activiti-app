@@ -5,6 +5,7 @@
 </head>
 <body>
 <div data-th-replace="fragment/common :: topMenu">></div>
+<div class="container">
 <table class="table table-striped">
     <tr>
         <th>Employee Name</th>
@@ -20,10 +21,11 @@
         <td ><p  data-th-text="${vacationRequest.getVacationMotivation()}"></p></td>
     </tr>
 </table>
+</div>
 <script>
     $( document ).ready(function() {
         $('.navbar-nav > li').removeClass('active');
-        $('.navbar-nav > li:nth-child(3)').addClass('active');
+        $('.navbar-nav > li:nth-child(4)').addClass('active');
     });
 </script>
 </body>

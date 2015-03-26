@@ -93,7 +93,6 @@ public class VacationController {
   public String finished(Model model){
     HistoryServiceHandler historyServiceHandler= new HistoryServiceHandlerImpl();
     List<VacationRequestDetails> detailsList = createVacationDetailsFromVars((List <Map<String,String>>)historyServiceHandler.getFinishedProcesses().getData());
-
     model.addAttribute("historicProcessInstances", detailsList);
     return "vacationRequest/finished";
   }
