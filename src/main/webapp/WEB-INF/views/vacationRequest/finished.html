@@ -13,18 +13,17 @@
         <th>Motivation</th>
         <th>Status</th>
     </tr>
-    <tr data-th-each="pi : ${runningProcesses.data}">
-        <td ><p  data-th-text="${pi.getVariable('employeeName').getValue()}"></p></td>
-        <td ><p  data-th-text="${pi.getVariable('startDate').getValue()}"></p></td>
-        <td ><p  data-th-text="${pi.getVariable('numberOfDays').getValue()}"></p></td>
-        <td ><p  data-th-text="${pi.getVariable('motivation').getValue()}"></p></td>
-        <td ><p  data-th-text="${pi.getVariable('motivation').getValue()}"></p></td>
+    <tr data-th-each="vacationRequest : ${historicProcessInstances}">
+        <td ><p  data-th-text="${vacationRequest.getEmployeeName()}"></p></td>
+        <td ><p  data-th-text="${#calendars.format(vacationRequest.getStartDate(),'dd MMMM yyyy')}"></p></td>
+        <td ><p  data-th-text="${vacationRequest.getNumberOfDays()}"></p></td>
+        <td ><p  data-th-text="${vacationRequest.getVacationMotivation()}"></p></td>
     </tr>
 </table>
 <script>
     $( document ).ready(function() {
         $('.navbar-nav > li').removeClass('active');
-        $('.navbar-nav > li:nth-child(4)').addClass('active');
+        $('.navbar-nav > li:nth-child(3)').addClass('active');
     });
 </script>
 </body>

@@ -4,11 +4,14 @@ import demo.dto.BPMPost;
 import demo.dto.Variable;
 import demo.dto.VacationRequestDetails;
 import demo.dto.VacationRequestDetailsValidator;
+import demo.service.HistoryServiceHandler;
+import demo.service.HistoryServiceHandlerImpl;
 import demo.service.ProcessServiceHandler;
 import demo.service.ProcessServiceHandlerImpl;
 import demo.service.TaskServiceHandler;
 import demo.service.TaskServiceHandlerImpl;
 
+import org.activiti.engine.HistoryService;
 import org.activiti.engine.task.TaskInfo;
 import org.activiti.rest.service.api.runtime.process.ProcessInstanceResponse;
 import org.activiti.rest.service.api.runtime.task.TaskResponse;
@@ -88,8 +91,10 @@ public class VacationController {
 
   @RequestMapping(value="/finished", method= RequestMethod.GET)
   public String finished(Model model){
-    ProcessServiceHandler processServiceHandler = new ProcessServiceHandlerImpl();
-    model.addAttribute("runningProcesses", processServiceHandler.getRunningProcessInstances());
+    HistoryServiceHandler historyServiceHandler= new HistoryServiceHandlerImpl();
+    List<VacationRequestDetails> detailsList = createVacationDetailsFromVars((List <Map<String,String>>)historyServiceHandler.getFinishedProcesses().getData());
+
+    model.addAttribute("historicProcessInstances", detailsList);
     return "vacationRequest/finished";
   }
 
