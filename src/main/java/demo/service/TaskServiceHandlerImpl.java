@@ -1,23 +1,16 @@
 package demo.service;
 
 import demo.rest.AuthHttpComponentsClientHttpRequestFactory;
-import demo.rest.TaskList;
-import org.activiti.engine.form.TaskFormData;
 import org.activiti.rest.common.api.DataResponse;
 import org.activiti.rest.service.api.engine.variable.RestVariable;
 import org.activiti.rest.service.api.runtime.task.TaskActionRequest;
-import org.activiti.rest.service.api.runtime.task.TaskRequest;
-import org.activiti.rest.service.api.runtime.task.TaskResponse;
 import org.apache.http.HttpHost;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class TaskServiceHandlerImpl implements TaskServiceHandler {
   private final static Logger logger = LoggerFactory.getLogger(ProcessServiceHandlerImpl.class);
@@ -59,6 +52,27 @@ public class TaskServiceHandlerImpl implements TaskServiceHandler {
     var.setValue(Boolean.TRUE);
     List<RestVariable> vars= new ArrayList<>();
     vars.add(var);
+    TaskActionRequest tar= new TaskActionRequest();
+    tar.setAction(TaskActionRequest.ACTION_COMPLETE);
+    tar.setVariables(vars);
+    restTemplate.postForObject(url, tar, String.class,taskId+"");
+  }
+
+  @Override
+  public void rejectVacationRequest(int taskId) {
+    String url="http://localhost:9000/activiti/service/runtime/tasks/{taskId}";
+    RestVariable var= new RestVariable();
+    var.setName("vacationApproved");
+    var.setValue(Boolean.FALSE);
+
+    RestVariable var2= new RestVariable();
+    var2.setName("managerMotivation");
+    var2.setValue("nein");
+
+    List<RestVariable> vars= new ArrayList<>();
+    vars.add(var);
+    vars.add(var2);
+
     TaskActionRequest tar= new TaskActionRequest();
     tar.setAction(TaskActionRequest.ACTION_COMPLETE);
     tar.setVariables(vars);

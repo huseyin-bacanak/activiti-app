@@ -12,4 +12,5 @@ public interface TaskServiceHandler {
   void claim(int taskId, String username);
   DataResponse getTasksFor(String assignee);
   void approveVacationRequest(int taskId);
+  void rejectVacationRequest(int taskId);
 }

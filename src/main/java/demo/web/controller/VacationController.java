@@ -1,7 +1,5 @@
 package demo.web.controller;
 
-import demo.dto.BPMPost;
-import demo.dto.Variable;
 import demo.dto.VacationRequestDetails;
 import demo.dto.VacationRequestDetailsValidator;
 import demo.service.HistoryServiceHandler;
@@ -10,11 +8,6 @@ import demo.service.ProcessServiceHandler;
 import demo.service.ProcessServiceHandlerImpl;
 import demo.service.TaskServiceHandler;
 import demo.service.TaskServiceHandlerImpl;
-
-import org.activiti.engine.HistoryService;
-import org.activiti.engine.task.TaskInfo;
-import org.activiti.rest.service.api.runtime.process.ProcessInstanceResponse;
-import org.activiti.rest.service.api.runtime.task.TaskResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -84,7 +77,7 @@ public class VacationController {
       taskServiceHandler.approveVacationRequest(taskId);
     }
     else if( action.equals("reject") ){
-
+      taskServiceHandler.rejectVacationRequest(taskId);
     }
     return "redirect:myJobs";
   }
@@ -137,10 +130,6 @@ public class VacationController {
       details.setNumberOfDays((Integer)findValue("numberOfDays",variables));
       details.setVacationMotivation((String) findValue("vacationMotivation", variables));
       details.setStartDate(new Date((Long) findValue("startDate", variables)));
-//      details.setEmployeeName("asd");
-//      details.setStartDate(new Date());
-//      details.setVacationMotivation("asd");
-//      details.setNumberOfDays(5);
       detailsList.add(details);
     }
     return detailsList;
