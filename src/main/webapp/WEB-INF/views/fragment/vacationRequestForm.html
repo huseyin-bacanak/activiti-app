@@ -1,0 +1,24 @@
+                <form id="vacationRequestForm" class="form-horizontal" role="form" action="#" data-th-action="@{/vacationRequest/new}" data-th-object="${vacationRequestDetails}" method="post">
+                        <div class="form-group control-group"  data-th-classappend="${#fields.hasErrors('numberOfDays')} ? 'error'">
+                            <label class="control-label col-sm-2" for="numberOfDays">Number of days</label>
+                            <div class="col-sm-6">
+                                <input type="number" class="form-control" id="numberOfDays" placeholder="0" data-th-field="*{numberOfDays}"/>
+                            </div>
+                            <span class="help-inline text-danger" data-th-errors="*{numberOfDays}">[error]</span>
+                        </div>
+                        <div class="form-group  control-group" data-th-classappend="${#fields.hasErrors('startDate')} ? 'error'">
+                            <label class="control-label col-sm-2" for="startDate">Start Date:</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" id="startDate" placeholder="DD/MM/YYYY" data-th-field="*{startDate}"/>
+                            </div>
+                            <span class="help-inline text-danger" data-th-errors="*{startDate}">[error]</span>
+                        </div>
+
+                        <div class="form-group  control-group" data-th-classappend="${#fields.hasErrors('vacationMotivation')} ? 'error'">
+                            <label class="control-label col-sm-2" for="vacationMotivation">Reason:</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" id="vacationMotivation" placeholder="Enter vacation motivation" data-th-field="*{vacationMotivation}"/>
+                            </div>
+                            <span class="help-inline text-danger" data-th-errors="*{vacationMotivation}">[error]</span>
+                        </div>
+                </form>

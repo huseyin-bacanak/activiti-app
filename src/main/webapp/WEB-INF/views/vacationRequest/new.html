@@ -5,42 +5,75 @@
 </head>
 <body>
 <div data-th-replace="fragment/common :: topMenu">></div>
-<div class="container">
+    <div class="container">
 
-    <h2>Vacation Request</h2>
-    <h3 data-th-if="${successMessage}" data-th-text="${successMessage}" class="bg-success"></h3>
-    <form class="form-horizontal" role="form" action="#" data-th-action="@{/vacationRequest/new}" data-th-object="${vacationRequestDetails}" method="post">
-        <div class="form-group control-group"  data-th-classappend="${#fields.hasErrors('numberOfDays')} ? 'error'">
-                <label class="control-label col-sm-2" for="numberOfDays">Number of days</label>
-                <div class="col-sm-6">
-                    <input type="number" class="form-control" id="numberOfDays" placeholder="0" data-th-field="*{numberOfDays}"/>
+        <table class="table table-hover">
+            <tr>
+                <th>Operation</th>
+                <th>Description</th>
+                <th>Action</th>
+            </tr>
+            <tr>
+                <td>vacationRequest</td>
+                <td>Create a new vacation request</td>
+                <td>
+                    <button class="btn btn-primary actionBtn" type="button" name="action" value="action">Action</button>
+                </td>
+            </tr>
+        </table>
+
+    <!-- vacation request modal -->
+    <div class="modal fade" id="createVacationRequest" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Create Vacation Request</h4>
                 </div>
-                <span class="help-inline text-danger" data-th-errors="*{numberOfDays}">[error]</span>
-            <!--</div>-->
-        </div>
-        <div class="form-group  control-group" data-th-classappend="${#fields.hasErrors('startDate')} ? 'error'">
-            <label class="control-label col-sm-2" for="startDate">Start Date:</label>
-            <div class="col-sm-6">
-                <input type="text" class="form-control" id="startDate" placeholder="DD/MM/YYYY" data-th-field="*{startDate}"/>
+                <div class="modal-body">
+                    <form data-th-replace="fragment/vacationRequestForm" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" data-th-form="vacationRequestForm" onclick="doAjaxPost()">Create</button>
+                </div>
             </div>
-            <span class="help-inline text-danger" data-th-errors="*{startDate}">[error]</span>
         </div>
 
-        <div class="form-group  control-group" data-th-classappend="${#fields.hasErrors('vacationMotivation')} ? 'error'">
-            <label class="control-label col-sm-2" for="vacationMotivation">Reason:</label>
-            <div class="col-sm-6">
-                <input type="text" class="form-control" id="vacationMotivation" placeholder="Enter vacation motivation" data-th-field="*{vacationMotivation}"/>
-            </div>
-            <span class="help-inline text-danger" data-th-errors="*{vacationMotivation}">[error]</span>
-        </div>
-
-        <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10">
-                <button type="submit" class="btn btn-default">Submit</button>
-            </div>
-        </div>
-    </form>
+    </div>
 </div>
-<script data-th-src="@{resources/js/vacationRequestNew.js}"></script>
+
+<script>
+    $(document).on('click', '.actionBtn', function(event) {
+        var index = $(this).closest('tr').index()-1;
+        var taskId = $(this).closest('tr').find(".taskId").text();
+        var taskType = $(this).closest('tr').find(".taskType").text();
+        showModal(index,taskId, taskType);
+    });
+
+    function showModal(index, taskId, taskType){
+        $('#createVacationRequest').modal('show');
+    }
+
+    function doAjaxPost() {
+        $.ajax({
+           type: "POST",
+           url: "http://localhost:8080/activiti-app/vacationRequest/new",
+           data: "employeeName=kermit",
+           success: function(response){
+               // we have the response
+               if(response.status == "SUCCESS"){
+                   console.log(response);
+               }else{
+                   $('#createVacationRequest').modal('show');
+                   console.log(response);
+               }
+           },
+           error: function(e){
+               alert('Error: ' + e);
+           }
+        });
+    }
+</script>
 </body>
 </html>

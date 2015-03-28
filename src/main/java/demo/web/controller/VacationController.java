@@ -66,6 +66,7 @@ public class VacationController {
     List<VacationRequestDetails> detailsList = createVacationDetailsFromVars((List <Map<String,String>>)handler.getTasksFor("kermit").getData());
     model.addAttribute("myTasks", detailsList);
     model.addAttribute("processInstances",handler.getTasksFor("kermit").getData());
+    model.addAttribute("vacationRequestDetails", new VacationRequestDetails());
     return "vacationRequest/myJobs";
   }
 

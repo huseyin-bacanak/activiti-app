@@ -6,41 +6,97 @@
 <body>
 <div data-th-replace="fragment/common :: topMenu">></div>
 <div class="container">
-    <table class="table table-hover">
+    <table class="table table-hover" id="taskTable">
         <tr>
             <th>PID</th>
             <th>Task Id</th>
-            <th>Employee Name</th>
-            <th>Start Date</th>
-            <th>Number of Days</th>
-            <th>Motivation</th>
+            <th>Type</th>
+            <th>Description</th>
             <th>Action</th>
         </tr>
         <tr data-th-each="vacationRequest,iter : ${myTasks}">
 
             <td ><p  data-th-text="${processInstances[iter.index].get('processInstanceId')}"></p></td>
-            <td ><p  data-th-text="${processInstances[iter.index].get('id')}"></p></td>
-            <td ><p  data-th-text="${vacationRequest.getEmployeeName()}"></p></td>
-            <td ><p  data-th-text="${#calendars.format(vacationRequest.getStartDate(),'dd MMMM yyyy')}"></p></td>
-            <td ><p  data-th-text="${vacationRequest.getNumberOfDays()}"></p></td>
-            <td ><p  data-th-text="${vacationRequest.getVacationMotivation()}"></p></td>
-            <!--<td ><p  data-th-text="${task.variables.get(0).getValue()}"></p></td>-->
+            <td ><p  class="taskId" data-th-text="${processInstances[iter.index].get('id')}"></p></td>
+            <td ><p  class="taskType" data-th-text="${processInstances[iter.index].get('taskDefinitionKey')}"></p></td>
+            <td ><p  data-th-text="${processInstances[iter.index].get('description')}"></p></td>
             <td>
-                <form class="form-horizontal" role="form" action="#" data-th-action="@{/vacationRequest/myJobsForm}" data-th-object="${index}" method="post">
-                    <input type="hidden" name="processInstanceId"  data-th-value="${processInstances[iter.index].get('processInstanceId')}"/>
-                    <input type="hidden" name="taskId"  data-th-value="${processInstances[iter.index].get('id')}"/>
-                    <button class="btn btn-primary" type="submit" name="action" value="approve">Approve</button>
-                    <button class="btn btn-default" type="submit" name="action" value="reject">Reject</button>
-                </form>
+                <button class="btn btn-primary actionBtn" type="button" name="action" value="action">Action</button>
             </td>
         </tr>
     </table>
+
+
+    <!-- Handle adjustVacationRequestTask Modal -->
+    <div class="modal fade" id="adjustVacationRequestTaskModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Adjust Vacation Request</h4>
+                </div>
+                <div class="modal-body">
+                    <form data-th-replace="fragment/vacationRequestForm" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary" data-th-form="vacationRequestForm">Resend</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
 </div>
-<script>
+
+
+<script data-th-inline="javascript">
+    /*[+
+
+     var processInstances  = [[${processInstances}]];
+
+     +]*/
+    
     $( document ).ready(function() {
         $('.navbar-nav > li').removeClass('active');
         $('.navbar-nav > li:nth-child(2)').addClass('active');
+
+
+        $(document).on('click', '.actionBtn', function(event) {
+            var index = $(this).closest('tr').index()-1;
+            var taskId = $(this).closest('tr').find(".taskId").text();
+            var taskType = $(this).closest('tr').find(".taskType").text();
+            showModal(index,taskId, taskType);
+        });
+
+        function showModal(index, taskId, taskType){
+            if(taskType==="adjustVacationRequestTask"){
+                $('#adjustVacationRequestTaskModal').modal('show');
+                var startDate = new Date(getVariable(processInstances[index].variables, "startDate"));
+                var startDateStr = startDate.format("dd/mm/yyyy");
+
+                $("#adjustVacationRequestTaskModal #numberOfDays").val(getVariable(processInstances[index].variables, "numberOfDays"));
+                $("#adjustVacationRequestTaskModal #startDate").val(startDateStr);
+                $("#adjustVacationRequestTaskModal #vacationMotivation").val(getVariable(processInstances[index].variables, "vacationMotivation"));
+            } else {
+                alert("not request");
+            }
+
+        }
+        //<![CDATA[
+        function getVariable(objList, varName){
+            for(i=0; i< objList.length; i++){
+                if(objList[i].name===varName){
+                    return objList[i].value;
+                }
+            }
+            return "n/a";
+        }
+        //]]>
     });
+
+
 </script>
+<script data-th-src="@{/resources/js/dateUtil.js}"></script>
 </body>
 </html>
