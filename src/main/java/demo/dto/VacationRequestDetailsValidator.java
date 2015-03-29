@@ -17,7 +17,7 @@ public class VacationRequestDetailsValidator {
     }
     String vacationMotivation=vacationRequestDetails.getVacationMotivation();
     if(vacationMotivation==null || vacationMotivation.isEmpty()){
-      errors.rejectValue("vacationMotivation", "required", "you should write motivation");
+      errors.rejectValue("vacationMotivation", "required", "You should write motivation");
     }
   }
 }

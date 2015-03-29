@@ -1,5 +1,8 @@
 package demo.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -34,7 +37,6 @@ import javax.servlet.Filter;
 @EnableWebMvc
 @ComponentScan(basePackages = {"demo.web.controller"})
 public class WebConfig extends WebMvcConfigurerAdapter {
-
   @Override
   public void addResourceHandlers(final ResourceHandlerRegistry registry) {
     registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
@@ -125,6 +127,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     StringHttpMessageConverter stringConverter = new StringHttpMessageConverter();
     stringConverter.setSupportedMediaTypes(Arrays.asList(new MediaType("text", "html", UTF8)));
     converters.add(stringConverter);
+    converters.add(converter());
   }
 
   @Bean

@@ -6,7 +6,6 @@
 <body>
 <div data-th-replace="fragment/common :: topMenu">></div>
     <div class="container">
-
         <table class="table table-hover">
             <tr>
                 <th>Operation</th>
@@ -23,27 +22,32 @@
         </table>
 
     <!-- vacation request modal -->
-    <div class="modal fade" id="createVacationRequest" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
+    <div class="modal fade " id="createVacationRequest" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title" id="myModalLabel">Create Vacation Request</h4>
+                    <h4 id="successMessage" class="bg-success">Operation Completed Successfully</h4>
                 </div>
                 <div class="modal-body">
                     <form data-th-replace="fragment/vacationRequestForm" />
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" data-th-form="vacationRequestForm" onclick="doAjaxPost()">Create</button>
+                    <button id="createVacationRequestBtn" type="button" class="btn btn-primary" data-th-form="vacationRequestForm" onclick="doAjaxPost()">Create</button>
                 </div>
             </div>
         </div>
 
     </div>
+
+    <div data-th-replace="fragment/operationCompleted" />
 </div>
 
+
 <script>
+    //<![CDATA[
     $(document).on('click', '.actionBtn', function(event) {
         var index = $(this).closest('tr').index()-1;
         var taskId = $(this).closest('tr').find(".taskId").text();
@@ -52,28 +56,74 @@
     });
 
     function showModal(index, taskId, taskType){
+        resetModal();
         $('#createVacationRequest').modal('show');
     }
+    var json = { "employeeName":"kermit"};
 
     function doAjaxPost() {
+        var employeeName = "kermit"
+        var numberOfDays = $('#numberOfDays').val();
+        var startDate=$('#startDate').val();
+        startDate=startDate.split("/");
+        startDate=startDate[1]+"/"+startDate[0]+"/"+startDate[2];
+        startDate=new Date(startDate).getTime();
+//        startDate=123546798;
+        var vacationMotivation=$('#vacationMotivation').val();
+        var json = { "employeeName" : employeeName, "numberOfDays" : numberOfDays,
+            "startDate" : startDate, "vacationMotivation" : vacationMotivation};
         $.ajax({
-           type: "POST",
-           url: "http://localhost:8080/activiti-app/vacationRequest/new",
-           data: "employeeName=kermit",
-           success: function(response){
-               // we have the response
-               if(response.status == "SUCCESS"){
-                   console.log(response);
-               }else{
-                   $('#createVacationRequest').modal('show');
-                   console.log(response);
-               }
-           },
-           error: function(e){
-               alert('Error: ' + e);
-           }
-        });
+                   type: "POST",
+                   url: "new",
+                   data: JSON.stringify(json),
+                   contentType: 'application/json',
+                   success: function(response){
+                       if(response.status == "SUCCESS"){
+                           //dispose vacation request modal
+                           $('#createVacationRequest').modal('hide');
+                           //reset vacation request modal
+                            resetModal();
+                           // show operation result modal
+                           $('#operationCompletedModal').modal('show');
+                       } else {
+                           resetModalErrors();
+                           for(i=0; i<response.result.length; i++){
+                               var validationError = response.result[i];
+                               if(validationError.field==="numberOfDays"){
+                                   $('#numberOfDaysError').text(validationError.defaultMessage);
+                                   $('#numberOfDaysError').show();
+                               } else if(validationError.field==="startDate"){
+                                   $('#startDateError').text(validationError.defaultMessage);
+                                   $('#startDateError').show();
+                               } else if(validationError.field==="vacationMotivation"){
+                                   $('#vacationMotivationError').text(validationError.defaultMessage);
+                                   $('#vacationMotivationError').show();
+                               }
+                           }
+                       }
+                   },
+                   error: function(e){
+                       alert('Error: ' + e);
+                   }
+               });
     }
+    function resetModal(){
+        resetModalFields();
+        resetModalErrors();
+    }
+    function resetModalFields() {
+        $('#successMessage').hide();
+        $('#numberOfDays').val("");
+        $('#startDate').val("");
+        $('#vacationMotivation').val("");
+    }
+    function resetModalErrors(){
+        $('#numberOfDaysError').text("*");
+        $('#startDateError').text("*");
+        $('#vacationMotivationError').text("*");
+    }
+
+    //]]>
 </script>
 </body>
 </html>

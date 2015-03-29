@@ -1,5 +1,6 @@
 package demo.web.controller;
 
+import demo.dto.JsonResponse;
 import demo.dto.VacationRequestDetails;
 import demo.dto.VacationRequestDetailsValidator;
 import demo.service.HistoryServiceHandler;
@@ -8,13 +9,17 @@ import demo.service.ProcessServiceHandler;
 import demo.service.ProcessServiceHandlerImpl;
 import demo.service.TaskServiceHandler;
 import demo.service.TaskServiceHandlerImpl;
+
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.support.SessionStatus;
 
 import java.util.ArrayList;
@@ -33,12 +38,13 @@ public class VacationController {
     return "vacationRequest/new";
   }
 
-  @RequestMapping(value="/new", method= RequestMethod.POST)
-  public String vacationRequest(Model model, @ModelAttribute("vacationRequestDetails") VacationRequestDetails vacationRequestDetails, BindingResult result, SessionStatus status){
-
+  @RequestMapping(value="/new",method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+  public @ResponseBody JsonResponse newVacationRequest( @RequestBody VacationRequestDetails vacationRequestDetails, BindingResult result) {
+    JsonResponse res = new JsonResponse();
     new VacationRequestDetailsValidator().validate(vacationRequestDetails, result);
     if (result.hasErrors()) {
-      return "vacationRequest/new";
+      res.setStatus("FAIL");
+      res.setResult(result.getAllErrors());
     } else {
       ProcessServiceHandler processServiceHandler = new ProcessServiceHandlerImpl();
 
@@ -46,12 +52,19 @@ public class VacationController {
                                                     vacationRequestDetails.getStartDate(),
                                                     vacationRequestDetails.getNumberOfDays(),
                                                     vacationRequestDetails.getVacationMotivation());
-      model.addAttribute("successMessage", "Operation completed successfully");
-      model.addAttribute("vacationRequestDetails", new VacationRequestDetails());
-      return "vacationRequest/new";
+//      model.addAttribute("successMessage", "Operation completed successfully");
+//      model.addAttribute("vacationRequestDetails", new VacationRequestDetails());
+      res.setStatus("SUCCESS");
     }
+    return res;
   }
 
+//  @RequestMapping(value="/new",method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+//  public @ResponseBody VacationRequestDetails newVacationRequest( @RequestBody VacationRequestDetails vrd) {
+//
+//    System.out.println(vrd);
+//    return vrd;
+//  }
 
   @RequestMapping(value="/list", method= RequestMethod.GET)
   public String list(Model model){
