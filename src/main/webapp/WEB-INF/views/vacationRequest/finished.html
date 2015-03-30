@@ -19,6 +19,14 @@
         <td ><p  data-th-text="${#calendars.format(vacationRequest.getStartDate(),'dd MMMM yyyy')}"></p></td>
         <td ><p  data-th-text="${vacationRequest.getNumberOfDays()}"></p></td>
         <td ><p  data-th-text="${vacationRequest.getVacationMotivation()}"></p></td>
+        <td >
+            <div data-th-switch="${vacationRequest.getStatus()}">
+                <p data-th-case="true">Approved</p>
+                <p data-th-case="false">Rejected</p>
+                <p data-th-case="*">Unknown</p>
+            </div>
+        </td>
+
     </tr>
 </table>
 </div>

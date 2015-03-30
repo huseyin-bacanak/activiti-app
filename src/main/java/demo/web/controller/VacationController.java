@@ -1,5 +1,6 @@
 package demo.web.controller;
 
+import demo.dto.CompletedVacationRequestDetails;
 import demo.dto.JsonResponse;
 import demo.dto.VacationRequestDetails;
 import demo.dto.VacationRequestDetailsValidator;
@@ -88,7 +89,6 @@ public class VacationController {
    */
   @RequestMapping(value = "/myJobsForm", method = RequestMethod.POST)
   public String myJobsForm(@RequestParam String action,
-                           @RequestParam int processInstanceId,
                            @RequestParam int taskId) {
     if (action.equals("approve")) {
       taskServiceHandler.approveVacationRequest(taskId);
@@ -96,17 +96,6 @@ public class VacationController {
       taskServiceHandler.rejectVacationRequest(taskId);
     }
     return "redirect:myJobs";
-  }
-
-  /**
-   * Finished jobs page request.
-   */
-  @RequestMapping(value = "/finished", method = RequestMethod.GET)
-  public String finished(Model model) {
-    List<VacationRequestDetails> detailsList = createVacationDetailsFromVars(
-            (List<Map<String, String>>) historyServiceHandler.getFinishedProcesses().getData());
-    model.addAttribute("historicProcessInstances", detailsList);
-    return "vacationRequest/finished";
   }
 
   /**
@@ -129,10 +118,22 @@ public class VacationController {
                          @RequestParam int processInstanceId, @RequestParam int taskId) {
     if (action.equals("claim")) {
       taskServiceHandler.claim(taskId, "kermit");
-    } else if (action.equals("delete")) {
-      processServiceHandler.deleteProcessInstance(processInstanceId);
     }
+//    else if (action.equals("delete")) {
+//      processServiceHandler.deleteProcessInstance(processInstanceId);
+//    }
     return "redirect:pool";
+  }
+
+  /**
+   * Finished jobs page request.
+   */
+  @RequestMapping(value = "/finished", method = RequestMethod.GET)
+  public String finished(Model model) {
+    List<CompletedVacationRequestDetails> detailsList = createCompletedVacationDetailsFromVars(
+        (List<Map<String, String>>) historyServiceHandler.getFinishedProcesses().getData());
+    model.addAttribute("historicProcessInstances", detailsList);
+    return "vacationRequest/finished";
   }
 
   /**
@@ -167,6 +168,29 @@ public class VacationController {
       details.setNumberOfDays((Integer) findValue("numberOfDays", variables));
       details.setVacationMotivation((String) findValue("vacationMotivation", variables));
       details.setStartDate(new Date((Long) findValue("startDate", variables)));
+      detailsList.add(details);
+    }
+    return detailsList;
+  }
+
+  /**
+   * Create VacationRequestDetails dto from varaibles.
+   * @param vars variables object
+   * @return list of vacation request details.
+   */
+  private List<CompletedVacationRequestDetails> createCompletedVacationDetailsFromVars(
+      List<Map<String, String>> vars) {
+
+    List<CompletedVacationRequestDetails> detailsList = new ArrayList<>();
+    for (Map task : vars) {
+      System.out.println(task);
+      List variables = (List) task.get("variables");
+      CompletedVacationRequestDetails details = new CompletedVacationRequestDetails();
+      details.setEmployeeName(findValue("employeeName", variables).toString());
+      details.setNumberOfDays((Integer) findValue("numberOfDays", variables));
+      details.setVacationMotivation((String) findValue("vacationMotivation", variables));
+      details.setStartDate(new Date((Long) findValue("startDate", variables)));
+      details.setStatus((Boolean) findValue("vacationApproved", variables));
       detailsList.add(details);
     }
     return detailsList;
