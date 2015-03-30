@@ -13,17 +13,17 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class CoreConfig {
   @Bean
-  public ProcessServiceHandler processServiceHandler(){
+  public ProcessServiceHandler processServiceHandler() {
     return new ProcessServiceHandlerImpl();
   }
 
   @Bean
-  public TaskServiceHandler taskServiceHandler(){
+  public TaskServiceHandler taskServiceHandler() {
     return new TaskServiceHandlerImpl();
   }
 
   @Bean
-  public HistoryServiceHandler historyServiceHandler(){
+  public HistoryServiceHandler historyServiceHandler() {
     return new HistoryServiceHandlerImpl();
   }
 }

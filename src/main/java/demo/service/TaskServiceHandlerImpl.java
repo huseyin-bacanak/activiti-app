@@ -13,10 +13,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TaskServiceHandlerImpl implements TaskServiceHandler {
-  private final static Logger logger = LoggerFactory.getLogger(ProcessServiceHandlerImpl.class);
-  private static final String QUERY_URL = "http://localhost:9000/activiti/service/runtime/tasks?processDefinitionKey=vacationRequest&includeProcessVariables=true";
-  private static final String URL="http://localhost:9000/activiti/service/runtime/tasks";
-  private final HttpHost host = new HttpHost("localhost",9000);
+  private static final Logger logger = LoggerFactory.getLogger(ProcessServiceHandlerImpl.class);
+  private static final String QUERY_URL =
+      "http://localhost:9000/activiti/service/runtime/tasks"
+          + "?processDefinitionKey=vacationRequest&includeProcessVariables=true";
+  private static final String URL = "http://localhost:9000/activiti/service/runtime/tasks";
+  private final HttpHost host = new HttpHost("localhost", 9000);
   private final AuthHttpComponentsClientHttpRequestFactory requestFactory =
       new AuthHttpComponentsClientHttpRequestFactory(
           host, "kermit", "kermit");
@@ -24,58 +26,62 @@ public class TaskServiceHandlerImpl implements TaskServiceHandler {
 
   @Override
   public DataResponse getPool() {
-    DataResponse result = restTemplate.getForObject(QUERY_URL+"&candidateUser=kermit", DataResponse.class);
+    DataResponse result =
+        restTemplate.getForObject(QUERY_URL + "&candidateUser=kermit", DataResponse.class);
     return result;
   }
 
   @Override
   public void claim(int taskId, String username) {
-    String url="http://localhost:9000/activiti/service/runtime/tasks/{taskId}";
-    TaskActionRequest tar= new TaskActionRequest();
+    String url = "http://localhost:9000/activiti/service/runtime/tasks/{taskId}";
+    TaskActionRequest tar = new TaskActionRequest();
     tar.setAction(TaskActionRequest.ACTION_CLAIM);
     tar.setAssignee(username);
-    restTemplate.postForObject(url, tar, String.class,taskId+"");
+    restTemplate.postForObject(url, tar, String.class, taskId + "");
   }
 
   @Override
   public DataResponse getTasksFor(String assignee) {
-    DataResponse result = restTemplate.getForObject(QUERY_URL+"&assignee="+assignee, DataResponse.class);
+    DataResponse result =
+        restTemplate.getForObject(QUERY_URL + "&assignee=" + assignee, DataResponse.class);
     logger.info(result.toString());
     return result;
   }
 
   @Override
   public void approveVacationRequest(int taskId) {
-    String url="http://localhost:9000/activiti/service/runtime/tasks/{taskId}";
-    RestVariable var= new RestVariable();
+    RestVariable var = new RestVariable();
     var.setName("vacationApproved");
     var.setValue(Boolean.TRUE);
-    List<RestVariable> vars= new ArrayList<>();
+    List<RestVariable> vars = new ArrayList<>();
     vars.add(var);
-    TaskActionRequest tar= new TaskActionRequest();
+    TaskActionRequest tar = new TaskActionRequest();
     tar.setAction(TaskActionRequest.ACTION_COMPLETE);
     tar.setVariables(vars);
-    restTemplate.postForObject(url, tar, String.class,taskId+"");
+
+    String url = "http://localhost:9000/activiti/service/runtime/tasks/{taskId}";
+    restTemplate.postForObject(url, tar, String.class, taskId + "");
   }
 
   @Override
   public void rejectVacationRequest(int taskId) {
-    String url="http://localhost:9000/activiti/service/runtime/tasks/{taskId}";
-    RestVariable var= new RestVariable();
+    RestVariable var = new RestVariable();
     var.setName("vacationApproved");
     var.setValue(Boolean.FALSE);
 
-    RestVariable var2= new RestVariable();
+    RestVariable var2 = new RestVariable();
     var2.setName("managerMotivation");
     var2.setValue("nein");
 
-    List<RestVariable> vars= new ArrayList<>();
+    List<RestVariable> vars = new ArrayList<>();
     vars.add(var);
     vars.add(var2);
 
-    TaskActionRequest tar= new TaskActionRequest();
+    TaskActionRequest tar = new TaskActionRequest();
     tar.setAction(TaskActionRequest.ACTION_COMPLETE);
     tar.setVariables(vars);
-    restTemplate.postForObject(url, tar, String.class,taskId+"");
+
+    String url = "http://localhost:9000/activiti/service/runtime/tasks/{taskId}";
+    restTemplate.postForObject(url, tar, String.class, taskId + "");
   }
 }

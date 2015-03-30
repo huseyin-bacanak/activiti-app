@@ -21,15 +21,15 @@ import java.util.Date;
 import java.util.List;
 
 public class ProcessServiceHandlerTest {
-  private static final String URL="http://localhost:9000/activiti/service/runtime/process-instances/";
+  private static final String URL = "http://localhost:9000/activiti/service/runtime/process-instances/";
   private final static Logger logger = LoggerFactory.getLogger(ProcessServiceHandlerTest.class);
-  private final HttpHost host = new HttpHost("localhost",9000);
+  private final HttpHost host = new HttpHost("localhost", 9000);
   private final AuthHttpComponentsClientHttpRequestFactory requestFactory =
       new AuthHttpComponentsClientHttpRequestFactory(
           host, "kermit", "kermit");
   private final RestTemplate restTemplate = new RestTemplate(requestFactory);
 
-  private ProcessServiceHandler processServiceHandler =new ProcessServiceHandlerImpl();
+  private ProcessServiceHandler processServiceHandler = new ProcessServiceHandlerImpl();
 
   @Test
   public void authorizedRequest() {
@@ -38,7 +38,7 @@ public class ProcessServiceHandlerTest {
     logger.info(result.toString());
   }
 
-  @Test( expected = HttpClientErrorException.class)
+  @Test(expected = HttpClientErrorException.class)
   public void unauthorizedRequest() {
 
     final AuthHttpComponentsClientHttpRequestFactory requestFactory =
@@ -50,55 +50,55 @@ public class ProcessServiceHandlerTest {
   }
 
   @Test
-  public void getAllProcessInstances(){
+  public void getAllProcessInstances() {
     ProcessInstanceResponse result = processServiceHandler.getRunningProcessInstances();
     assertNotNull(result);
     logger.info(result.toString());
   }
 
-  @Test
-  public void createNewVacationRequest(){
-    String employeeName="kermit";
-    Date startDate=new Date();
-    int numberOfDays=5;
-    String motivation="motivv";
-    ProcessInstanceResponse response=  processServiceHandler.initiateVacationRequest(employeeName, startDate,
-                                                                                      numberOfDays, motivation);
-
-    List<RestVariable> variables= response.getVariables();
-    assertNotNull(response);
-
-  }
-
-  @Test
-  public void approveVacationRequest(){
-    ProcessInstanceCreateRequest post = new ProcessInstanceCreateRequest();
-    post.setProcessDefinitionKey("vacationRequest");
-    List<RestVariable> variables=  new ArrayList<>();
-    RestVariable var= new RestVariable();
-    var.setName("numberOfDays");
-    var.setValue(5);
-    variables.add(var);
-
-    RestVariable var2= new RestVariable();
-    var2.setName("employeeName");
-    var2.setValue("kermit");
-    variables.add(var2);
-
-    RestVariable var3= new RestVariable();
-    var3.setName("vacationMotivation");
-    var3.setValue("sasaas");
-    variables.add(var3);
-
-    RestVariable var4= new RestVariable();
-    var4.setName("startDate");
-    var4.setValue("12/12/2015");
-    variables.add(var);
-
-    post.setVariables(variables);
-
-    ProcessDefinitionResponse pi = processServiceHandler.initiateVacationRequestProcess(post);
-    assertNotNull(pi);
-  }
+//  @Test
+//  public void createNewVacationRequest() {
+//    String employeeName = "kermit";
+//    Date startDate = new Date();
+//    int numberOfDays = 5;
+//    String motivation = "createNewVacationRequestTest";
+//    ProcessInstanceResponse response = processServiceHandler.initiateVacationRequest(employeeName, startDate,
+//        numberOfDays, motivation);
+//
+//    List<RestVariable> variables = response.getVariables();
+//    assertNotNull(response);
+//
+//  }
+//
+//  @Test
+//  public void approveVacationRequest() {
+//    ProcessInstanceCreateRequest post = new ProcessInstanceCreateRequest();
+//    post.setProcessDefinitionKey("vacationRequest");
+//    List<RestVariable> variables = new ArrayList<>();
+//    RestVariable var = new RestVariable();
+//    var.setName("numberOfDays");
+//    var.setValue(5);
+//    variables.add(var);
+//
+//    RestVariable var2 = new RestVariable();
+//    var2.setName("employeeName");
+//    var2.setValue("kermit");
+//    variables.add(var2);
+//
+//    RestVariable var3 = new RestVariable();
+//    var3.setName("vacationMotivation");
+//    var3.setValue("approveVacationRequestTest");
+//    variables.add(var3);
+//
+//    RestVariable var4 = new RestVariable();
+//    var4.setName("startDate");
+//    var4.setValue("12/12/2015");
+//    variables.add(var);
+//
+//    post.setVariables(variables);
+//
+//    ProcessDefinitionResponse pi = processServiceHandler.initiateVacationRequestProcess(post);
+//    assertNotNull(pi);
+//  }
 
 }

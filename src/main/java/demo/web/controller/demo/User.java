@@ -3,7 +3,7 @@ package demo.web.controller.demo;
 /**
  * Created by raven on 29.03.2015.
  */
-public  class User{
+public class User {
   String firstname;
   String lastname;
 
@@ -30,10 +30,10 @@ public  class User{
 
   @Override
   public String toString() {
-    return "User{" +
-           "firstname='" + firstname + '\'' +
-           ", lastname='" + lastname + '\'' +
-           '}';
+    return "User{"
+        + "firstname='" + firstname + '\''
+        + ", lastname='" + lastname + '\''
+        + '}';
   }
 
   public User() {

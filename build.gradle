@@ -46,7 +46,8 @@ repositories {
 [tomcatRun, tomcatRunWar, tomcatStop]*.stopKey = 'stfu'
 tomcatRunWar.contextPath = "${project.name}"
 tomcatRunWar.ajpPort = 8000
-//tomcatRunWar { dependsOn += ['check'] }
+
+tomcatRunWar { dependsOn += ['check'] }
 
 task wrapper(type: Wrapper) {
     gradleVersion = '2.3'

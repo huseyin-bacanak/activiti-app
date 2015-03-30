@@ -1,9 +1,5 @@
 package demo.rest;
 
-import java.net.URI;
-
-import javax.annotation.Nullable;
-
 import org.apache.http.HttpHost;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
@@ -16,7 +12,10 @@ import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.protocol.HttpContext;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
-import org.springframework.web.client.RestTemplate;
+
+import java.net.URI;
+
+import javax.annotation.Nullable;
 
 public class AuthHttpComponentsClientHttpRequestFactory extends
     HttpComponentsClientHttpRequestFactory {
@@ -31,7 +30,8 @@ public class AuthHttpComponentsClientHttpRequestFactory extends
     this(host, null, null);
   }
 
-  public AuthHttpComponentsClientHttpRequestFactory(HttpHost host, @Nullable String userName, @Nullable String password) {
+  public AuthHttpComponentsClientHttpRequestFactory(HttpHost host,
+        @Nullable String userName, @Nullable String password) {
     super();
     this.host = host;
     this.userName = userName;
@@ -43,7 +43,7 @@ public class AuthHttpComponentsClientHttpRequestFactory extends
   }
 
   public AuthHttpComponentsClientHttpRequestFactory(HttpClient httpClient, HttpHost host,
-                                                    @Nullable String userName, @Nullable String password) {
+        @Nullable String userName, @Nullable String password) {
     super(httpClient);
     this.host = host;
     this.userName = userName;
@@ -64,7 +64,8 @@ public class AuthHttpComponentsClientHttpRequestFactory extends
 
     if (userName != null) {
       BasicCredentialsProvider credsProvider = new BasicCredentialsProvider();
-      credsProvider.setCredentials(new AuthScope(host), new UsernamePasswordCredentials(userName, password));
+      credsProvider.setCredentials(new AuthScope(host),
+          new UsernamePasswordCredentials(userName, password));
       localcontext.setCredentialsProvider(credsProvider);
     }
     return localcontext;

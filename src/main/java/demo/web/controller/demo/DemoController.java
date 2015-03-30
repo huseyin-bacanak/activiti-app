@@ -37,6 +37,7 @@ public class DemoController {
   public String websocket() {
     return "demo/websocket";
   }
+
   @RequestMapping("/contextJs")
 
   public String contextJs() {
@@ -44,10 +45,8 @@ public class DemoController {
   }
 
 
-  @RequestMapping(value = "/profile", method=RequestMethod.POST, consumes="application/json")
-  public @ResponseBody User processAJAXRequest(@RequestBody User user) {
-    // Process the request
-    // Prepare the response string
+  @RequestMapping(value = "/profile", method = RequestMethod.POST, consumes = "application/json")
+  public @ResponseBody User processAjaxRequest(@RequestBody User user) {
     return user;
   }
 

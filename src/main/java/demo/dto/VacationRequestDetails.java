@@ -18,7 +18,7 @@ public class VacationRequestDetails {
   }
 
   public Integer getNumberOfDays() {
-    return numberOfDays==null?0:numberOfDays;
+    return numberOfDays == null ? 0 : numberOfDays;
   }
 
   public void setNumberOfDays(Integer numberOfDays) {
@@ -43,10 +43,10 @@ public class VacationRequestDetails {
 
   @Override
   public String toString() {
-    return "VacationRequestDetails{" +
-        "employeeName='" + employeeName + '\'' +
-        ", numberOfDays=" + numberOfDays +
-        ", vacationMotivation='" + vacationMotivation + '\'' +
-        '}';
+    return "VacationRequestDetails{"
+        + "employeeName='" + employeeName + '\''
+        + ", numberOfDays=" + numberOfDays
+        + ", vacationMotivation='" + vacationMotivation + '\''
+        + '}';
   }
 }

@@ -20,17 +20,19 @@ import java.util.Date;
 import java.util.List;
 
 public class ProcessServiceHandlerImpl implements ProcessServiceHandler {
-  private final static Logger logger = LoggerFactory.getLogger(ProcessServiceHandlerImpl.class);
+  private static final Logger logger = LoggerFactory.getLogger(ProcessServiceHandlerImpl.class);
   private static final String URL = "http://localhost:9000/activiti/service/runtime/process-instances?includeProcessVariables=true&size=100&processDefinitionKey=vacationRequest&includeProcessVariables=true";
-  private final HttpHost host = new HttpHost("localhost",9000);
+  private final HttpHost host = new HttpHost("localhost", 9000);
   private final AuthHttpComponentsClientHttpRequestFactory requestFactory =
       new AuthHttpComponentsClientHttpRequestFactory(
           host, "kermit", "kermit");
   private final RestTemplate restTemplate = new RestTemplate(requestFactory);
 
   @Override
-  public ProcessDefinitionResponse initiateVacationRequestProcess(ProcessInstanceCreateRequest post) {
-    ProcessDefinitionResponse result = restTemplate.postForObject(URL, post, ProcessDefinitionResponse.class);
+  public ProcessDefinitionResponse initiateVacationRequestProcess(
+      ProcessInstanceCreateRequest post) {
+    ProcessDefinitionResponse result =
+        restTemplate.postForObject(URL, post, ProcessDefinitionResponse.class);
     logger.info(result.toString());
     return result;
   }
@@ -42,6 +44,10 @@ public class ProcessServiceHandlerImpl implements ProcessServiceHandler {
     return result;
   }
 
+  /**
+   * Get running vacation request process instances.
+   * @throws Exception
+   */
   public void getRunningInstances() throws Exception {
     RestTemplate restTemplate = new RestTemplate();
     String plainCreds = "kermit:kermit";
@@ -53,45 +59,49 @@ public class ProcessServiceHandlerImpl implements ProcessServiceHandler {
     headers.add("Authorization", "Basic " + base64Creds);
 
     HttpEntity<String> request = new HttpEntity<String>(headers);
-    ResponseEntity<String> response = restTemplate.exchange(URL, HttpMethod.GET, request, String.class);
+    ResponseEntity<String> response =
+        restTemplate.exchange(URL, HttpMethod.GET, request, String.class);
   }
 
   @Override
   public ProcessInstanceResponse initiateVacationRequest(String employeeName, Date startDate,
-                                                              int numberOfDays, String motivation) {
-    String url="http://localhost:9000/activiti/service/runtime/process-instances";
-    ProcessInstanceCreateRequest req= new ProcessInstanceCreateRequest();
+                                                         int numberOfDays, String motivation) {
+    ProcessInstanceCreateRequest req = new ProcessInstanceCreateRequest();
     req.setProcessDefinitionKey("vacationRequest");
 
-    List<RestVariable> variables= new ArrayList<>();
-    RestVariable var1= new RestVariable();
+    RestVariable var1 = new RestVariable();
     var1.setName("employeeName");
     var1.setValue(employeeName);
 
-    RestVariable var2= new RestVariable();
+    RestVariable var2 = new RestVariable();
     var2.setName("startDate");
     var2.setValue(startDate);
 
-    RestVariable var3= new RestVariable();
+    RestVariable var3 = new RestVariable();
     var3.setName("vacationMotivation");
     var3.setValue(motivation);
 
-    RestVariable var4= new RestVariable();
+    RestVariable var4 = new RestVariable();
     var4.setName("numberOfDays");
     var4.setValue(numberOfDays);
 
+    List<RestVariable> variables = new ArrayList<>();
     variables.add(var1);
     variables.add(var2);
     variables.add(var3);
     variables.add(var4);
     req.setVariables(variables);
-    ProcessInstanceResponse result = restTemplate.postForObject(url, req, ProcessInstanceResponse.class);
+
+    String url = "http://localhost:9000/activiti/service/runtime/process-instances";
+    ProcessInstanceResponse result =
+        restTemplate.postForObject(url, req, ProcessInstanceResponse.class);
     logger.info(result.toString());
     return result;
   }
+
   @Override
   public void deleteProcessInstance(int processInstanceId) {
-    String url="http://localhost:9000/activiti/service/runtime/process-instances/{processInstanceId}";
-    restTemplate.delete(url, processInstanceId+"");
+    String url = "http://localhost:9000/activiti/service/runtime/process-instances/{processInstanceId}";
+    restTemplate.delete(url, processInstanceId + "");
   }
 }

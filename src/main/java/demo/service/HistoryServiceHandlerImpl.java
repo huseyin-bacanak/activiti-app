@@ -11,8 +11,12 @@ import org.springframework.web.client.RestTemplate;
  * Created by huseyin.bacanak on 26.03.2015.
  */
 public class HistoryServiceHandlerImpl implements HistoryServiceHandler{
-  private final static Logger logger = LoggerFactory.getLogger(ProcessServiceHandlerImpl.class);
-  private static final String URL = "http://localhost:9000/activiti/service/history/historic-process-instances?includeProcessVariables=true&size=100&processDefinitionKey=vacationRequest&includeProcessVariables=true&finished=true";
+  private static final Logger logger = LoggerFactory.getLogger(ProcessServiceHandlerImpl.class);
+  private static final String URL =
+      "http://localhost:9000/activiti/service/history/historic-process-instances"
+          + "?includeProcessVariables=true&size=100"
+          + "&processDefinitionKey=vacationRequest&includeProcessVariables=true&finished=true";
+
   private final HttpHost host = new HttpHost("localhost",9000);
   private final AuthHttpComponentsClientHttpRequestFactory requestFactory =
       new AuthHttpComponentsClientHttpRequestFactory(
