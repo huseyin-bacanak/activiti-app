@@ -1,7 +1,6 @@
 package demo.service;
 
 import demo.rest.AuthHttpComponentsClientHttpRequestFactory;
-import demo.rest.ProcessList;
 import org.activiti.rest.common.api.DataResponse;
 import org.apache.http.HttpHost;
 import org.slf4j.Logger;

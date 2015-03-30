@@ -3,7 +3,6 @@ package demo.demo;
 import static org.junit.Assert.assertNotNull;
 
 import demo.rest.AuthHttpComponentsClientHttpRequestFactory;
-import demo.rest.ProcessList;
 import demo.service.ProcessServiceHandler;
 import demo.service.ProcessServiceHandlerImpl;
 import org.activiti.rest.service.api.engine.variable.RestVariable;
@@ -52,7 +51,7 @@ public class ProcessServiceHandlerTest {
 
   @Test
   public void getAllProcessInstances(){
-    ProcessList result = processServiceHandler.getRunningProcessInstances();
+    ProcessInstanceResponse result = processServiceHandler.getRunningProcessInstances();
     assertNotNull(result);
     logger.info(result.toString());
   }

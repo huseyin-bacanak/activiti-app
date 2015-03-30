@@ -3,22 +3,15 @@ package demo.demo;
 import static org.junit.Assert.assertNotNull;
 
 import demo.rest.AuthHttpComponentsClientHttpRequestFactory;
-import demo.rest.Task;
-import demo.rest.TaskList;
 import demo.service.TaskServiceHandler;
 import demo.service.TaskServiceHandlerImpl;
 import org.activiti.rest.common.api.DataResponse;
-import org.activiti.rest.service.api.runtime.process.ProcessInstanceResponse;
-import org.activiti.rest.service.api.runtime.task.TaskResponse;
 import org.apache.http.HttpHost;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
-
-import java.util.Date;
-import java.util.List;
 
 public class TaskServiceHandlerTest {
   private static final String URL="http://localhost:9000/activiti/service/runtime/process-instances/";

@@ -62,20 +62,10 @@
     var json = { "employeeName":"kermit"};
 
     function doAjaxPost() {
-        var employeeName = "kermit"
-        var numberOfDays = $('#numberOfDays').val();
-        var startDate=$('#startDate').val();
-        startDate=startDate.split("/");
-        startDate=startDate[1]+"/"+startDate[0]+"/"+startDate[2];
-        startDate=new Date(startDate).getTime();
-//        startDate=123546798;
-        var vacationMotivation=$('#vacationMotivation').val();
-        var json = { "employeeName" : employeeName, "numberOfDays" : numberOfDays,
-            "startDate" : startDate, "vacationMotivation" : vacationMotivation};
         $.ajax({
                    type: "POST",
                    url: "new",
-                   data: JSON.stringify(json),
+                   data: createVacationRequestJson(),
                    contentType: 'application/json',
                    success: function(response){
                        if(response.status == "SUCCESS"){
@@ -123,6 +113,18 @@
         $('#vacationMotivationError').text("*");
     }
 
+    function createVacationRequestJson(){
+        var employeeName = "kermit"
+        var numberOfDays = $('#numberOfDays').val();
+        var startDate=$('#startDate').val();
+        startDate=startDate.split("/");
+        startDate=startDate[1]+"/"+startDate[0]+"/"+startDate[2];
+        startDate=new Date(startDate).getTime();
+        var vacationMotivation=$('#vacationMotivation').val();
+        var json = { "employeeName" : employeeName, "numberOfDays" : numberOfDays,
+            "startDate" : startDate, "vacationMotivation" : vacationMotivation};
+        return JSON.stringify(json)
+    }
     //]]>
 </script>
 </body>

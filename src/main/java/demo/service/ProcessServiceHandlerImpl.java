@@ -1,9 +1,6 @@
 package demo.service;
 
-import demo.dto.BPMPost;
 import demo.rest.AuthHttpComponentsClientHttpRequestFactory;
-import demo.rest.ProcessList;
-
 import org.activiti.rest.service.api.engine.variable.RestVariable;
 import org.activiti.rest.service.api.repository.ProcessDefinitionResponse;
 import org.activiti.rest.service.api.runtime.process.ProcessInstanceCreateRequest;
@@ -20,9 +17,7 @@ import org.springframework.web.client.RestTemplate;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class ProcessServiceHandlerImpl implements ProcessServiceHandler {
   private final static Logger logger = LoggerFactory.getLogger(ProcessServiceHandlerImpl.class);
@@ -41,8 +36,8 @@ public class ProcessServiceHandlerImpl implements ProcessServiceHandler {
   }
 
   @Override
-  public ProcessList getRunningProcessInstances() {
-    ProcessList result = restTemplate.getForObject(URL, ProcessList.class);
+  public ProcessInstanceResponse getRunningProcessInstances() {
+    ProcessInstanceResponse result = restTemplate.getForObject(URL, ProcessInstanceResponse.class);
     logger.info(result.toString());
     return result;
   }
