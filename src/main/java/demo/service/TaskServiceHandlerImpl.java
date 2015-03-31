@@ -67,14 +67,14 @@ public class TaskServiceHandlerImpl implements TaskServiceHandler {
   }
 
   @Override
-  public void rejectVacationRequest(int taskId) {
+  public void rejectVacationRequest(int taskId, String managerMotivation) {
     RestVariable var = new RestVariable();
     var.setName("vacationApproved");
     var.setValue(Boolean.FALSE);
 
     RestVariable var2 = new RestVariable();
     var2.setName("managerMotivation");
-    var2.setValue("nein");
+    var2.setValue(managerMotivation);
 
     List<RestVariable> vars = new ArrayList<>();
     vars.add(var);
@@ -124,9 +124,9 @@ public class TaskServiceHandlerImpl implements TaskServiceHandler {
   @Override
   public void adjustVacationRequest(AdjustVacationRequestDetails vacationRequestDetails) {
     adjustVacationRequest(vacationRequestDetails.getTaskId(),
-        vacationRequestDetails.getStartDate(),
-        vacationRequestDetails.getNumberOfDays(),
-        vacationRequestDetails.getVacationMotivation());
+                          vacationRequestDetails.getStartDate(),
+                          vacationRequestDetails.getNumberOfDays(),
+                          vacationRequestDetails.getVacationMotivation());
   }
 
   @Override

@@ -21,12 +21,21 @@ apply plugin: 'tomcat'
 apply plugin: 'propdeps'
 apply plugin: 'propdeps-idea'
 
+ignoreFailuresInCheck=ignoreFailuresInCheck.toBoolean();
+
+if(cleanBeforeCompile.toBoolean()){
+    compileJava { dependsOn += ['clean'] }
+}
+
 apply from: "conf/gradle/dependencies.gradle"
 apply from: "conf/gradle/checkstyle.gradle"
 apply from: "conf/gradle/pmd.gradle"
 apply from: "conf/gradle/findbugs.gradle"
 apply from: "conf/gradle/jdepend.gradle"
 apply from: "conf/gradle/javadoc.gradle"
+apply from: "conf/gradle/tomcat.gradle"
+
+
 
 defaultTasks 'clean', 'check', 'build', 'javaDoc'
 description = 'activiti web ui'
@@ -36,18 +45,6 @@ repositories {
     mavenCentral()
     maven { url 'http://repo.spring.io/milestone/'}
 }
-
-
-//compileJava.dependsOn += 'clean'
-
-[ compileJava, compileTestJava ]*.options*.encoding = 'UTF-8'
-
-[tomcatRun, tomcatRunWar, tomcatStop]*.stopPort = 8090
-[tomcatRun, tomcatRunWar, tomcatStop]*.stopKey = 'stfu'
-tomcatRunWar.contextPath = "${project.name}"
-tomcatRunWar.ajpPort = 8000
-
-tomcatRunWar { dependsOn += ['check'] }
 
 task wrapper(type: Wrapper) {
     gradleVersion = '2.3'

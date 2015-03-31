@@ -39,11 +39,12 @@ public class MyJobsController extends BaseController {
    */
   @RequestMapping(value = "/myJobsForm", method = RequestMethod.POST)
   public String myJobsForm(@RequestParam String action,
+                           @RequestParam String managerMotivation,
                            @RequestParam int taskId) {
     if (action.equals("approve")) {
       getTaskServiceHandler().approveVacationRequest(taskId);
     } else if (action.equals("reject")) {
-      getTaskServiceHandler().rejectVacationRequest(taskId);
+      getTaskServiceHandler().rejectVacationRequest(taskId, managerMotivation);
     }
     return "redirect:myJobs";
   }

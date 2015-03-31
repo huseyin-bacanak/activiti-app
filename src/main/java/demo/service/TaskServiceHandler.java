@@ -15,7 +15,7 @@ public interface TaskServiceHandler {
 
   void approveVacationRequest(int taskId);
 
-  void rejectVacationRequest(int taskId);
+  void rejectVacationRequest(int taskId, String managerMotivation);
 
   void adjustVacationRequest(int taskId, Date startDate, Integer numberOfDays, String motivation);
 

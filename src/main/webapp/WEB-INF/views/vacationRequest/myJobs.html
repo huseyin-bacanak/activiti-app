@@ -72,24 +72,25 @@
 
     <!-- Handle handleRequest Modal -->
     <div class="modal fade" id="handleRequestTaskModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title">Handle Vacation Request</h4>
-                </div>
-                <div class="modal-body">
-                    <p id="vacationRequestDescription">vacation request info</p>
-                </div>
-                <div class="modal-footer">
-                    <form class="form-horizontal" role="form" action="#" data-th-action="@{/vacationRequest/myJobsForm}" method="post">
+        <form class="form-horizontal" role="form" action="#" data-th-action="@{/vacationRequest/myJobsForm}" method="post">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">Handle Vacation Request</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p id="vacationRequestDescription">vacation request info</p>
+                        <input type="text" class="form-control" id="managerMotivation" name="managerMotivation" placeholder="Enter manager motivation"/>
+                    </div>
+                    <div class="modal-footer">
                         <input id="taskIdInput" type="hidden" name="taskId" />
                         <button class="btn btn-danger" type="submit" name="action" value="reject">Reject</button>
                         <button class="btn btn-primary" type="submit" name="action" value="approve">Approve</button>
-                    </form>
+                    </div>
                 </div>
             </div>
-        </div>
+        </form>
     </div>
 
     <div data-th-replace="fragment/operationCompleted" />

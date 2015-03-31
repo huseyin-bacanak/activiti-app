@@ -41,7 +41,6 @@ public class ProcessServiceHandlerImpl implements ProcessServiceHandler {
 
   /**
    * Get running vacation request process instances.
-   * @throws Exception
    */
   public void getRunningInstances() throws Exception {
     restTemplate.getForObject(URL, String.class, String.class);
