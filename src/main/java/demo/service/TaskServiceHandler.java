@@ -1,6 +1,7 @@
 package demo.service;
 
 
+import demo.dto.AdjustVacationRequestDetails;
 import org.activiti.rest.common.api.DataResponse;
 
 import java.util.Date;
@@ -17,6 +18,8 @@ public interface TaskServiceHandler {
   void rejectVacationRequest(int taskId);
 
   void adjustVacationRequest(int taskId, Date startDate, Integer numberOfDays, String motivation);
+
+  void adjustVacationRequest(AdjustVacationRequestDetails vacationRequestDetails);
 
   void cancelVacationRequest(int taskId);
 }

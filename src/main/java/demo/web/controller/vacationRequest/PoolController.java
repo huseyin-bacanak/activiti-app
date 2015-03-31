@@ -34,9 +34,7 @@ public class PoolController extends BaseController {
     if (action.equals("claim")) {
       getTaskServiceHandler().claim(taskId, "kermit");
     }
-//    else if (action.equals("delete")) {
-//      processServiceHandler.deleteProcessInstance(processInstanceId);
-//    }
+
     return "redirect:pool";
   }
 }

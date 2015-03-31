@@ -1,5 +1,6 @@
 package demo.service;
 
+import demo.dto.AdjustVacationRequestDetails;
 import demo.rest.AuthHttpComponentsClientHttpRequestFactory;
 import org.activiti.rest.common.api.DataResponse;
 import org.activiti.rest.service.api.engine.variable.RestVariable;
@@ -118,6 +119,14 @@ public class TaskServiceHandlerImpl implements TaskServiceHandler {
 
     String url = "http://localhost:9000/activiti/service/runtime/tasks/{taskId}";
     restTemplate.postForObject(url, tar, String.class, taskId + "");
+  }
+
+  @Override
+  public void adjustVacationRequest(AdjustVacationRequestDetails vacationRequestDetails) {
+    adjustVacationRequest(vacationRequestDetails.getTaskId(),
+        vacationRequestDetails.getStartDate(),
+        vacationRequestDetails.getNumberOfDays(),
+        vacationRequestDetails.getVacationMotivation());
   }
 
   @Override

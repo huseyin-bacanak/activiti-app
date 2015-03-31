@@ -51,22 +51,23 @@ public class MyJobsController extends BaseController {
    * Handle a adjust request process instance.
    */
   @RequestMapping(value = "/adjustVacationRequest",
-      method = RequestMethod.POST,
-      consumes = MediaType.APPLICATION_JSON_VALUE)
-  public  @ResponseBody JsonResponse adjustVacationRequest(
-      @RequestBody AdjustVacationRequestDetails vacationRequestDetails, BindingResult result) {
+                  method = RequestMethod.POST,
+                  consumes = MediaType.APPLICATION_JSON_VALUE)
+  @ResponseBody public JsonResponse adjustVacationRequest(
+          @RequestBody AdjustVacationRequestDetails vacationRequestDetails, BindingResult result) {
+
     JsonResponse jsonResponse = new JsonResponse();
     new VacationRequestDetailsValidator().validate(vacationRequestDetails, result);
+
     if (result.hasErrors()) {
       jsonResponse.setStatus("FAIL");
       jsonResponse.setResult(result.getAllErrors());
     } else {
       jsonResponse.setStatus("SUCCESS");
-      if(vacationRequestDetails.getOperation().equals("resend")){
-        getTaskServiceHandler().adjustVacationRequest(vacationRequestDetails.getTaskId(),
-            vacationRequestDetails.getStartDate(),vacationRequestDetails.getNumberOfDays(),
-            vacationRequestDetails.getVacationMotivation());
-      } else if (vacationRequestDetails.getOperation().equals("cancel")) {
+      String operation = vacationRequestDetails.getOperation();
+      if(operation.equals("resend")){
+        getTaskServiceHandler().adjustVacationRequest(vacationRequestDetails);
+      } else if (operation.equals("cancel")) {
         getTaskServiceHandler().cancelVacationRequest(vacationRequestDetails.getTaskId());
       }
     }
