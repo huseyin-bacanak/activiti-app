@@ -3,6 +3,8 @@ package demo.service;
 import demo.rest.AuthHttpComponentsClientHttpRequestFactory;
 import org.activiti.rest.common.api.DataResponse;
 import org.activiti.rest.service.api.engine.variable.RestVariable;
+import org.activiti.rest.service.api.runtime.process.ProcessInstanceCreateRequest;
+import org.activiti.rest.service.api.runtime.process.ProcessInstanceResponse;
 import org.activiti.rest.service.api.runtime.task.TaskActionRequest;
 import org.apache.http.HttpHost;
 import org.slf4j.Logger;
@@ -10,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class TaskServiceHandlerImpl implements TaskServiceHandler {
@@ -80,6 +83,55 @@ public class TaskServiceHandlerImpl implements TaskServiceHandler {
     TaskActionRequest tar = new TaskActionRequest();
     tar.setAction(TaskActionRequest.ACTION_COMPLETE);
     tar.setVariables(vars);
+
+    String url = "http://localhost:9000/activiti/service/runtime/tasks/{taskId}";
+    restTemplate.postForObject(url, tar, String.class, taskId + "");
+  }
+
+  @Override
+  public void adjustVacationRequest(int taskId, Date startDate, Integer numberOfDays, String motivation) {
+    RestVariable startDateVar = new RestVariable();
+    startDateVar.setName("startDate");
+    startDateVar.setValue(startDate);
+
+    RestVariable vacationMotivationVar = new RestVariable();
+    vacationMotivationVar.setName("vacationMotivation");
+    vacationMotivationVar.setValue(motivation);
+
+    RestVariable numberOfDaysVar = new RestVariable();
+    numberOfDaysVar.setName("numberOfDays");
+    numberOfDaysVar.setValue(numberOfDays);
+
+    RestVariable resendRequest = new RestVariable();
+    resendRequest.setName("resendRequest");
+    resendRequest.setValue(Boolean.TRUE);
+
+    List<RestVariable> variables = new ArrayList<>();
+    variables.add(startDateVar);
+    variables.add(vacationMotivationVar);
+    variables.add(numberOfDaysVar);
+    variables.add(resendRequest);
+
+    TaskActionRequest tar = new TaskActionRequest();
+    tar.setAction(TaskActionRequest.ACTION_COMPLETE);
+    tar.setVariables(variables);
+
+    String url = "http://localhost:9000/activiti/service/runtime/tasks/{taskId}";
+    restTemplate.postForObject(url, tar, String.class, taskId + "");
+  }
+
+  @Override
+  public void cancelVacationRequest(int taskId) {
+    RestVariable resendRequestVar = new RestVariable();
+    resendRequestVar.setName("resendRequest");
+    resendRequestVar.setValue(Boolean.FALSE);
+
+    List<RestVariable> variables = new ArrayList<>();
+    variables.add(resendRequestVar);
+
+    TaskActionRequest tar = new TaskActionRequest();
+    tar.setAction(TaskActionRequest.ACTION_COMPLETE);
+    tar.setVariables(variables);
 
     String url = "http://localhost:9000/activiti/service/runtime/tasks/{taskId}";
     restTemplate.postForObject(url, tar, String.class, taskId + "");

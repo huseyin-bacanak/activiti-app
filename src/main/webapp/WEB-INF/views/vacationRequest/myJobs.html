@@ -36,16 +36,38 @@
                     <h4 class="modal-title" id="myModalLabel">Adjust Vacation Request</h4>
                 </div>
                 <div class="modal-body">
-                    <form data-th-replace="fragment/vacationRequestForm" />
+                    <form id="adjustVacationRequestForm" class="form-horizontal" role="form" action="#" data-th-action="@{/vacationRequest/adjustVacationRequest}" data-th-object="${vacationRequestDetails}" method="post">
+                        <input id="taskIdInput2" type="hidden" name="taskId" />
+                        <div class="form-group control-group"  data-th-classappend="${#fields.hasErrors('numberOfDays')} ? 'error'">
+                            <label class="control-label col-sm-2" for="numberOfDays">Number of days</label>
+                            <div class="col-sm-6">
+                                <input type="number" class="form-control" id="numberOfDays" placeholder="0" data-th-field="*{numberOfDays}"/>
+                            </div>
+                            <span id="numberOfDaysError" class="help-inline text-danger">*</span>
+                        </div>
+                        <div class="form-group  control-group" data-th-classappend="${#fields.hasErrors('startDate')} ? 'error'">
+                            <label class="control-label col-sm-2" for="startDate">Start Date:</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" id="startDate" placeholder="DD/MM/YYYY" data-th-field="*{startDate}"/>
+                            </div>
+                            <span id="startDateError" class="help-inline text-danger">*</span>
+                        </div>
+
+                        <div class="form-group  control-group" data-th-classappend="${#fields.hasErrors('vacationMotivation')} ? 'error'">
+                            <label class="control-label col-sm-2" for="vacationMotivation">Reason:</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" id="vacationMotivation" placeholder="Enter vacation motivation" data-th-field="*{vacationMotivation}"/>
+                            </div>
+                            <span id="vacationMotivationError" class="help-inline text-danger">*</span>
+                        </div>
+                    </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-primary" data-th-form="vacationRequestForm">Resend</button>
+                    <button type="button" class="btn btn-danger" data-th-form="vacationRequestForm" onclick="doAjaxPost('cancel')">Cancel</button>
+                    <button type="button" class="btn btn-primary" data-th-form="vacationRequestForm" onclick="doAjaxPost('resend')">Resend</button>
                 </div>
             </div>
         </div>
-
     </div>
 
     <!-- Handle handleRequest Modal -->
@@ -62,14 +84,15 @@
                 <div class="modal-footer">
                     <form class="form-horizontal" role="form" action="#" data-th-action="@{/vacationRequest/myJobsForm}" method="post">
                         <input id="taskIdInput" type="hidden" name="taskId" />
+                        <button class="btn btn-danger" type="submit" name="action" value="reject">Reject</button>
                         <button class="btn btn-primary" type="submit" name="action" value="approve">Approve</button>
-                        <button class="btn btn-default" type="submit" name="action" value="reject">Reject</button>
                     </form>
                 </div>
             </div>
         </div>
-
     </div>
+
+    <div data-th-replace="fragment/operationCompleted" />
 </div>
 
 
@@ -79,6 +102,11 @@
      var processInstances  = [[${processInstances}]];
 
      +]*/
+
+
+    $('#operationCompletedModal').on('hidden.bs.modal', function () {
+        location.reload();
+    })
     
     $( document ).ready(function() {
         $('.navbar-nav > li').removeClass('active');
@@ -94,6 +122,7 @@
 
         function showModal(index, taskId, taskType){
             if(taskType==="adjustVacationRequestTask"){
+                $("#taskIdInput2").val(taskId);
                 $('#adjustVacationRequestTaskModal').modal('show');
                 var startDate = new Date(getVariable(processInstances[index].variables, "startDate"));
                 var startDateStr = startDate.format("dd/mm/yyyy");
@@ -103,25 +132,91 @@
                 $("#adjustVacationRequestTaskModal #vacationMotivation").val(getVariable(processInstances[index].variables, "vacationMotivation"));
             } else if (taskType==="handleRequest") {
                 $("#taskIdInput").val(taskId);
+                $("#vacationRequestDescription").text(processInstances[index].description);
                 $('#handleRequestTaskModal').modal('show');
             }else {
                 alert("not request");
             }
 
         }
-        //<![CDATA[
-        function getVariable(objList, varName){
-            for(i=0; i< objList.length; i++){
-                if(objList[i].name===varName){
-                    return objList[i].value;
-                }
-            }
-            return "n/a";
-        }
-        //]]>
     });
 
+    function doAjaxPost(operation) {
+        var employeeName = "kermit"
+        var numberOfDays = $('#numberOfDays').val();
+        var startDate=$('#startDate').val();
+        startDate=startDate.split("/");
+        startDate=startDate[1]+"/"+startDate[0]+"/"+startDate[2];
+        startDate=new Date(startDate).getTime();
+        var vacationMotivation=$('#vacationMotivation').val();
+        var taskId = $("#taskIdInput2").val();
+        var json = { "employeeName" : employeeName, "numberOfDays" : numberOfDays,
+            "startDate" : startDate, "vacationMotivation" : vacationMotivation, "taskId":taskId,
+            "operation":operation };
 
+        //<![CDATA[
+        $.ajax({
+            type: "POST",
+            url: "http://localhost:8080/activiti-app/vacationRequest/adjustVacationRequest",
+            data: JSON.stringify(json),
+            contentType: 'application/json',
+            success: function(response){
+                if(response.status == "SUCCESS"){
+                    //dispose vacation request modal
+                    $('#adjustVacationRequestTaskModal').modal('hide');
+                    //reset vacation request modal
+                    resetModal();
+                    // show operation result modal
+                    $('#operationCompletedModal').modal('show');
+                } else {
+                    resetModalErrors();
+                    for(i=0; i<response.result.length; i++){
+                        var validationError = response.result[i];
+                        if(validationError.field==="numberOfDays"){
+                            $('#numberOfDaysError').text(validationError.defaultMessage);
+                            $('#numberOfDaysError').show();
+                        } else if(validationError.field==="startDate"){
+                            $('#startDateError').text(validationError.defaultMessage);
+                            $('#startDateError').show();
+                        } else if(validationError.field==="vacationMotivation"){
+                            $('#vacationMotivationError').text(validationError.defaultMessage);
+                            $('#vacationMotivationError').show();
+                        }
+                    }
+                }
+            },
+            error: function(e){
+                alert('Error: ' + e);
+                console.log(e);
+            }
+        });
+    }
+
+    function resetModal(){
+        resetModalFields();
+        resetModalErrors();
+    }
+    function resetModalFields() {
+        $('#successMessage').hide();
+        $('#numberOfDays').val("");
+        $('#startDate').val("");
+        $('#vacationMotivation').val("");
+    }
+    function resetModalErrors(){
+        $('#numberOfDaysError').text("*");
+        $('#startDateError').text("*");
+        $('#vacationMotivationError').text("*");
+    }
+
+    function getVariable(objList, varName){
+        for(i=0; i< objList.length; i++){
+            if(objList[i].name===varName){
+                return objList[i].value;
+            }
+        }
+        return "n/a";
+    }
+    //]]>
 </script>
 <script data-th-src="@{/resources/js/dateUtil.js}"></script>
 </body>

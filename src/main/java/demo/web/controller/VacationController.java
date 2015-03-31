@@ -72,33 +72,6 @@ public class VacationController {
   }
 
   /**
-   * My jobs page request.
-   */
-  @RequestMapping(value = "/myJobs", method = RequestMethod.GET)
-  public String confirmation(Model model) {
-    List<VacationRequestDetails> detailsList = createVacationDetailsFromVars(
-            (List<Map<String, String>>) taskServiceHandler.getTasksFor("kermit").getData());
-    model.addAttribute("myTasks", detailsList);
-    model.addAttribute("processInstances", taskServiceHandler.getTasksFor("kermit").getData());
-    model.addAttribute("vacationRequestDetails", new VacationRequestDetails());
-    return "vacationRequest/myJobs";
-  }
-
-  /**
-   * Approve or reject a vacation request.
-   */
-  @RequestMapping(value = "/myJobsForm", method = RequestMethod.POST)
-  public String myJobsForm(@RequestParam String action,
-                           @RequestParam int taskId) {
-    if (action.equals("approve")) {
-      taskServiceHandler.approveVacationRequest(taskId);
-    } else if (action.equals("reject")) {
-      taskServiceHandler.rejectVacationRequest(taskId);
-    }
-    return "redirect:myJobs";
-  }
-
-  /**
    * Job Pool page request.
    */
   @RequestMapping(value = "/pool", method = RequestMethod.GET)
