@@ -1,9 +1,10 @@
-package demo.web.controller.vacationRequest;
+package demo.web.controller.vacationrequest;
 
 import demo.dto.AdjustVacationRequestDetails;
 import demo.dto.JsonResponse;
 import demo.dto.VacationRequestDetails;
 import demo.dto.VacationRequestDetailsValidator;
+import demo.web.controller.BaseController;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -65,7 +66,7 @@ public class MyJobsController extends BaseController {
     } else {
       jsonResponse.setStatus("SUCCESS");
       String operation = vacationRequestDetails.getOperation();
-      if(operation.equals("resend")){
+      if (operation.equals("resend")) {
         getTaskServiceHandler().adjustVacationRequest(vacationRequestDetails);
       } else if (operation.equals("cancel")) {
         getTaskServiceHandler().cancelVacationRequest(vacationRequestDetails.getTaskId());

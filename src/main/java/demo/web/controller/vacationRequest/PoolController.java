@@ -1,6 +1,7 @@
-package demo.web.controller.vacationRequest;
+package demo.web.controller.vacationrequest;
 
 import demo.dto.VacationRequestDetails;
+import demo.web.controller.BaseController;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;

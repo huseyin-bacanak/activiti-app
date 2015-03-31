@@ -20,11 +20,11 @@ import javax.annotation.Nullable;
 public class AuthHttpComponentsClientHttpRequestFactory extends
     HttpComponentsClientHttpRequestFactory {
 
-  protected HttpHost host;
+  private HttpHost host;
   @Nullable
-  protected String userName;
+  private String userName;
   @Nullable
-  protected String password;
+  private String password;
 
   public AuthHttpComponentsClientHttpRequestFactory(HttpHost host) {
     this(host, null, null);

@@ -1,4 +1,4 @@
-package demo.web.controller.vacationRequest;
+package demo.web.controller;
 
 import demo.dto.CompletedVacationRequestDetails;
 import demo.dto.VacationRequestDetails;
@@ -24,15 +24,15 @@ public abstract class BaseController {
   @Autowired
   private HistoryServiceHandler historyServiceHandler;
 
-  public ProcessServiceHandler getProcessServiceHandler() {
+  protected ProcessServiceHandler getProcessServiceHandler() {
     return processServiceHandler;
   }
 
-  public TaskServiceHandler getTaskServiceHandler() {
+  protected TaskServiceHandler getTaskServiceHandler() {
     return taskServiceHandler;
   }
 
-  public HistoryServiceHandler getHistoryServiceHandler() {
+  protected HistoryServiceHandler getHistoryServiceHandler() {
     return historyServiceHandler;
   }
 
@@ -40,7 +40,7 @@ public abstract class BaseController {
    * Find value of an object within variables.
    * @param name name of the variable.
    * @param detailsList variable obj.
-   * @return
+   * @return value object
    */
   protected Object findValue(String name, List<LinkedHashMap> detailsList) {
     for (Map<String, Object> map : detailsList) {
@@ -61,7 +61,6 @@ public abstract class BaseController {
 
     List<VacationRequestDetails> detailsList = new ArrayList<>();
     for (Map task : vars) {
-      System.out.println(task);
       List variables = (List) task.get("variables");
       VacationRequestDetails details = new VacationRequestDetails();
       details.setEmployeeName(findValue("employeeName", variables).toString());
@@ -83,7 +82,6 @@ public abstract class BaseController {
 
     List<CompletedVacationRequestDetails> detailsList = new ArrayList<>();
     for (Map task : vars) {
-      System.out.println(task);
       List variables = (List) task.get("variables");
       CompletedVacationRequestDetails details = new CompletedVacationRequestDetails();
       details.setEmployeeName(findValue("employeeName", variables).toString());

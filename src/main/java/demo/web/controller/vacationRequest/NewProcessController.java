@@ -1,8 +1,9 @@
-package demo.web.controller.vacationRequest;
+package demo.web.controller.vacationrequest;
 
 import demo.dto.JsonResponse;
 import demo.dto.VacationRequestDetails;
 import demo.dto.VacationRequestDetailsValidator;
+import demo.web.controller.BaseController;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,10 +31,9 @@ public class NewProcessController extends BaseController {
   @RequestMapping(value = "/new",
       method = RequestMethod.POST,
       consumes = MediaType.APPLICATION_JSON_VALUE)
-  public  @ResponseBody
-  JsonResponse newVacationRequest(
-      @RequestBody VacationRequestDetails vacationRequestDetails, BindingResult result) {
-
+  @ResponseBody
+  public JsonResponse newVacationRequest(@RequestBody VacationRequestDetails vacationRequestDetails,
+                                         BindingResult result) {
     JsonResponse res = new JsonResponse();
     new VacationRequestDetailsValidator().validate(vacationRequestDetails, result);
     if (result.hasErrors()) {
