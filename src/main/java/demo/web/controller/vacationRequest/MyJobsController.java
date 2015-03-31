@@ -1,4 +1,4 @@
-package demo.web.controller;
+package demo.web.controller.vacationRequest;
 
 import demo.dto.AdjustVacationRequestDetails;
 import demo.dto.JsonResponse;
