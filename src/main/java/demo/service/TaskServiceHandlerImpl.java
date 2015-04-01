@@ -26,9 +26,6 @@ public class TaskServiceHandlerImpl implements TaskServiceHandler {
           host, "kermit", "kermit");
   private final RestTemplate restTemplate = new RestTemplate(requestFactory);
 
-  @Value("${activiti.rest.url.base}")
-  private String documentRootPath;
-
   @Override
   public DataResponse getPool() {
     return restTemplate.getForObject(QUERY_URL + "&candidateUser=kermit", DataResponse.class);
