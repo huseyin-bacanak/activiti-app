@@ -14,8 +14,9 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 public class TaskServiceHandlerTest {
-  private static final String URL = "http://localhost:9000/activiti/service/runtime/process-instances/";
-  private final static Logger logger = LoggerFactory.getLogger(ProcessServiceHandlerTest.class);
+  private static final String URL =
+      "http://localhost:9000/activiti/service/runtime/process-instances/";
+  private static final  Logger logger = LoggerFactory.getLogger(ProcessServiceHandlerTest.class);
   private final HttpHost host = new HttpHost("localhost", 9000);
   private final AuthHttpComponentsClientHttpRequestFactory requestFactory =
       new AuthHttpComponentsClientHttpRequestFactory(
@@ -23,11 +24,6 @@ public class TaskServiceHandlerTest {
   private final RestTemplate restTemplate = new RestTemplate(requestFactory);
 
   private TaskServiceHandler taskServiceHandler = new TaskServiceHandlerImpl();
-
-  @Test
-  public void startVacationRequest() {
-
-  }
 
   @Test
   public void authorizedRequest() {
@@ -53,20 +49,4 @@ public class TaskServiceHandlerTest {
     assertNotNull(result);
     logger.info(result.toString());
   }
-
-//  @Test
-//  public void claimTaskTest() {
-//    DataResponse result = taskServiceHandler.getPool();
-//    List<TaskResponse> tasks = (List<TaskResponse>)result.getData();
-//    TaskResponse task=tasks.get(0);
-//    taskServiceHandler.claim(task, "kermit");
-//  }
-//
-//  @Test
-//  public void approveVacationRequest() {
-//    DataResponse result = taskServiceHandler.getTasksFor("kermit");
-//    List<Object> tasks = (List<Object>)result.getData();
-//    TaskResponse task=(TaskResponse)tasks.get(0);
-//    taskServiceHandler.approveVacationRequest(task.getId());
-//  }
 }

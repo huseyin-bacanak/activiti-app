@@ -5,9 +5,6 @@ import static org.junit.Assert.assertNotNull;
 import demo.rest.AuthHttpComponentsClientHttpRequestFactory;
 import demo.service.ProcessServiceHandler;
 import demo.service.ProcessServiceHandlerImpl;
-import org.activiti.rest.service.api.engine.variable.RestVariable;
-import org.activiti.rest.service.api.repository.ProcessDefinitionResponse;
-import org.activiti.rest.service.api.runtime.process.ProcessInstanceCreateRequest;
 import org.activiti.rest.service.api.runtime.process.ProcessInstanceResponse;
 import org.apache.http.HttpHost;
 import org.junit.Test;
@@ -16,13 +13,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
 public class ProcessServiceHandlerTest {
-  private static final String URL = "http://localhost:9000/activiti/service/runtime/process-instances/";
-  private final static Logger logger = LoggerFactory.getLogger(ProcessServiceHandlerTest.class);
+  private static final String URL =
+      "http://localhost:9000/activiti/service/runtime/process-instances/";
+  private static final  Logger logger = LoggerFactory.getLogger(ProcessServiceHandlerTest.class);
   private final HttpHost host = new HttpHost("localhost", 9000);
   private final AuthHttpComponentsClientHttpRequestFactory requestFactory =
       new AuthHttpComponentsClientHttpRequestFactory(
@@ -55,50 +49,4 @@ public class ProcessServiceHandlerTest {
     assertNotNull(result);
     logger.info(result.toString());
   }
-
-//  @Test
-//  public void createNewVacationRequest() {
-//    String employeeName = "kermit";
-//    Date startDate = new Date();
-//    int numberOfDays = 5;
-//    String motivation = "createNewVacationRequestTest";
-//    ProcessInstanceResponse response = processServiceHandler.initiateVacationRequest(employeeName, startDate,
-//        numberOfDays, motivation);
-//
-//    List<RestVariable> variables = response.getVariables();
-//    assertNotNull(response);
-//
-//  }
-//
-//  @Test
-//  public void approveVacationRequest() {
-//    ProcessInstanceCreateRequest post = new ProcessInstanceCreateRequest();
-//    post.setProcessDefinitionKey("vacationRequest");
-//    List<RestVariable> variables = new ArrayList<>();
-//    RestVariable var = new RestVariable();
-//    var.setName("numberOfDays");
-//    var.setValue(5);
-//    variables.add(var);
-//
-//    RestVariable var2 = new RestVariable();
-//    var2.setName("employeeName");
-//    var2.setValue("kermit");
-//    variables.add(var2);
-//
-//    RestVariable var3 = new RestVariable();
-//    var3.setName("vacationMotivation");
-//    var3.setValue("approveVacationRequestTest");
-//    variables.add(var3);
-//
-//    RestVariable var4 = new RestVariable();
-//    var4.setName("startDate");
-//    var4.setValue("12/12/2015");
-//    variables.add(var);
-//
-//    post.setVariables(variables);
-//
-//    ProcessDefinitionResponse pi = processServiceHandler.initiateVacationRequestProcess(post);
-//    assertNotNull(pi);
-//  }
-
 }

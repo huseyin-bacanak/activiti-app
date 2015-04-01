@@ -8,7 +8,6 @@ import org.activiti.rest.service.api.runtime.task.TaskActionRequest;
 import org.apache.http.HttpHost;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
