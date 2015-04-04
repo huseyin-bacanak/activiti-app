@@ -12,14 +12,16 @@
             <th>Task Id</th>
             <th>Type</th>
             <th>Description</th>
+            <th>Status</th>
             <th>Action</th>
         </tr>
         <tr data-th-each="vacationRequest,iter : ${myTasks}">
 
-            <td ><p  data-th-text="${processInstances[iter.index].get('processInstanceId')}"></p></td>
+            <td ><p  class="processInstanceId" data-th-text="${processInstances[iter.index].get('processInstanceId')}"></p></td>
             <td ><p  class="taskId" data-th-text="${processInstances[iter.index].get('id')}"></p></td>
             <td ><p  class="taskType" data-th-text="${processInstances[iter.index].get('taskDefinitionKey')}"></p></td>
             <td ><p  data-th-text="${processInstances[iter.index].get('description')}"></p></td>
+            <td ><button type="button" class="btn statusBtn">Show</button></td>
             <td>
                 <button class="btn btn-primary actionBtn" type="button" name="action" value="action">Action</button>
             </td>
@@ -94,6 +96,7 @@
     </div>
 
     <div data-th-replace="fragment/operationCompleted" />
+    <div data-th-replace="fragment/processStatusModal" />
 </div>
 
 
@@ -113,6 +116,16 @@
         $('.navbar-nav > li').removeClass('active');
         $('.navbar-nav > li:nth-child(2)').addClass('active');
 
+        $(document).on('click', '.statusBtn', function(event) {
+            var processInstanceId=$(this).closest('tr').find(".processInstanceId").text();
+            showModal2(processInstanceId);
+        });
+
+        function showModal2(processInstanceId){
+            $("#processInstanceImg").attr('src', "http://localhost:9000/activiti/service/runtime/process-instances/"+processInstanceId+"/diagram");
+            $('#processStatusModal').modal('show');
+
+        }
 
         $(document).on('click', '.actionBtn', function(event) {
             var index = $(this).closest('tr').index()-1;
