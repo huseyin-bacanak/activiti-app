@@ -10,11 +10,13 @@
             <tr>
                 <th>Operation</th>
                 <th>Description</th>
+                <th>Process Definition</th>
                 <th>Action</th>
             </tr>
             <tr>
                 <td>vacationRequest</td>
                 <td>Create a new vacation request</td>
+                <td ><button type="button" class="btn processDefinitionBtn">Show</button></td>
                 <td>
                     <button class="btn btn-primary actionBtn" type="button" name="action" value="action">Action</button>
                 </td>
@@ -43,6 +45,24 @@
     </div>
 
     <div data-th-replace="fragment/operationCompleted" />
+
+        <!-- process definition modal -->
+    <div class="modal fade " id="processDefinitionModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" >Process Definition</h4>
+                </div>
+                <div class="modal-body">
+                    <img id="processDefinitionImg" src="http://www.w3schools.com/images/w3schools_green.jpg" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 
@@ -60,6 +80,16 @@
         $('#createVacationRequest').modal('show');
     }
     var json = { "employeeName":"kermit"};
+
+    $(document).on('click', '.processDefinitionBtn', function(event) {
+        showModal2();
+    });
+
+    function showModal2(processInstanceId){
+        $("#processDefinitionImg").attr('src', "http://localhost:9000/activiti/service/repository/deployments/20/resourcedata/VacationRequest.vacationRequest.png");
+        $('#processDefinitionModal').modal('show');
+
+    }
 
     function doAjaxPost() {
         $.ajax({
