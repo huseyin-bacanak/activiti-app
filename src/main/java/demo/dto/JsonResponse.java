@@ -1,6 +1,8 @@
 package demo.dto;
 
 public class JsonResponse {
+  public static final String SUCCESS="SUCCESS";
+
   private String status = null;
   private Object result = null;
 
