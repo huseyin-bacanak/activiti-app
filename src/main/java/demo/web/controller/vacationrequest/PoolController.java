@@ -1,17 +1,14 @@
 package demo.web.controller.vacationrequest;
 
 import demo.dto.JsonResponse;
+import demo.dto.RequestStatus;
 import demo.dto.VacationRequestDetails;
-import demo.dto.VacationRequestDetailsValidator;
 import demo.web.controller.BaseController;
 
 import org.activiti.rest.common.api.DataResponse;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -27,6 +24,8 @@ public class PoolController extends BaseController {
   private final String PAGE_INDEX_SELECTED="pageIndexSelected";
   private final String PAGE_INDEX_TO="pageIndexTo";
   private final String PAGE_INDEX_FROM="pageIndexFrom";
+  private final int TASKS_PER_PAGE =10;
+
   /**
    * Job Pool page request.
    */
@@ -48,29 +47,39 @@ public class PoolController extends BaseController {
   }
 
   /**
-   * Handle a new vacation request process instance.
+   * Load page indexes.
    */
   @RequestMapping(value = "/pool/page/{pageIndex}",
     method = RequestMethod.GET)
   @ResponseBody
-  public JsonResponse newVacationRequest(@PathVariable long pageIndex) {
+  public JsonResponse getPageIndexes(@PathVariable long pageIndex) {
     JsonResponse res = new JsonResponse();
     DataResponse pool=getTaskServiceHandler().getPool();
 
-    int numberOfPageNumbers=10;
     int size=pool.getSize();
     long total=pool.getTotal();
     long max=total/size;
 
     if(pageIndex>max || pageIndex <0){
       return getInvalidPageNumberResponse();
-    } else if(pageIndex-numberOfPageNumbers/2 <0){
+    } else if(pageIndex- TASKS_PER_PAGE /2 <0){
       return getFrontPageIndex(pageIndex,size, total);
-    } else if (pageIndex+numberOfPageNumbers/2 >max){
+    } else if (pageIndex+ TASKS_PER_PAGE /2 >max){
       return getBackPageIndex(pageIndex, size, total);
     } else {
       return getMiddlePageIndex(pageIndex,size,total);
     }
+  }
+
+  @RequestMapping(value = "/pool/rows/{pageIndex}",
+    method = RequestMethod.GET)
+  @ResponseBody
+  public JsonResponse getRows(@PathVariable long pageIndex) {
+    JsonResponse res = new JsonResponse();
+    DataResponse pool=getTaskServiceHandler().getPool(pageIndex);
+    res.setStatus(RequestStatus.SUCCESS);
+    res.setResult(pool);
+    return res;
   }
 
   /**
@@ -100,7 +109,8 @@ public class PoolController extends BaseController {
 
   private JsonResponse getInvalidPageNumberResponse(){
     JsonResponse res= new JsonResponse();
-    res.setStatus("Page Does Not Exist!");
+    res.setStatus(RequestStatus.FAILURE);
+    res.setMessage("Page Does Not Exist!");
     return res;
   }
 
@@ -140,9 +150,13 @@ public class PoolController extends BaseController {
     vars.put(PAGE_INDEX_TO,to);
 
     JsonResponse res= new JsonResponse();
-    res.setStatus(JsonResponse.SUCCESS);
+    res.setStatus(RequestStatus.SUCCESS);
     res.setResult(vars);
     return res;
   }
+
+//  private Map<Long, String> getSelectedTasks(long selected, int size){
+//    DataResponse response= getTaskServiceHandler().getPool(selected * size);
+//  }
 
 }

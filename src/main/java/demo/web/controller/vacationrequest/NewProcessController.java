@@ -1,6 +1,7 @@
 package demo.web.controller.vacationrequest;
 
 import demo.dto.JsonResponse;
+import demo.dto.RequestStatus;
 import demo.dto.VacationRequestDetails;
 import demo.dto.VacationRequestDetailsValidator;
 import demo.web.controller.BaseController;
@@ -37,14 +38,14 @@ public class NewProcessController extends BaseController {
     JsonResponse res = new JsonResponse();
     new VacationRequestDetailsValidator().validate(vacationRequestDetails, result);
     if (result.hasErrors()) {
-      res.setStatus("FAIL");
+      res.setStatus(RequestStatus.FAILURE);
       res.setResult(result.getAllErrors());
     } else {
       getProcessServiceHandler().initiateVacationRequest("kermit",
           vacationRequestDetails.getStartDate(),
           vacationRequestDetails.getNumberOfDays(),
           vacationRequestDetails.getVacationMotivation());
-      res.setStatus("SUCCESS");
+      res.setStatus(RequestStatus.SUCCESS);
     }
     return res;
   }
