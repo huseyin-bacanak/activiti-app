@@ -49,7 +49,3 @@ repositories {
 task wrapper(type: Wrapper) {
     gradleVersion = '2.3'
 }
-
-configurations {
-    runtime.exclude group: "org.slf4j", module: "log4j-over-slf4j.jar"
-}
