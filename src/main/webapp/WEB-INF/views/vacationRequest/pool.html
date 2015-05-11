@@ -4,43 +4,61 @@
     <title>Title</title>
 </head>
 <body>
-<div data-th-replace="fragment/common :: topMenu">></div>
+<div data-th-replace="fragment/common :: topMenu"></div>
 <div class="container">
-<table class="table table-hover">
-    <tr>
-        <th>PID</th>
-        <th>Task Id</th>
-        <th>Employee Name</th>
-        <th>Start Date</th>
-        <th>Number of Days</th>
-        <th>Motivation</th>
-        <th>Action</th>
-    </tr>
-    <tr data-th-each="vacationRequest,iter : ${pool}">
+    <table class="table table-hover" id="poolTable">
+        <tr>
+            <th>PID</th>
+            <th>Task Id</th>
+            <th>Employee Name</th>
+            <th>Start Date</th>
+            <th>Number of Days</th>
+            <th>Motivation</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+        <tr data-th-each="vacationRequest,iter : ${pool}">
 
-        <td ><p  data-th-text="${processInstances[iter.index].get('processInstanceId')}"></p></td>
-        <td ><p  data-th-text="${processInstances[iter.index].get('id')}"></p></td>
-        <td ><p  data-th-text="${vacationRequest.getEmployeeName()}"></p></td>
-        <td ><p  data-th-text="${#calendars.format(vacationRequest.getStartDate(),'dd MMMM yyyy')}"></p></td>
-        <td ><p  data-th-text="${vacationRequest.getNumberOfDays()}"></p></td>
-        <td ><p  data-th-text="${vacationRequest.getVacationMotivation()}"></p></td>
-        <!--<td ><p  data-th-text="${task.variables.get(0).getValue()}"></p></td>-->
-        <td>
-            <form class="form-horizontal" role="form" action="#" data-th-action="@{/vacationRequest/poolForm}" data-th-object="${index}" method="post">
-                <input type="hidden" name="processInstanceId"  data-th-value="${processInstances[iter.index].get('processInstanceId')}"/>
-                <input type="hidden" name="taskId"  data-th-value="${processInstances[iter.index].get('id')}"/>
-                <button class="btn btn-primary" type="submit" name="action" value="claim">Claim</button>
-                <!--<button class="btn btn-default" type="submit" name="action" value="delete">Delete</button>-->
-            </form>
-        </td>
-    </tr>
-</table>
+            <td ><p  class="processInstanceId" data-th-text="${processInstances[iter.index].get('processInstanceId')}"></p></td>
+            <td ><p  data-th-text="${processInstances[iter.index].get('id')}"></p></td>
+            <td ><p  data-th-text="${vacationRequest.getEmployeeName()}"></p></td>
+            <td ><p  data-th-text="${#calendars.format(vacationRequest.getStartDate(),'dd MMMM yyyy')}"></p></td>
+            <td ><p  data-th-text="${vacationRequest.getNumberOfDays()}"></p></td>
+            <td ><p  data-th-text="${vacationRequest.getVacationMotivation()}"></p></td>
+            <td ><button type="button" class="btn statusBtn">Show</button></td>
+            <td>
+                <form class="form-horizontal" role="form" action="#" data-th-action="@{/vacationRequest/poolForm}" data-th-object="${index}" method="post">
+                    <input type="hidden" name="processInstanceId"  data-th-value="${processInstances[iter.index].get('processInstanceId')}"/>
+                    <input type="hidden" name="taskId"  data-th-value="${processInstances[iter.index].get('id')}"/>
+                    <button class="btn btn-primary" type="submit" name="action" value="claim">Claim</button>
+                </form>
+            </td>
+        </tr>
+    </table>
+
+    <nav id="poolTasksPagination">
+        <ul class="pagination">
+            <li>
+                <a href="#" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            <li><a href="#">1</a></li>
+            <li>
+                <a href="#" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
 </div>
-<script>
-    $( document ).ready(function() {
-        $('.navbar-nav > li').removeClass('active');
-        $('.navbar-nav > li:nth-child(3)').addClass('active');
-    });
-</script>
+
+ <!--modals-->
+<div data-th-replace="fragment/processStatusModal" />
+
+
+<script data-th-src="@{/resources/js/request.js}"></script>
+<script data-th-src="@{/resources/js/pagination.js}"></script>
+<script data-th-src="@{/resources/js/vacationrequest/pool.js}"></script>
 </body>
 </html>

@@ -31,6 +31,13 @@ public class TaskServiceHandlerImpl implements TaskServiceHandler {
   }
 
   @Override
+  public DataResponse getPool(long pageIndex) {
+    long startIndex = pageIndex * 10;
+    return restTemplate.getForObject(
+      QUERY_URL + "&candidateUser=kermit&start=" + startIndex, DataResponse.class);
+  }
+
+  @Override
   public void claim(int taskId, String username) {
     String url = "http://localhost:9000/activiti/service/runtime/tasks/{taskId}";
     TaskActionRequest tar = new TaskActionRequest();

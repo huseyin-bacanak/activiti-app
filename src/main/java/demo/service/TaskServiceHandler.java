@@ -9,6 +9,8 @@ import java.util.Date;
 public interface TaskServiceHandler {
   DataResponse getPool();
 
+  DataResponse getPool(long pageIndex);
+
   void claim(int taskId, String username);
 
   DataResponse getTasksFor(String assignee);

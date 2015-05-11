@@ -2,6 +2,7 @@ package demo.web.controller.vacationrequest;
 
 import demo.dto.AdjustVacationRequestDetails;
 import demo.dto.JsonResponse;
+import demo.dto.RequestStatus;
 import demo.dto.VacationRequestDetails;
 import demo.dto.VacationRequestDetailsValidator;
 import demo.web.controller.BaseController;
@@ -62,10 +63,10 @@ public class MyJobsController extends BaseController {
     new VacationRequestDetailsValidator().validate(vacationRequestDetails, result);
 
     if (result.hasErrors()) {
-      jsonResponse.setStatus("FAIL");
+      jsonResponse.setStatus(RequestStatus.FAILURE);
       jsonResponse.setResult(result.getAllErrors());
     } else {
-      jsonResponse.setStatus("SUCCESS");
+      jsonResponse.setStatus(RequestStatus.SUCCESS);
       String operation = vacationRequestDetails.getOperation();
       if (operation.equals("resend")) {
         getTaskServiceHandler().adjustVacationRequest(vacationRequestDetails);
