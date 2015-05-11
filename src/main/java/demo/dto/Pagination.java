@@ -7,6 +7,12 @@ public class Pagination {
 
   public Pagination() {}
 
+  /**
+   * Pagition constructor.
+   * @param fromIndex starting page index
+   * @param toIndex end page index
+   * @param selectedIndex currently selected page index
+   */
   public Pagination(long fromIndex, long toIndex, long selectedIndex) {
     this.fromIndex = fromIndex;
     this.toIndex = toIndex;

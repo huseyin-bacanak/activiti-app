@@ -36,6 +36,12 @@ public class JsonResponse {
     this.result = result;
   }
 
+  /**
+   * JsonResponse const.
+   * @param status RequestStatus of response: success, failure
+   * @param message informational message
+   * @param result result object
+   */
   public JsonResponse(RequestStatus status, String message, Object result) {
     this.status = status;
     this.message = message;

@@ -32,8 +32,9 @@ public class TaskServiceHandlerImpl implements TaskServiceHandler {
 
   @Override
   public DataResponse getPool(long pageIndex) {
-    long startIndex=pageIndex*10;
-    return restTemplate.getForObject(QUERY_URL + "&candidateUser=kermit&start="+startIndex, DataResponse.class);
+    long startIndex = pageIndex * 10;
+    return restTemplate.getForObject(
+      QUERY_URL + "&candidateUser=kermit&start=" + startIndex, DataResponse.class);
   }
 
   @Override

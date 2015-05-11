@@ -30,6 +30,12 @@ public class AuthHttpComponentsClientHttpRequestFactory extends
     this(host, null, null);
   }
 
+  /**
+   * Pre-configured http client factory for authentication.
+   * @param host hostname
+   * @param userName authorized user name
+   * @param password authorized user password
+   */
   public AuthHttpComponentsClientHttpRequestFactory(HttpHost host,
         @Nullable String userName, @Nullable String password) {
     super();
@@ -38,6 +44,11 @@ public class AuthHttpComponentsClientHttpRequestFactory extends
     this.password = password;
   }
 
+  /**
+   * Pre-configured http client factory for authentication.
+   * @param httpClient http client
+   * @param host http host
+   */
   public AuthHttpComponentsClientHttpRequestFactory(HttpClient httpClient, HttpHost host) {
     this(httpClient, host, null, null);
   }

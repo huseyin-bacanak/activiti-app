@@ -21,10 +21,11 @@ import java.util.Map;
 @Controller
 @RequestMapping(value = "/vacationRequest")
 public class PoolController extends BaseController {
-  private final String PAGE_INDEX_SELECTED="pageIndexSelected";
-  private final String PAGE_INDEX_TO="pageIndexTo";
-  private final String PAGE_INDEX_FROM="pageIndexFrom";
-  private final int TASKS_PER_PAGE =10;
+
+  private static final String PAGE_INDEX_SELECTED = "pageIndexSelected";
+  private static final String PAGE_INDEX_TO = "pageIndexTo";
+  private static final String PAGE_INDEX_FROM = "pageIndexFrom";
+  private static final int TASKS_PER_PAGE = 10;
 
   /**
    * Job Pool page request.
@@ -32,13 +33,17 @@ public class PoolController extends BaseController {
   @RequestMapping(value = "/pool", method = RequestMethod.GET)
   public String pool(Model model) {
     List<VacationRequestDetails> detailsList = createVacationDetailsFromVars(
-        (List<Map<String, String>>) getTaskServiceHandler().getPool().getData());
+            (List<Map<String, String>>) getTaskServiceHandler().getPool().getData());
     model.addAttribute("pool", detailsList);
     model.addAttribute("processInstances", getTaskServiceHandler().getPool().getData());
 
-    long totalProcessInstances=getTaskServiceHandler().getPool().getTotal();
-    long totalProcessInstancesPerPage=getTaskServiceHandler().getPool().getSize();
-    long numberOfPages=totalProcessInstances/totalProcessInstancesPerPage;
+    long totalProcessInstances = getTaskServiceHandler().getPool().getTotal();
+    long totalProcessInstancesPerPage = getTaskServiceHandler().getPool().getSize();
+    long numberOfPages;
+    if (totalProcessInstancesPerPage != 0) {
+      numberOfPages = totalProcessInstances / totalProcessInstancesPerPage;
+    }
+    numberOfPages = 1;
 
     model.addAttribute("totalProcessInstances", totalProcessInstances);
     model.addAttribute("totalProcessInstancesPerPage", totalProcessInstancesPerPage);
@@ -49,34 +54,32 @@ public class PoolController extends BaseController {
   /**
    * Load page indexes.
    */
-  @RequestMapping(value = "/pool/page/{pageIndex}",
-    method = RequestMethod.GET)
+  @RequestMapping(value = "/pool/page/{pageIndex}", method = RequestMethod.GET)
   @ResponseBody
   public JsonResponse getPageIndexes(@PathVariable long pageIndex) {
     JsonResponse res = new JsonResponse();
-    DataResponse pool=getTaskServiceHandler().getPool();
+    DataResponse pool = getTaskServiceHandler().getPool();
 
-    int size=pool.getSize();
-    long total=pool.getTotal();
-    long max=total/size;
+    int size = pool.getSize();
+    long total = pool.getTotal();
+    long max = total / size;
 
-    if(pageIndex>max || pageIndex <0){
+    if (pageIndex > max || pageIndex < 0) {
       return getInvalidPageNumberResponse();
-    } else if(pageIndex- TASKS_PER_PAGE /2 <0){
-      return getFrontPageIndex(pageIndex,size, total);
-    } else if (pageIndex+ TASKS_PER_PAGE /2 >max){
+    } else if (pageIndex - TASKS_PER_PAGE / 2 < 0) {
+      return getFrontPageIndex(pageIndex, size, total);
+    } else if (pageIndex + TASKS_PER_PAGE / 2 > max) {
       return getBackPageIndex(pageIndex, size, total);
     } else {
-      return getMiddlePageIndex(pageIndex,size,total);
+      return getMiddlePageIndex(pageIndex, size, total);
     }
   }
 
-  @RequestMapping(value = "/pool/rows/{pageIndex}",
-    method = RequestMethod.GET)
+  @RequestMapping(value = "/pool/rows/{pageIndex}", method = RequestMethod.GET)
   @ResponseBody
   public JsonResponse getRows(@PathVariable long pageIndex) {
     JsonResponse res = new JsonResponse();
-    DataResponse pool=getTaskServiceHandler().getPool(pageIndex);
+    DataResponse pool = getTaskServiceHandler().getPool(pageIndex);
     res.setStatus(RequestStatus.SUCCESS);
     res.setResult(pool);
     return res;
@@ -88,7 +91,7 @@ public class PoolController extends BaseController {
   @RequestMapping(value = "/poolPagination", method = RequestMethod.GET)
   public String poolPagination(Model model) {
     List<VacationRequestDetails> detailsList = createVacationDetailsFromVars(
-      (List<Map<String, String>>) getTaskServiceHandler().getPool().getData());
+            (List<Map<String, String>>) getTaskServiceHandler().getPool().getData());
     model.addAttribute("pool", detailsList);
     model.addAttribute("processInstances", getTaskServiceHandler().getPool().getData());
     return "vacationRequest/pool";
@@ -107,56 +110,52 @@ public class PoolController extends BaseController {
     return "redirect:pool";
   }
 
-  private JsonResponse getInvalidPageNumberResponse(){
-    JsonResponse res= new JsonResponse();
+  private JsonResponse getInvalidPageNumberResponse() {
+    JsonResponse res = new JsonResponse();
     res.setStatus(RequestStatus.FAILURE);
     res.setMessage("Page Does Not Exist!");
     return res;
   }
 
-  private JsonResponse getFrontPageIndex( long pageIndex, int size, long total){
-    long max=total/size;
+  private JsonResponse getFrontPageIndex(long pageIndex, int size, long total) {
+    long max = total / size;
     long from = 0L;
     long to = size;
 
-    if(max<to){
-      to=max;
+    if (max < to) {
+      to = max;
     }
 
     return getSuccessJsonResponse(pageIndex, from, to);
   }
 
-  private JsonResponse getBackPageIndex( long pageIndex, int size, long total){
-    long max=total/size;
-    long from = max-size;
+  private JsonResponse getBackPageIndex(long pageIndex, int size, long total) {
+    long max = total / size;
+    long from = max - size;
 
-    if(from<0){
-      from=0L;
+    if (from < 0) {
+      from = 0L;
     }
 
     return getSuccessJsonResponse(pageIndex, from, max);
   }
 
-  private JsonResponse getMiddlePageIndex( long pageIndex, int size, long total){
-    long from = pageIndex-size/2;
-    long to = pageIndex + size/2;
+  private JsonResponse getMiddlePageIndex(long pageIndex, int size, long total) {
+    long from = pageIndex - size / 2;
+    long to = pageIndex + size / 2;
     return getSuccessJsonResponse(pageIndex, from, to);
   }
 
-  private JsonResponse getSuccessJsonResponse(long selected, long from, long to){
-    Map<String, Long> vars= new HashMap<>();
-    vars.put(PAGE_INDEX_SELECTED,selected);
-    vars.put(PAGE_INDEX_FROM,from);
-    vars.put(PAGE_INDEX_TO,to);
+  private JsonResponse getSuccessJsonResponse(long selected, long from, long to) {
+    Map<String, Long> vars = new HashMap<>();
+    vars.put(PAGE_INDEX_SELECTED, selected);
+    vars.put(PAGE_INDEX_FROM, from);
+    vars.put(PAGE_INDEX_TO, to);
 
-    JsonResponse res= new JsonResponse();
+    JsonResponse res = new JsonResponse();
     res.setStatus(RequestStatus.SUCCESS);
     res.setResult(vars);
     return res;
   }
-
-//  private Map<Long, String> getSelectedTasks(long selected, int size){
-//    DataResponse response= getTaskServiceHandler().getPool(selected * size);
-//  }
 
 }
