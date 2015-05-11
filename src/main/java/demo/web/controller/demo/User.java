@@ -4,8 +4,8 @@ package demo.web.controller.demo;
  * Created by raven on 29.03.2015.
  */
 public class User {
-  String firstname;
-  String lastname;
+  private String firstname;
+  private String lastname;
 
   public User(String firstname, String lastname) {
     this.firstname = firstname;

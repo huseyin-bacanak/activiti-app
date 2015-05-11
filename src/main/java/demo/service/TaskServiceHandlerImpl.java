@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class TaskServiceHandlerImpl implements TaskServiceHandler {
+class TaskServiceHandlerImpl implements TaskServiceHandler {
   private static final Logger logger = LoggerFactory.getLogger(ProcessServiceHandlerImpl.class);
   private static final String URL = "http://localhost:9000/activiti/service/runtime/tasks/{taskId}";
   private static final String QUERY_URL =

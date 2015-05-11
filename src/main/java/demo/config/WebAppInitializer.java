@@ -1,12 +1,13 @@
 package demo.config;
 
+import demo.service.ServiceConfig;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
 
   @Override
   protected Class<?>[] getRootConfigClasses() {
-    return new Class<?>[]{PersistenceConfig.class, CoreConfig.class};
+    return new Class<?>[]{PersistenceConfig.class, ServiceConfig.class};
   }
 
   @Override

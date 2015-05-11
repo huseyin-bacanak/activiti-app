@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class ProcessServiceHandlerImpl implements ProcessServiceHandler {
+class ProcessServiceHandlerImpl implements ProcessServiceHandler {
   private static final Logger logger = LoggerFactory.getLogger(ProcessServiceHandlerImpl.class);
   private static final String URL = "http://localhost:9000/activiti/service/runtime/process-instances?includeProcessVariables=true&size=100&processDefinitionKey=vacationRequest&includeProcessVariables=true";
   private final HttpHost host = new HttpHost("localhost", 9000);

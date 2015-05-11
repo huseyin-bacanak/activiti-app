@@ -1,11 +1,9 @@
-package demo.demo;
+package demo.service;
 
 import static org.junit.Assert.assertNotNull;
 
 import demo.rest.AuthHttpComponentsClientHttpRequestFactory;
-import demo.service.TaskServiceHandler;
-import demo.service.TaskServiceHandlerImpl;
-import org.activiti.rest.common.api.DataResponse;
+import org.activiti.rest.service.api.runtime.process.ProcessInstanceResponse;
 import org.apache.http.HttpHost;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -13,7 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
-public class TaskServiceHandlerTest {
+public class ProcessServiceHandlerTest {
   private static final String URL =
       "http://localhost:9000/activiti/service/runtime/process-instances/";
   private static final  Logger logger = LoggerFactory.getLogger(ProcessServiceHandlerTest.class);
@@ -23,7 +21,7 @@ public class TaskServiceHandlerTest {
           host, "kermit", "kermit");
   private final RestTemplate restTemplate = new RestTemplate(requestFactory);
 
-  private TaskServiceHandler taskServiceHandler = new TaskServiceHandlerImpl();
+  private ProcessServiceHandler processServiceHandler = new ProcessServiceHandlerImpl();
 
   @Test
   public void authorizedRequest() {
@@ -44,8 +42,8 @@ public class TaskServiceHandlerTest {
   }
 
   @Test
-  public void getPoolTest() {
-    DataResponse result = taskServiceHandler.getPool();
+  public void getAllProcessInstances() {
+    ProcessInstanceResponse result = processServiceHandler.getRunningProcessInstances();
     assertNotNull(result);
     logger.info(result.toString());
   }

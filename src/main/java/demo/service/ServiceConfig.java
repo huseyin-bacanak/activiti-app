@@ -1,17 +1,11 @@
-package demo.config;
+package demo.service;
 
-import demo.service.HistoryServiceHandler;
-import demo.service.HistoryServiceHandlerImpl;
-import demo.service.ProcessServiceHandler;
-import demo.service.ProcessServiceHandlerImpl;
-import demo.service.TaskServiceHandler;
-import demo.service.TaskServiceHandlerImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 
 @Configuration
-public class CoreConfig {
+public class ServiceConfig {
   @Bean
   public ProcessServiceHandler processServiceHandler() {
     return new ProcessServiceHandlerImpl();

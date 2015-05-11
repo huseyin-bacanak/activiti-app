@@ -1,6 +1,6 @@
 package demo.dto;
 
-public class Pagination {
+class Pagination {
   private long fromIndex;
   private long toIndex;
   private long selectedIndex;
