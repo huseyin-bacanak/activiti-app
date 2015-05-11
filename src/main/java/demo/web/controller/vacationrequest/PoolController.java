@@ -73,7 +73,7 @@ public class PoolController extends BaseController {
     } else if (pageIndex + TASKS_PER_PAGE / 2 > max) {
       return getBackPageIndex(pageIndex, size, total);
     } else {
-      return getMiddlePageIndex(pageIndex, size, total);
+      return getMiddlePageIndex(pageIndex, size);
     }
   }
 
@@ -146,7 +146,7 @@ public class PoolController extends BaseController {
     return getSuccessJsonResponse(pageIndex, from, max);
   }
 
-  private JsonResponse getMiddlePageIndex(long pageIndex, int size, long total) {
+  private JsonResponse getMiddlePageIndex(long pageIndex, int size) {
     long from = pageIndex - size / 2;
     long to = pageIndex + size / 2;
     return getSuccessJsonResponse(pageIndex, from, to);

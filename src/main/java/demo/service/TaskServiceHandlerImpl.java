@@ -16,9 +16,11 @@ import java.util.List;
 
 public class TaskServiceHandlerImpl implements TaskServiceHandler {
   private static final Logger logger = LoggerFactory.getLogger(ProcessServiceHandlerImpl.class);
+  private static final String URL = "http://localhost:9000/activiti/service/runtime/tasks/{taskId}";
   private static final String QUERY_URL =
       "http://localhost:9000/activiti/service/runtime/tasks"
           + "?processDefinitionKey=vacationRequest&includeProcessVariables=true";
+
   private final HttpHost host = new HttpHost("localhost", 9000);
   private final AuthHttpComponentsClientHttpRequestFactory requestFactory =
       new AuthHttpComponentsClientHttpRequestFactory(
@@ -39,11 +41,10 @@ public class TaskServiceHandlerImpl implements TaskServiceHandler {
 
   @Override
   public void claim(int taskId, String username) {
-    String url = "http://localhost:9000/activiti/service/runtime/tasks/{taskId}";
     TaskActionRequest tar = new TaskActionRequest();
     tar.setAction(TaskActionRequest.ACTION_CLAIM);
     tar.setAssignee(username);
-    restTemplate.postForObject(url, tar, String.class, taskId + "");
+    restTemplate.postForObject(URL, tar, String.class, taskId + "");
   }
 
   @Override
@@ -65,8 +66,7 @@ public class TaskServiceHandlerImpl implements TaskServiceHandler {
     tar.setAction(TaskActionRequest.ACTION_COMPLETE);
     tar.setVariables(vars);
 
-    String url = "http://localhost:9000/activiti/service/runtime/tasks/{taskId}";
-    restTemplate.postForObject(url, tar, String.class, taskId + "");
+    restTemplate.postForObject(URL, tar, String.class, taskId + "");
   }
 
   @Override
@@ -87,8 +87,7 @@ public class TaskServiceHandlerImpl implements TaskServiceHandler {
     tar.setAction(TaskActionRequest.ACTION_COMPLETE);
     tar.setVariables(vars);
 
-    String url = "http://localhost:9000/activiti/service/runtime/tasks/{taskId}";
-    restTemplate.postForObject(url, tar, String.class, taskId + "");
+    restTemplate.postForObject(URL, tar, String.class, taskId + "");
   }
 
   @Override
@@ -120,8 +119,7 @@ public class TaskServiceHandlerImpl implements TaskServiceHandler {
     tar.setAction(TaskActionRequest.ACTION_COMPLETE);
     tar.setVariables(variables);
 
-    String url = "http://localhost:9000/activiti/service/runtime/tasks/{taskId}";
-    restTemplate.postForObject(url, tar, String.class, taskId + "");
+    restTemplate.postForObject(URL, tar, String.class, taskId + "");
   }
 
   @Override
@@ -145,7 +143,6 @@ public class TaskServiceHandlerImpl implements TaskServiceHandler {
     tar.setAction(TaskActionRequest.ACTION_COMPLETE);
     tar.setVariables(variables);
 
-    String url = "http://localhost:9000/activiti/service/runtime/tasks/{taskId}";
-    restTemplate.postForObject(url, tar, String.class, taskId + "");
+    restTemplate.postForObject(URL, tar, String.class, taskId + "");
   }
 }
