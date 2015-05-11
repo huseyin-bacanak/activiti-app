@@ -57,10 +57,12 @@ public class PoolController extends BaseController {
   @RequestMapping(value = "/pool/page/{pageIndex}", method = RequestMethod.GET)
   @ResponseBody
   public JsonResponse getPageIndexes(@PathVariable long pageIndex) {
-    JsonResponse res = new JsonResponse();
     DataResponse pool = getTaskServiceHandler().getPool();
 
     int size = pool.getSize();
+    if (size <= 10) {
+      size = 10;
+    }
     long total = pool.getTotal();
     long max = total / size;
 
@@ -75,6 +77,10 @@ public class PoolController extends BaseController {
     }
   }
 
+  /**
+   * Get tasks for a page.
+   * @param pageIndex page index.
+   */
   @RequestMapping(value = "/pool/rows/{pageIndex}", method = RequestMethod.GET)
   @ResponseBody
   public JsonResponse getRows(@PathVariable long pageIndex) {
@@ -120,7 +126,7 @@ public class PoolController extends BaseController {
   private JsonResponse getFrontPageIndex(long pageIndex, int size, long total) {
     long max = total / size;
     long from = 0L;
-    long to = size;
+    long to = size - 1;
 
     if (max < to) {
       to = max;

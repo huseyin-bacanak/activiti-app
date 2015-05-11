@@ -53,6 +53,13 @@ public class AuthHttpComponentsClientHttpRequestFactory extends
     this(httpClient, host, null, null);
   }
 
+  /**
+   * Pre-configured http client factory for authentication.
+   * @param httpClient http client
+   * @param host host
+   * @param userName user name
+   * @param password password
+   */
   public AuthHttpComponentsClientHttpRequestFactory(HttpClient httpClient, HttpHost host,
         @Nullable String userName, @Nullable String password) {
     super(httpClient);

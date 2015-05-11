@@ -1,5 +1,9 @@
 package demo.web.controller.vacationrequest;
 
+import demo.dto.JsonResponse;
+import demo.dto.Pagination;
+import demo.dto.RequestStatus;
+import demo.web.controller.BaseController;
 import org.activiti.rest.common.api.DataResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,19 +16,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.util.HashMap;
 import java.util.Map;
 
-import demo.dto.JsonResponse;
-import demo.dto.Pagination;
-import demo.dto.RequestStatus;
-import demo.web.controller.BaseController;
-
 @Controller
 @RequestMapping(value = "/vacationRequest/pool2")
 public class PoolController2 extends BaseController {
 
-  private final String PAGE_INDEX_SELECTED = "pageIndexSelected";
-  private final String PAGE_INDEX_TO = "pageIndexTo";
-  private final String PAGE_INDEX_FROM = "pageIndexFrom";
-  private final int TASKS_PER_PAGE = 10;
+  private static final String PAGE_INDEX_SELECTED = "pageIndexSelected";
+  private static final String PAGE_INDEX_TO = "pageIndexTo";
+  private static final String PAGE_INDEX_FROM = "pageIndexFrom";
+  private static final int TASKS_PER_PAGE = 10;
 
 
   /**
@@ -50,8 +49,7 @@ public class PoolController2 extends BaseController {
   /**
    * Load page indexes.
    */
-  @RequestMapping(value = "/page/{pageIndex}",
-    method = RequestMethod.GET)
+  @RequestMapping(value = "/page/{pageIndex}", method = RequestMethod.GET)
   @ResponseBody
   public JsonResponse getPage(@PathVariable long pageIndex) {
     DataResponse pool = getTaskServiceHandler().getPool(pageIndex);
