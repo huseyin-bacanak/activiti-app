@@ -4,7 +4,7 @@ Application assumes Activiti REST is running (https://github.com/huseyin-bacanak
 
 To run application, execute
 <pre><code>
-gradlew tRW -Duser.language=en -Duser.region=US
+gradlew tRW
 </code></pre>
 
 Build rules configured @ gradle.properties.
