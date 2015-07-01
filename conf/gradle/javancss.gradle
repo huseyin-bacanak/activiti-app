@@ -1,0 +1,28 @@
+//
+// Configure JavaNCSS
+//
+configurations {
+    javancss
+}
+
+dependencies {
+    javancss 'org.codehaus.javancss:javancss:33.54'
+}
+
+task javancss(dependsOn: 'classes') << {
+    mkdir "build/reports/javancss/"
+    ant {
+        logging.level = LogLevel.INFO
+        taskdef(name:'javancss', classname:'javancss.JavancssAntTask', classpath: configurations.javancss.asPath)
+        javancss(
+                srcdir:'src/main/java',
+                abortOnFail:'false',
+                generateReport:'true',
+                packageMetrics:'true',
+                classMetrics:'true',
+                functionMetrics:'true',
+                outputFile: "build/reports/javancss/javancss.txt",
+                ccnPerFuncMax:10
+        )
+    }
+}

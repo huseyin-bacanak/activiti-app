@@ -32,6 +32,7 @@ apply from: "conf/gradle/checkstyle.gradle"
 apply from: "conf/gradle/pmd.gradle"
 apply from: "conf/gradle/findbugs.gradle"
 apply from: "conf/gradle/jdepend.gradle"
+apply from: "conf/gradle/javancss.gradle"
 apply from: "conf/gradle/javadoc.gradle"
 apply from: "conf/gradle/tomcat.gradle"
 
